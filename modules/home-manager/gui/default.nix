@@ -1,15 +1,28 @@
 { config, lib, ... }:
-let 
-	displayConfig = import ../../display-manager.nix {inherit lib;};
-	extraConfig = if config.displayManager == "wayland" then
-			import ./wayland {inherit lib;}
-		else if config.displayManager == "x11" then
-			import ./x11 {inherit lib;}
-		else {};
-in
+
 {
 	imports = [
-	./wayland
-	./x11
+		./wayland
+		./x11
+		./firefox.nix
+		./themes.nix
+	];
+
+	#++ lib.optional (config.desktopEnvironment == "x11") ./x11
+	#++ lib.optional (config.desktopEnvironment == "wayland") ./wayland;
+	
+	home.packages = with pkgs; [
+		mpv
+		#obsidian
+			
+		/* Notifications */
+		libnotify
+		
+		/* Miscellaneous */
+		xorg.xinit	
+		logiops
+	  	nix-search-cli 
+		signal-desktop
+		tidal-hifi
 	];
 }

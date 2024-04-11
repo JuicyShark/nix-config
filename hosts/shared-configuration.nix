@@ -1,11 +1,19 @@
 { lib, config, inputs, pkgs, ... }:
 {
+
+		options.desktop.environment = lib.mkOption {
+			type = lib.types.enum ["x11" "wayland" "none"];
+			default = "wayland";
+			description = "choose between x11, wayland protocol or none";
+		};
+	
 	imports = [ 
 		inputs.home-manager.nixosModules.home-manager
 		inputs.sops-nix.nixosModules.sops
 		../modules/nixos
-  ];
-
+  	];
+	config = {
+	
 	environment.systemPackages = with pkgs; [ sops ];
   
   programs = {
@@ -66,4 +74,5 @@
   ];
   
   system.stateVersion = "24.05";
+  };
 }

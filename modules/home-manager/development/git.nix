@@ -11,9 +11,12 @@
 			}/bin/git-credential-libsecret";
 		};
 	};
-
+	
 	programs.gh = {
 		enable = true;
 		editor = "nvim";
 	};
+	home.packages = with pkgs; [
+		lazygit
+	];
 }

@@ -19,32 +19,38 @@
   outputs = { self, nixos, nixpkgs, home-manager, hyprland, anyrun, nix-colors, nixvim, sops-nix, ... }@inputs:
   let
     system = "x86_64-linux";
+    desktopEnvironment = "none";
+
 	in {
 		nixosConfigurations = {
-      juicy = nixpkgs.lib.nixosSystem {
-      	specialArgs = { inherit inputs system; };
-				 modules = [
-	  			./hosts/juicy/configuration.nix
-			  ];
-		  };
-			dante = nixos.lib.nixosSystem {
-      	specialArgs = { inherit inputs system; };
+		juicy = nixpkgs.lib.nixosSystem {
+			specialArgs = { inherit inputs system; };
 				modules = [
-	  	  	./hosts/dante/configuration.nix
+	
+	  				./hosts/juicy/configuration.nix
 				];
-      };
-      anon = nixos.lib.nixosSystem {
-        specialArgs = { inherit inputs system; };
-        modules = [
-          ./hosts/anon/configuration.nix
-        ];
-      };
-      nix-wsl = nixos.lib.nixosSystem {
-        specialArgs = { inherit inputs system; };
-        modules = [
-          ./hosts/nix-wsl/configuration.nix
-        ];
-      };
-	  };
+			};
+		dante = nixos.lib.nixosSystem {
+      			specialArgs = { inherit inputs system desktopEnvironment; };
+			modules = [
+	  	  		./hosts/dante/configuration.nix
+					];
+      		};
+      		anon = nixos.lib.nixosSystem {
+        		specialArgs = { inherit inputs system desktopEnvironment; };
+        		modules = [
+	          				./hosts/anon/configuration.nix
+        		
+			];
+      		};
+
+		nix-wsl = nixos.lib.nixosSystem {
+        		specialArgs = { inherit inputs system; desktopEnvironment = "none";};
+        		modules = [
+				./hosts/nix-wsl/configuration.nix
+        			
+				];
+      			};
+		};
 	};
 }
