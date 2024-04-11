@@ -9,12 +9,10 @@
 		./mako.nix
 	];
 	home.packages = with pkgs; [
-		hyprshot
 		hypridle
 		hyprlock
 		hyprpaper
 		hyprpicker
-		hyprkeys
 		hyprlang
 		hyprcursor
 		hyprland-protocols

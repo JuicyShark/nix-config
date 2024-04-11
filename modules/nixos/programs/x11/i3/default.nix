@@ -1,7 +1,7 @@
-{ config, pkgs, callPackage, ... }: 
+{ config, pkgs, lib, callPackage, ... }: 
 
 {
-	environment.pathsToLink = [ "/libexec" ];
+    config = lib.mkIf config.desktop.enable {	environment.pathsToLink = [ "/libexec" ];
 
 	services.xserver = {
 		enable = true;
@@ -16,5 +16,6 @@
 				kitty
 			];
 		};
-	};
+              };
+            };
 }

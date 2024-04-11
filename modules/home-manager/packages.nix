@@ -9,7 +9,7 @@
 		wireplumber
 		#pwvucontrol
 		mpv
-		obsidian
+		#obsidian
 			
 		/* Notifications */
 		libnotify

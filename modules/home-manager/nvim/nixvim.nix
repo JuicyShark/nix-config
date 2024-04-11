@@ -29,51 +29,56 @@
 				};
 			};
 		};
-		#extraConfigLua = builtins.readFile ./init.lua;
-		plugins = {
-		/* Note Taking */
-		neorg = {
-			enable = true;
-			lazyLoading = false;
-			modules = {
-				"core.defaults" = {
-					__empty = null;
-				};
-				"core.completion" = {
-					config = {
-						engine = "nvim-cmp";
-					};
-				};
-				"core.dirman" = {
-					config = {
-						workspaces = {
-							home = "~/documents/Notes";
-							projects = "~/documents/Notes/Projects";
-							games = "~/documents/Notes/Games"; 
-						};
-						default_workspace = "home";
-						index = "index.norg";
-						use_popup = "true";
-					};
-				};
-				"core.journal" = {
-					config = {
-						journal_folder = "~/documents/Journal";
-						strategy = "nested";
-					};
-				};
-				"core.ui.calendar" = {
-					__empty = null;
-				};
-				"core.concealer" = {
-					config = {
-						folds = true;
-						icon_preset = "varied";
-						init_open_folds = "never";
-					};
-				};
-			};
-		};
+    
+    #extraConfigLua = builtins.readFile ./init.lua;
+    
+    plugins = {
+      
+      lazy.enable = true;
+		  
+      /* Note Taking */
+		  neorg = {
+	  		enable = true;
+	  		lazyLoading = false;
+	  		modules = {
+	  			"core.defaults" = {
+	  				__empty = null;
+	  			};
+		    	"core.completion" = {
+		  			config = {
+		  				engine = "nvim-cmp";
+			  		};
+			  	};
+  				"core.dirman" = {
+  					config = {
+  						workspaces = {
+	  						home = "~/documents/Notes";
+	  						projects = "~/documents/Notes/Projects";
+	        		games = "~/documents/Notes/Games"; 
+	  					};
+		  				default_workspace = "home";
+		    			index = "index.norg";
+		  				use_popup = "true";
+		  			};
+		  		};
+		  		"core.journal" = {
+		  			config = {
+		  				journal_folder = "~/documents/Journal";
+			  			strategy = "nested";
+			  		};
+		  		};
+		  		"core.ui.calendar" = {
+		  			__empty = null;
+		  		};
+		  		"core.concealer" = {
+		  			config = {
+		  				folds = true;
+		  				icon_preset = "varied";
+		  				init_open_folds = "never";
+		  			};
+		  		};
+		  	};
+		  };
 		
 #		obsidian = {
 #			enable = true;

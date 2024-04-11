@@ -1,4 +1,4 @@
-{lib, config, ...}:
+{...}:
 
 {
 
@@ -7,6 +7,7 @@
 			./adguard.nix
 			./media.nix
 			./gitea.nix
-			./redis.nix
+      ./redis.nix
+      ./samba.nix
 		];
 }

@@ -1,5 +1,7 @@
-{config, pkgs, ... }:
+{ lib, config, ... }:
 
 {
-	programs.hyprland.enable = true;
+  config = lib.mkIf config.desktop.enable {
+    programs.hyprland.enable = true;
+  };
 }
