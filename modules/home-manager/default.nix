@@ -1,4 +1,4 @@
-{ ... }: 
+{ inputs, lib, config, ... }: 
 {
   home.username = "juicy";
   home.homeDirectory = "/home/juicy";
@@ -8,11 +8,10 @@
 
   imports = [			
 		./terminal
-		./gui
-		./firefox.nix
-		./packages.nix
-  	./themes.nix
 		./nvim
-		./development
-	];
+    ./development
+    ./gui
+    inputs.nix-colors.homeManagerModules.default
+  ]; # ++ (lib.optionals (config.desktopEnironment != "none") [./gui]);
+  colorScheme = inputs.nix-colors.colorSchemes.catppuccin-mocha;
 }

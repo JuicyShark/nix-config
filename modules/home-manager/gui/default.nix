@@ -1,15 +1,10 @@
 { config, lib, ... }:
-let 
-	displayConfig = import ../../display-manager.nix {inherit lib;};
-	extraConfig = if config.displayManager == "wayland" then
-			import ./wayland {inherit lib;}
-		else if config.displayManager == "x11" then
-			import ./x11 {inherit lib;}
-		else {};
-in
+
 {
-	imports = [
-	./wayland
-	./x11
-	];
+  imports = [
+    ./firefox.nix
+    ./themes.nix
+  ];
+ #  ++ lib.optional (config.environment.systemPackages.use_wayland_wm == "1") ./x11
+  # ++ lib.optional (config.environment.systemPackages.use_x11_wm == "1") ./wayland;
 }

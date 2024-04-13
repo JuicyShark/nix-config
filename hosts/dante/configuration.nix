@@ -15,6 +15,9 @@
 	hardware.nvidia.enable = true;
 	hardware.nvidia.legacyEnable = true;
 
+  home-manager.users.juicy = import ../../modules/home-manager/gui/x11/i3;
+ 
   networking.hostName = "dante";
-	services.xserver.enable = true;
+  services.xserver.enable = true;
+  services.xserver.windowManager.i3.enable = true;
 }

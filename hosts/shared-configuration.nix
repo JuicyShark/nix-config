@@ -47,7 +47,7 @@
     users.juicy = {
 		  isNormalUser = true;
 		  description = "Juicy";
-		  extraGroups = [ "networkmanager" "wheel" ];
+		  extraGroups = [ "wheel" ];
     };
   };
   
@@ -57,7 +57,7 @@
       	  juicy = import ../modules/home-manager/default.nix;
     		};
       };
-  networking.networkmanager.enable = true; 
+  #networking.networkmanager.enable = true; 
   nixpkgs.config.allowUnfree = true;
 
 	fonts.packages = with pkgs; [

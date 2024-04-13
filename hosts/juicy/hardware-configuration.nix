@@ -42,10 +42,26 @@
   #  swapDevices = [ ];
 
 
-  networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp5s0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlp6s0.useDHCP = lib.mkDefault true;
-
+  
+  networking = {
+    useDHCP = lib.mkDefault false;
+    defaultGateway = "192.168.54.99";
+    nameservers = [ "8.8.8.8" "8.8.4.4" "192.168.54.99"];
+    interfaces = {
+      "enp3s0" = {
+        useDHCP = lib.mkDefault false;
+          ipv4 = { 
+            addresses = [
+              {
+                address = "192.168.54.54";
+                prefixLength = 24;
+              }
+            ];
+          };
+        };
+      };
+    };
+  
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

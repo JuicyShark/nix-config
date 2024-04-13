@@ -1,8 +1,6 @@
 {pkgs, config, lib, ... }: 
 {
   imports = [
-    ./wayland
-    ./x11
     ./obs.nix
   ];
   config = lib.mkIf config.desktop.enable {

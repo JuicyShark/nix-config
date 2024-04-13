@@ -13,9 +13,12 @@
 		./hardware-configuration.nix
 	];
 	
-	programs.displayManager.wayland.enable = true;
-	home-manager.users.juicy.wayland.windowManager.hyprland.settings.monitor = [ "DP-1,5120x1440@120,0x0,1" "HDMI-A-1,disable" ]; 
-	networking.hostName = "juicy";
+  programs.displayManager.wayland.enable = true;
+  #home-manager.users.juicy.wayland.windowManager.hyprland.settings.monitor = [ "DP-1,5120x1440@120,0x0,1" "HDMI-A-1,disable" ]; 
+  home-manager.users.juicy = import ../../modules/home-manager/gui/wayland/hyprland;
+  programs.hyprland.enable = true;
+
+  networking.hostName = "juicy";
 	
 	hardware.bluetooth.enable = true;
 	services.blueman.enable = true;

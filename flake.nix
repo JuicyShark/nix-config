@@ -24,13 +24,17 @@
       juicy = nixpkgs.lib.nixosSystem {
       	specialArgs = { inherit inputs system; };
 				 modules = [
-	  			./hosts/juicy/configuration.nix
+           ./hosts/juicy/configuration.nix
 			  ];
 		  };
 			dante = nixos.lib.nixosSystem {
       	specialArgs = { inherit inputs system; };
-				modules = [
-	  	  	./hosts/dante/configuration.nix
+        modules = [
+          ({config, lib, desktopEnvironment, ...}: {
+            imports = [
+              ./hosts/dante/configuration.nix
+            ];
+          })
 				];
       };
       anon = nixos.lib.nixosSystem {

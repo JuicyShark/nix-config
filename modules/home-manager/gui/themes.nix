@@ -1,12 +1,11 @@
 { inputs, pkgs, config, ...}:
 {
-	imports = [
-		inputs.nix-colors.homeManagerModules.default
-	];
+
+
+
 	home.packages = with pkgs; [
 	dconf
 	];
-	colorScheme = inputs.nix-colors.colorSchemes.catppuccin-mocha;
 	
 	gtk = {
 		enable = true;

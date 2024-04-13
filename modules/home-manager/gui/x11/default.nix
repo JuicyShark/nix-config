@@ -1,7 +1,6 @@
 {...}:
 {
 	imports = [
-		./leftwm
 		./i3
 	];
 }
