@@ -25,17 +25,17 @@
 						definedAliases = [ "@yt" ];
 					};
 
-					"SearX" = {
+					"Google" = {
 						urls = [{
 							template = "http://google.com.au/search?q={searchTerms}";
 						}];
 						iconUpdateURL = "http://google.com.au/favicon.ico";
 						updateInterval = 24 * 60 * 60 * 1000;
-						definedAliases = [ "@sx" ];
+						definedAliases = [ "@g" ];
 					};
 				};
 				force = true;
-				default = "SearX";
+				default = "Google";
 			};
 			settings = {
 				/****************************************************************************

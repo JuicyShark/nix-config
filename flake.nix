@@ -19,8 +19,9 @@
   outputs = { self, nixos, nixpkgs, home-manager, hyprland, anyrun, nix-colors, nixvim, sops-nix, ... }@inputs:
   let
     system = "x86_64-linux";
-	in {
-		nixosConfigurations = {
+  in
+  {
+    nixosConfigurations = {
       juicy = nixpkgs.lib.nixosSystem {
       	specialArgs = { inherit inputs system; };
 				 modules = [
@@ -30,25 +31,22 @@
 			dante = nixos.lib.nixosSystem {
       	specialArgs = { inherit inputs system; };
         modules = [
-          ({config, lib, desktopEnvironment, ...}: {
-            imports = [
-              ./hosts/dante/configuration.nix
-            ];
-          })
-				];
-      };
+            ./hosts/dante/configuration.nix
+          ];
+        };
       anon = nixos.lib.nixosSystem {
         specialArgs = { inherit inputs system; };
         modules = [
-          ./hosts/anon/configuration.nix
+	    		./hosts/anon/configuration.nix
         ];
       };
-      nix-wsl = nixos.lib.nixosSystem {
-        specialArgs = { inherit inputs system; };
-        modules = [
-          ./hosts/nix-wsl/configuration.nix
-        ];
-      };
-	  };
+
+		  nix-wsl = nixos.lib.nixosSystem {
+        specialArgs = { inherit inputs system; desktopEnvironment = "none";};
+        	modules = [
+				  ./hosts/nix-wsl/configuration.nix
+  				];
+   			};
+		};
 	};
 }
