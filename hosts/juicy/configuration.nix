@@ -1,7 +1,7 @@
 # your system.  Help is available in the configuration.nix(4) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ ... }:
+{ pkgs, ... }:
 
 {
 	hardware.nvidia.enable = true;
@@ -13,13 +13,47 @@
 		./hardware-configuration.nix
 	];
 	
-  programs.displayManager.wayland.enable = true;
-  #home-manager.users.juicy.wayland.windowManager.hyprland.settings.monitor = [ "DP-1,5120x1440@120,0x0,1" "HDMI-A-1,disable" ]; 
-  home-manager.users.juicy = import ../../modules/home-manager/gui/wayland/hyprland;
-  programs.hyprland.enable = true;
+  home-manager.users.juicy = import ../../modules/home-manager/window-manager/wayland;
+
+	services.greetd = {
+		enable = true;
+    package = pkgs.greetd.greetd;
+    settings = {
+      default_session = {
+        command = "${pkgs.greetd.greetd}/bin/agreety --cmd Hyprland";
+        user = "juicy";
+      };
+    };
+  };
 
   networking.hostName = "juicy";
-	
-	hardware.bluetooth.enable = true;
-	services.blueman.enable = true;
+
+  # Probably better place to put these
+  hardware = {
+    bluetooth.enable = true;
+    logitech.wireless.enable = true;
+  };
+  programs = {
+    steam = {
+      enable = true;
+      extest.enable = true;
+      remotePlay.openFirewall = true;
+      localNetworkGameTransfers.openFirewall = true;
+      dedicatedServer.openFirewall = true;
+      gamescopeSession = {
+        enable = true;
+        args = [
+          "--output-width 3440"
+          "--output-height 1440"
+          "--framerate-limit 120"
+          "--prefer-output DP-1"
+          "--adaptive-sync"
+          "--expose-wayland"
+          "--steam"
+        ];
+      };
+    };
+
+    gamescope.enable = true;
+  };
 }

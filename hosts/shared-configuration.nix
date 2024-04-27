@@ -1,31 +1,21 @@
-{ lib, config, inputs, pkgs, ... }:
+{ config, inputs, pkgs, ... }:
 {
-
-		options.desktop.environment = lib.mkOption {
-			type = lib.types.enum ["x11" "wayland" "none"];
-			default = "wayland";
-			description = "choose between x11, wayland protocol or none";
-		};
-	
 	imports = [ 
 		inputs.home-manager.nixosModules.home-manager
 		inputs.sops-nix.nixosModules.sops
 		../modules/nixos
-  	];
-	config = {
-	
-	environment.systemPackages = with pkgs; [ sops ];
+  ];
   
+  environment.systemPackages = with pkgs; [ sops ];  
   programs = {
     zsh.enable = true;
-    neovim.enable = true;
-    neovim.defaultEditor = true;
+    git.enable = true;
   };
 
 	sops = {
 	  defaultSopsFile = ./secrets/secrets.yaml;
 	  defaultSopsFormat = "yaml";
-  	age.keyFile = "/home/juicy/.config/sops/age/keys.txt";
+    age.keyFile = "/home/juicy/.config/sops/age/keys.txt";
   };
   
   nix = { 
@@ -38,14 +28,11 @@
 			automatic = true;
 			dates = ["daily"];
     };
-    settings.experimental-features = [ "nix-command" "flakes" ];
+    settings = {
+      experimental-features = [ "nix-command" "flakes" ];
+      warn-dirty = false;
+    };
   };
-
-  console = {
-		earlySetup = true;
-		font = "${pkgs.terminus_font}/share/consolefonts/ter-i32b.psf.gz";
-		packages = with pkgs; [ terminus_font ];
-	};
 
 	time.timeZone = "Australia/Brisbane";
 	i18n.defaultLocale = "en_AU.UTF-8";
@@ -55,24 +42,56 @@
     users.juicy = {
 		  isNormalUser = true;
 		  description = "Juicy";
-		  extraGroups = [ "wheel" ];
+      extraGroups = [ "wheel" ];
+      openssh = {
+        authorizedKeys.keys = [
+          config.sops.secrets.juicy-ssh.path
+          config.sops.secrets.dante-ssh.path
+        ];
+      };
     };
   };
   
     home-manager =  {
-    	  extraSpecialArgs = { inherit inputs; };
+      extraSpecialArgs = { inherit inputs; };
+      useGlobalPkgs = true;
     		users = {
       	  juicy = import ../modules/home-manager/default.nix;
     		};
       };
-  #networking.networkmanager.enable = true; 
-  nixpkgs.config.allowUnfree = true;
 
-	fonts.packages = with pkgs; [
-	  hack-font
-		(nerdfonts.override { fonts = ["Hack"]; })
-  ];
-  
-  system.stateVersion = "24.05";
+  nixpkgs.config = {
+    allowUnfree = true;
+    allowUnfreePredicate = true;
   };
+
+  environment.profileRelativeSessionVariables = {
+    QT_PLUGIN_PATH = ["/lib/qt-6/plugins"];
+  };
+
+  hardware.enableRedistributableFirmware = true;
+
+  fonts = { 
+    fontDir.enable = true;
+    enableDefaultPackages = true;
+    fontconfig = {
+      enable = true;
+      antialias = true;
+      cache32Bit = true;
+      hinting.style = "full";
+      defaultFonts = {
+        serif = [ "Hack Nerd Font Propo" ];
+        emoji = [ "Hack Nerd Font" ];
+        sansSerif = [ "Hack Nerd Font Propo" ];
+        monospace = [ "Hack Nerd Font Mono" ];
+      };
+
+    };
+    packages = with pkgs; [
+	    hack-font
+		  (nerdfonts.override { fonts = ["Hack"]; })
+    ];
+  };
+  system.stateVersion = "24.05";
+
 }

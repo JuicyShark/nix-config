@@ -32,12 +32,12 @@
   fileSystems."/games" = 
   {  device = "/dev/disk/by-uuid/BAEC3099EC3051BD";
      fsType = "lowntfs-3g";
-     options = ["uid=1000" "gid=100" "exec" "rw" "permissions" "juicy" "auto" "ignore_case" ];
+     options = [ "uid=1000" "gid=100" "exec" "rw" "permissions" "juicy" "auto" "ignore_case" ];
   };
  fileSystems."/home/juicy/documents" = 
   {  device = "/dev/disk/by-uuid/68249C47249C1A60";
      fsType = "ntfs";
-     options = [ "rw" "uuid=1000" "gid=100" "permissions" "auto" "juicy" ];
+     options = [ "uid=1000" "gid=100" "exec" "rw" "permissions" "juicy" "auto" "ignore_case" ];
   };
   #  swapDevices = [ ];
 
@@ -48,7 +48,7 @@
     defaultGateway = "192.168.54.99";
     nameservers = [ "8.8.8.8" "8.8.4.4" "192.168.54.99"];
     interfaces = {
-      "enp3s0" = {
+      "enp5s0" = {
         useDHCP = lib.mkDefault false;
           ipv4 = { 
             addresses = [

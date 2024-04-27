@@ -7,7 +7,7 @@
 			description = "Font to use.";
 		};
 		scaling = lib.mkOption {
-			default = 1.0;
+			default = 1.2;
 			type = lib.types.float;
 			description = "Scaling; Higher on higher res and lower on lower res";
 		};

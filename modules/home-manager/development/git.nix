@@ -14,7 +14,7 @@
 	
 	programs.gh = {
 		enable = true;
-		editor = "nvim";
+		settings.editor = "nvim";
 	};
 	home.packages = with pkgs; [
 		lazygit
