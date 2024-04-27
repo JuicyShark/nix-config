@@ -19,12 +19,6 @@
 				group = "media";
 				openFirewall = true;
       };
-
-      /*jellyseer = {
-        enable = true;
-        openFirewall = true; 
-        port = 8097;
-      };*/
 			
 			deluge = {
 				enable = true;
