@@ -33,11 +33,11 @@
 			
 			deluge = {
 				enable = true;
-				declarative = true;
+        #declarative = true;
 				user = "deluge";
 				group = "deluge";
 				openFirewall = true;
-				authFile = config.sops.secrets.deluge-secrets.path;
+        #authFile = config.sops.secrets.deluge-secrets.path;
 				config = {
 					download_location = "/media/tmp";
 					max_upload_speed = "500.0";
@@ -81,7 +81,6 @@
       deluge-secrets ={
         owner = "deluge";
         group = "deluge";
-        sopsFile = "../../../../../secrets";
       };
     };
 	};

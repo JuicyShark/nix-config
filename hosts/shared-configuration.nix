@@ -13,9 +13,20 @@
   };
 
 	sops = {
-	  defaultSopsFile = ./secrets/secrets.yaml;
+	  defaultSopsFile = ./secrets.yaml;
 	  defaultSopsFormat = "yaml";
     age.keyFile = "/home/juicy/.config/sops/age/keys.txt";
+
+    secrets ={
+      juicy-ssh = {
+        owner = "juicy";
+        group = "juicy";
+      };
+      dante-ssh = {
+        owner = "juicy";
+        group = "juicy";
+      };
+    };
   };
   
   nix = { 
