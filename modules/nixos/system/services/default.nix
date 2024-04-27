@@ -3,12 +3,11 @@
 {
 
 		imports =  [
-			./nextcloud.nix
-			./adguard.nix
+      #./nextcloud.nix
+      #./adguard.nix
 			./media.nix
 			./gitea.nix
-      ./redis.nix
-      ./samba.nix
+      #./redis.nix
       ./pipewire.nix
       ./openssh.nix
       ./nfs.nix

@@ -1,16 +1,16 @@
 {lib, config, ...}:
 {
-	config = lib.mkIf config.homelab.enable {
-		services.gitea = {
+  config = lib.mkIf config.homelab.enable {
+    users.groups.git = { }; 
+    services.gitea = {
 			enable = true;
-			stateDir = "/git/state";
 			customDir =  "/git";
-			group = "gitea";
+			group = "git";
       user = "gitea";
 
       settings.server = {
         SSH_PORT = 2032;
-        HTTP_PORT = 8099;
+        HTTP_PORT = 8199;
       };
 
 		};

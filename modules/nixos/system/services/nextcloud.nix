@@ -1,11 +1,10 @@
 { lib, config, pkgs, ... }:
 {
 	config = lib.mkIf config.homelab.enable {
-		environment.etc."nextcloud-admin-pass".text = "testing!Password9879";
-		services.nextcloud = {
+	  services.nextcloud = {
 			enable = true;
 			hostName = "localhost";
-			config.adminpassFile = "/etc/nextcloud-admin-pass";
+			config.adminpassFile = config.sops.secrets.nextcloud-admin-pass.path;
 			extraApps = {
 				inherit (config.services.nextcloud.package.packages.apps) contacts calendar tasks;
 			};
@@ -13,6 +12,10 @@
       settings = {
         dbhost = "127.0.0.1:9050";
       };
-		};
+    };
+    sops.secrets.nextcloud-admin-pass = {
+      owner = "nextcloud";
+      group = "nextcloud";
+    };
 	};
 }

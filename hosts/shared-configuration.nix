@@ -1,4 +1,7 @@
 { config, inputs, pkgs, ... }:
+let
+  ifTheyExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
+in
 {
 	imports = [ 
 		inputs.home-manager.nixosModules.home-manager
@@ -53,7 +56,18 @@
     users.juicy = {
 		  isNormalUser = true;
 		  description = "Juicy";
-      extraGroups = [ "wheel" ];
+      extraGroups = [ "wheel" ] 
+      ++ ifTheyExist [
+        "minecraft"
+        "network"
+        "wireshark"
+        "mysql"
+        "media"
+        "git"
+        "libvirtd"
+        "deluge"
+        "nextcloud"
+      ];
       openssh = {
         authorizedKeys.keys = [
           config.sops.secrets.juicy-ssh.path
