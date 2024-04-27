@@ -28,6 +28,10 @@
       fsType = "vfat";
 
     };
+    fileSystems."/mnt/git" = {
+      device = "192.168.54.60:/git";
+      fsType = "nfs";
+  };
 
   fileSystems."/games" = 
   {  device = "/dev/disk/by-uuid/BAEC3099EC3051BD";
