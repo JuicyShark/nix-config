@@ -8,8 +8,9 @@
 	};
   
   imports = lib.flatten [
-    ./system/hardware
-    ./system/services
+    ./hardware
+    ./services
+    ./programs
   ];
   config = {
     security.polkit.enable = true;

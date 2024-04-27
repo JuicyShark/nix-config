@@ -11,7 +11,6 @@
 	
 	home.packages = with pkgs; [
 			
-		obsidian
 		/* Miscellaneous */
     xfce.thunar
     xorg.xinit	

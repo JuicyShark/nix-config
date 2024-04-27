@@ -5,20 +5,21 @@
     ./foot.nix
     ./zsh
     ./nvim
+    ./cava.nix
+    ./yazi.nix
   ];
   home.packages = with pkgs; [
     #Pretty Fluff
     peaclock
     cmatrix
     pipes
-    cava
+  
 
     #Utilities 
     ffmpeg
     glfw
     speedtest-cli
-    yt-dlp
-    
+  
     rustscan
     ffsend
     gitui

@@ -6,7 +6,6 @@
     ./bottom.nix
     ./starship.nix
     ./fastfetch.nix
-    ./yazi.nix
     ./fzf.nix
     ./navi.nix
   ];
