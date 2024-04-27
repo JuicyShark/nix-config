@@ -11,6 +11,6 @@
       ./samba.nix
       ./pipewire.nix
       ./openssh.nix
-      ./nfs
+      ./nfs.nix
 		];
 }
