@@ -20,11 +20,11 @@
     secrets ={
       juicy-ssh = {
         owner = "juicy";
-        group = "juicy";
+        group = "wheel";
       };
       dante-ssh = {
         owner = "juicy";
-        group = "juicy";
+        group = "wheel";
       };
     };
   };

@@ -37,7 +37,7 @@
  fileSystems."/home/juicy/documents" = 
   {  device = "/dev/disk/by-uuid/68249C47249C1A60";
      fsType = "ntfs";
-     options = [ "uid=1000" "gid=100" "exec" "rw" "permissions" "juicy" "auto" "ignore_case" ];
+     options = [ "uid=1000" "gid=100" "exec" "rw" "permissions" "juicy" "auto" ];
   };
   #  swapDevices = [ ];
 

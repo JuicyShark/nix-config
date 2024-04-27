@@ -39,7 +39,9 @@
       nixconfig =  "nvim ${config.home.homeDirectory}/nixos";
       notes = "nvim -c 'Neorg index'";
       journal = "nvim -c 'Neorg journal today'";
-      grep = "ripgrep";    
+      grep = "ripgrep";  
+      dante = "ssh juicy@192.168.54.60 -p 2033";
+      juicy = "ssh juicy@192.168.54.54 -p 2033";
     };
 
   	plugins = [

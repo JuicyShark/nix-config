@@ -8,14 +8,18 @@
       openFirewall = true; 
       shares = {
         documents = {
-          path = "/home/juicy/documents";
+          path = "/srv/documents";
           browseable = "yes";
+          writable = "yes";
           "read only" = false;
-          "guest ok" = "no";
+          "guest ok" = "yes";
         };
         git = {
-          path = "/git";
+          path = "/srv/git";
           browseable = "yes";
+          writable = "yes";
+          "read only" = false;
+          "guest ok" = "yes";
         };
       };
     };

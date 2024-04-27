@@ -24,11 +24,9 @@ in
 			"SUPER CTRL, S, exec, ${pkgs.hyprshot}/bin/hyprshot -m output --clipboard-only"
 			"SUPER CTRL, C, exec, ${pkgs.hyprpicker}/bin/hyprpicker"
 			"$mainMod, return, exec, ${pkgs.kitty}/bin/kitty"
-			"$mainMod, T, exec, [float; center] ${pkgs.kitty}/bin/kitty nvim '/home/juicy/documents/Notes/TODO Weekly List.md'"
 			"$mainMod SHIFT, T, exec, [float; center] ${pkgs.kitty}/bin/kitty nvim -c 'Neorg journal today"				
-      "$mainMod, N, exec, [float; center] ${pkgs.kitty}/bin/kitty nvim -c ObsidianNew"
-      "$mainMod, I, exec, [float; center] ${pkgs.kitty}/bin/kitty nvim -c Neorg index"
-			"$mainMod, escape, exec, [float; size 950 650; move onscreen 100%-0;] ${pkgs.kitty}/bin/kitty btop"
+      "$mainMod, T, exec, [float; center] ${pkgs.kitty}/bin/kitty nvim -c 'Neorg index'"
+			"$mainMod, escape, exec, [float; size 950 650; move onscreen 100%-0;] ${pkgs.kitty}/bin/kitty btm"
 			"$mainMod, period, exec, [float; size 1650 850; center;] ${pkgs.kitty}/bin/kitty yazi"
 			#"$mainMod, ?, exec, ${pkgs.kitty}/bin/kitty hyprkeys" #TODO implement keybind helper
 			"$mainMod SHIFT, Q, killactive,"

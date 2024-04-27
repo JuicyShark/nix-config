@@ -12,21 +12,22 @@
 		loader.grub.device = "/dev/sdc";
 	};
 
-	fileSystems."/" = 
-		{
+	fileSystems."/" = {
 			device = "/dev/disk/by-uuid/44eae4ed-3200-4d5a-b3de-65bc6be3cbe8";
 			fsType = "ext4";
 		};
-	fileSystems."/nextcloud" = 
-		{
+	fileSystems."/nextcloud" = {
 			device = "/dev/disk/by-uuid/e65aaaad-242e-4db6-89d9-6c7dd24fba88";
 			fsType = "ext4";
 		};
-	fileSystems."/git" = 
-		{
+	fileSystems."/git" = {
 			device = "/dev/disk/by-uuid/bafbaa56-a615-4f4b-8743-a467c6916eb8";
 			fsType = "ext4";
-		};
+    };
+    fileSystems."/srv/git" = {
+      device = "/git";
+      options = [ "bind" ];
+  };
 
 	swapDevices = [ { device = "/dev/disk/by-uuid/e01b80cf-fac6-4c5c-a37c-408253c1203a"; } ];
 
