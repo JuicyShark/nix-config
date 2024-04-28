@@ -2,7 +2,6 @@
 {
 	imports = [
 	  ./kitty.nix
-    ./foot.nix
     ./zsh
     ./nvim
     ./cava.nix
@@ -12,8 +11,7 @@
     #Pretty Fluff
     peaclock
     cmatrix
-    pipes
-  
+    pipes 
 
     #Utilities 
     ffmpeg

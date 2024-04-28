@@ -9,8 +9,13 @@
     ./fzf.nix
     ./man.nix
     ./yt-dlp.nix
+    ./direnv.nix
   ];
   programs = {
+    zoxide = {
+      enable = true;
+      enableZshIntegration = true;
+    };
     zsh = {
 		  enable = true;
 		  enableCompletion = true;
@@ -42,18 +47,25 @@
         dante = "ssh juicy@192.168.54.60 -p 2033";
         juicy = "ssh juicy@192.168.54.54 -p 2033";
       };
-    initExtra = ''
-			fastfetch
-		'';
-  };  
-    autosuggestion.enable = true;
-    syntaxHighlighting.enable = true;
-  };
+      plugins = [
+        {
+          name = "zsh-nix-shell";
+          file = "nix-shell.plugin.zsh";
+          src = pkgs.fetchFromGitHub {
+            owner = "chisui";
+            repo = "zsh-nix-shell";
+            rev = "v0.8.0";
+            sha256 = "1lzrn0n4fxfcgg65v0qhnj7wnybybqzs4adz7xsrkgmcsr0ii8b7";
+          };
+        }
+      ];
+      initExtra = ''
+			  fastfetch
+		  '';  
+      autosuggestion.enable = true;
+      syntaxHighlighting.enable = true;
+    };
   
-  zoxide = {
-    enable = true;
-    enableZshIntegration = true;
+
   };
-
-
 }

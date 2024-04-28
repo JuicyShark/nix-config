@@ -6,12 +6,18 @@
 {
 	hardware.nvidia.enable = true;
 	desktop.enable = true;
-	gaming.enable = true;
+  gaming.enable = true;
+  cybersecurity.enable = true;
 	
 	imports = [
 	  ../shared-configuration.nix
 		./hardware-configuration.nix
-	];
+  ];
+
+  environment.systemPackages = with pkgs; [
+    greetd.tuigreet
+    ntfs3g
+  ];
 	
   home-manager.users.juicy = import ../../modules/home-manager/window-manager/wayland;
 
@@ -21,17 +27,16 @@
 
     ];
     loader = {
-	systemd-boot.enable = true;
-	efi.canTouchEfiVariables = true;
+	    systemd-boot.enable = true;
+	    efi.canTouchEfiVariables = true;
     };
   };
 
 	services.greetd = {
 		enable = true;
-    package = pkgs.greetd.greetd;
     settings = {
       default_session = {
-        command = "${pkgs.greetd.greetd}/bin/agreety --cmd Hyprland";
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --greeting 'Welcome Juicy' --cmd Hyprland";
         user = "juicy";
       };
     };
@@ -46,6 +51,7 @@
   };
 
   networking = {
+    useDHCP = false;
     defaultGateway = "192.168.54.99";
     nameservers = [ "8.8.8.8" "8.8.4.4" "192.168.54.99"];
     interfaces = {

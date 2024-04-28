@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 {
   programs = {
     man = {
@@ -18,12 +18,11 @@
     };
     tealdeer = {
       enable = true;
-      updates = {
+      settings.updates = {
         auto_update = true;
         auto_update_interval_hours = 128;
       };
     };
   };
   manual.manpages.enable = true;
-
 }

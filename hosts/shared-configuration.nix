@@ -1,4 +1,4 @@
-{ config, inputs, pkgs, ... }:
+{ config, inputs, pkgs, lib, ... }:
 let
   ifTheyExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
 in
@@ -8,6 +8,7 @@ in
 		inputs.sops-nix.nixosModules.sops
 		../modules/nixos
   ];
+  environment.defaultPackages = lib.mkForce [];
   
   environment.systemPackages = with pkgs; [ sops ];  
   programs = {

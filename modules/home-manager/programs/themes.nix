@@ -2,26 +2,38 @@
 {
   home.packages = with pkgs; [
     dconf
+    gtk-engine-murrine
+    gnome.gnome-themes-extra
+
 	];
-	
+	home.sessionVariables.GTK_THEME = "Catppuccin-Mocha-Compact-Blue-Dark";
 	gtk = {
-		enable = true;
-  	cursorTheme.package = pkgs.catppuccin-cursors.mochaBlue;
-  	cursorTheme.name = "Catppuccin-Mocha-Blue-Cursors";
-  	iconTheme.package = pkgs.catppuccin-papirus-folders;
-  	iconTheme.name = "cat-mocha-blue";
+    enable = true;
 		theme = {
     	name = "Catppuccin-Mocha-Compact-Blue-Dark";
     	package = pkgs.catppuccin-gtk.override {
       	accents = [ "blue" ];
       	size = "compact";
-      	tweaks = [ "rimless" ];
+      	tweaks = [ ];
       	variant = "mocha";
   	  };
-  	};
-  };
+    };
+    cursorTheme = {
+      name = "Catppuccin-Mocha-Blue-Cursors";
+      package = pkgs.catppuccin-cursors.mochaBlue;
+    };
+      iconTheme = {
+        name = "Papirus-Dark";
+        package = pkgs.catppuccin-papirus-folders;
+      };
+    };
+    home.pointerCursor = {
+      gtk.enable = true;
+      package = pkgs.catppuccin-cursors.mochaBlue;
+      name = "Catppuccin-Mocha-Blue-Cursors";
+    };
 
-  qt = {
+ /* qt = {
     enable = true;
     platformTheme.name = "gtk3";
   };
@@ -55,5 +67,6 @@
     		Xft.hintstyle: hintslight
     		Xft.lcdfilter: lcddefault
     		*font: xft:Hack Nerd Font:size=15
-  	'';
+        '';
+        */
 }

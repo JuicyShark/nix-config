@@ -4,7 +4,7 @@
 		desktop.enable = lib.mkEnableOption "Enables desktop GUI Apps";
 		homelab.enable = lib.mkEnableOption "Enable HomeLab Services";
 		gaming.enable = lib.mkEnableOption "Enable Gaming apps";
-		
+	  cybersecurity.enable = lib.mkEnableOption "Enable Cyber Security CLI and Desktop Apps";	
 	};
   
   imports = lib.flatten [
