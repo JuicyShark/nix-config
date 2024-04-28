@@ -1,7 +1,7 @@
 # your system.  Help is available in the configuration.nix(4) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
 	hardware.nvidia.enable = true;
@@ -20,6 +20,10 @@
     binfmt.emulatedSystems = [
 
     ];
+    loader = {
+	systemd-boot.enable = true;
+	efi.canTouchEfiVariables = true;
+    };
   };
 
 	services.greetd = {
@@ -40,27 +44,22 @@
     bluetooth.enable = true;
     logitech.wireless.enable = true;
   };
-  programs = {
-    steam = {
-      enable = true;
-      extest.enable = true;
-      remotePlay.openFirewall = true;
-      localNetworkGameTransfers.openFirewall = true;
-      dedicatedServer.openFirewall = true;
-      gamescopeSession = {
-        enable = true;
-        args = [
-          "--output-width 3440"
-          "--output-height 1440"
-          "--framerate-limit 120"
-          "--prefer-output DP-1"
-          "--adaptive-sync"
-          "--expose-wayland"
-          "--steam"
-        ];
-      };
-    };
 
-    gamescope.enable = true;
+  networking = {
+    defaultGateway = "192.168.54.99";
+    nameservers = [ "8.8.8.8" "8.8.4.4" "192.168.54.99"];
+    interfaces = {
+      "enp5s0" = {
+        useDHCP = false;
+          ipv4 = { 
+            addresses = [
+              {
+                address = "192.168.54.54";
+                prefixLength = 24;
+              }
+            ];
+          };
+        };
+      };
   };
 }
