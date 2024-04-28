@@ -12,10 +12,10 @@
 	home.packages = with pkgs; [
 			
 		/* Miscellaneous */
-    xfce.thunar
+    
     xorg.xinit	
 		logiops
-	 	nix-search-cli 
+	  nix-search-cli 
 		signal-desktop
 		tidal-hifi
 	];

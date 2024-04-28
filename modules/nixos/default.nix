@@ -1,4 +1,4 @@
-{ pkgs, lib, ...}: 
+{ pkgs, lib, config, ...}: 
 {
 	options = {
 		desktop.enable = lib.mkEnableOption "Enables desktop GUI Apps";
@@ -12,7 +12,7 @@
     ./services
     ./programs
   ];
-  config = {
+  config = lib.mkIf (config.desktop.enable) {
     security.polkit.enable = true;
     systemd = {
       user.services.polkit-gnome-autentication-agent-1 = {

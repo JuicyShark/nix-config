@@ -1,7 +1,8 @@
 { pkgs, config, lib, ... }:
 {
   config = lib.mkIf (config.gaming.enable) {
-    programs.steam = {
+    programs = {
+    steam = {
       enable = true;
       extest.enable = true;
       localNetworkGameTransfers.openFirewall = true;
@@ -22,5 +23,10 @@
         ];
       };
     };
+  };
+  environment.systemPackages = with pkgs; [
+    steam-tui
+    steamPackages.steamcmd
+  ];
   };
 }
