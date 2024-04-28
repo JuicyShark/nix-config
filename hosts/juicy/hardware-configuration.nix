@@ -13,7 +13,7 @@
 			systemd-boot.enable = true;
 			efi.canTouchEfiVariables = true;
 			timeout = 15;
-		};
+    };
 		kernelModules = [ "kvm-intel" ];
 		extraModulePackages = [ ];
 	};

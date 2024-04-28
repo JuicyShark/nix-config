@@ -15,6 +15,13 @@
 	
   home-manager.users.juicy = import ../../modules/home-manager/window-manager/wayland;
 
+  boot = {
+    kernelPackages = pkgs.linuxKernel.packages.linux_zen;
+    binfmt.emulatedSystems = [
+
+    ];
+  };
+
 	services.greetd = {
 		enable = true;
     package = pkgs.greetd.greetd;

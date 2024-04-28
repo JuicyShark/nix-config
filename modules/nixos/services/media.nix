@@ -4,12 +4,12 @@
     users.groups.media = { }; 
 
 		systemd.tmpfiles.rules = [
-      "d /media 0770 - media - -"
-      "d /media/movies 0770 - media - -"
-      "d /media/tv-shows 0770 - media - -"
-      "d /media/youtube 0770 - media - -"
-      "d /media/songs 0770 - media - -"
-      "d /media/tmp 0770 - media - -"
+      "d /srv/media 0770 - media - -"
+      "d /srv/media/movies 0770 - media - -"
+      "d /srv/media/tv-shows 0770 - media - -"
+      "d /srv/media/youtube 0770 - media - -"
+      "d /srv/media/songs 0770 - media - -"
+      "d /srv/media/tmp 0770 - media - -"
     ];
 
 		services = {
@@ -30,9 +30,9 @@
         config = {
           copy_torrent_file = true;
           move_completed = true;
-					torrentfiles_location = "/srv/torrents/files";
-          download_location = "/srv/torrents/downloading";
-          move_completed_path = "/srv/torrents/completed";
+					torrentfiles_location = "/torrents/files";
+          download_location = "/torrents/downloading";
+          move_completed_path = "/torrents/completed";
           dont_count_slow_torrents = true;
           max_active_seeding = -1;
           max_active_limit = -1;
