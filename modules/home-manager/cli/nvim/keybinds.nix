@@ -68,8 +68,9 @@
   		options.silent = false;
   		options.noremap = true;
   		action = "gk";
-  	}
-  /*	{
+    }
+    
+       /*	{
   		mode = "n";
   		key = ":split";
   		options.silent = false;

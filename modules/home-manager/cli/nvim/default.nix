@@ -91,8 +91,8 @@
             "%.ipynb"
           ];
           set_env.COLORTERM = "truecolor";
+          pickers.find_files.hidden = true;
         };
-        extraOptions.pickers.find_files.hidden = true;
       };
  
       which-key = {
@@ -120,7 +120,6 @@
       nix.enable = true;
       illuminate.enable = true;
       treesitter.enable = true;
-      neocord.enable = true;
       /* QOL */
       nvim-autopairs.enable = true;
       indent-blankline.enable = true;
@@ -149,21 +148,15 @@
       }
       {
         event = "FileType";
-        pattern = [ "markdown" "org" "norg" ];
+        pattern = [ "markdown" "norg" ];
         command = "setlocal conceallevel=2";
         desc = "Conceal Syntax Attribute";
       }
       {
         event = "FileType";
-        pattern = [ "markdown" "org" "norg" ];
+        pattern = [ "markdown" "norg" ];
         command = "setlocal spell spelllang=en,nl";
         desc = "Spell Checking";
-      }
-      {
-        event = "FileType";
-        pattern = [ "markdown" "org" "norg" ];
-        command = ":TableModeEnable";
-        desc = "Table Mode";
       }
       {
         event = "FileType";
