@@ -21,13 +21,13 @@
 	  }
 	  {  
 	  	mode = "n";
-	  	key = "<leader>ot";
+	  	key = "<leader>nt";
 	  	options.silent = true;
-	  	action = "<cmd>ObsidianToday<CR>";
+	  	action = "<cmd>Neorg journal today<CR>";
 	  } 
 	  {
 	  	mode = "n";
-	  	key = "<leader>on";
+	  	key = "<leader>nn";
 	  	options.silent = true;
 	  	action = "<cmd>ObsidianNew<CR>";
 	  }
@@ -69,7 +69,7 @@
   		options.noremap = true;
   		action = "gk";
   	}
-  	{
+  /*	{
   		mode = "n";
   		key = ":split";
   		options.silent = false;
@@ -82,6 +82,6 @@
   		options.silent = false;
   		options.noremap = true;
   		action = ":lua OpenWithRustScript()<CR>";
-  	}
+  	} */
   ];
 }

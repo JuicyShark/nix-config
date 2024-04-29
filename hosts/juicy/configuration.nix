@@ -1,7 +1,7 @@
 # your system.  Help is available in the configuration.nix(4) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 
 {
 	hardware.nvidia.enable = true;
