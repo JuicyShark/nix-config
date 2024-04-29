@@ -1,8 +1,8 @@
 { config, lib, pkgs, ... }:
 {
-	config = lib.mkIf (config.cybersecurity.enable) { 
+  config = lib.mkIf (config.cybersecurity.enable) {
     virtualisation = {
-      #waydroid.enable = true;
+      waydroid.enable = true;
       libvirtd = {
         enable = true;
         qemu = {
@@ -18,7 +18,7 @@
       };*/
       spiceUSBRedirection.enable = true;
     };
-    
+
     programs.virt-manager.enable = true;
     environment.systemPackages = with pkgs; [
       #podman-tui
