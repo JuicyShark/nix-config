@@ -1,11 +1,12 @@
-
 keys:
-  - &juicy age1zasvffe7jux3eghf2zqvdg8ha6tagdpqeddpn9e8r7cleemgt33q77cwq8
-  - &serverjuicy age1mp04ph9th74krnc6te2uty542zkrlzd6ftke7u9nvz4j7a6w83aqeyqn62
-  - &serverdante age1ajduv7vmursskhad4a8vk9gyjlwl6wwcmgggp5y9ej6amgfc4vusny68fw
+  - &users:
+    - &juicy age1zasvffe7jux3eghf2zqvdg8ha6tagdpqeddpn9e8r7cleemgt33q77cwq8
+  - &hosts:
+      - &serverjuicy age1mp04ph9th74krnc6te2uty542zkrlzd6ftke7u9nvz4j7a6w83aqeyqn62
+      - &serverdante age1ajduv7vmursskhad4a8vk9gyjlwl6wwcmgggp5y9ej6amgfc4vusny68fw
 
 creation_rules:
-  - path_regex: hosts/[^/]+\.(yaml|json|env|ini)$
+  - path_regex: hosts/secrets.yaml$
     key_groups:
     - age:
       - *juicy

@@ -1,15 +1,11 @@
-{lib, config, ...}:
+{pkgs, lib, config, ...}:
 {	
 	config = lib.mkIf config.homelab.enable {
     users.groups.media = { }; 
 
 		systemd.tmpfiles.rules = [
-      "d /srv/media 0770 - media - -"
-      "d /srv/media/movies 0770 - media - -"
-      "d /srv/media/tv-shows 0770 - media - -"
-      "d /srv/media/youtube 0770 - media - -"
-      "d /srv/media/songs 0770 - media - -"
-      "d /srv/media/tmp 0770 - media - -"
+      "d /srv/media 0440 - media - - "
+      "d /torrent 0770 - deluge - -"
     ];
 
 		services = {
@@ -23,16 +19,19 @@
 			deluge = {
 				enable = true;
         declarative = true;
-				user = "deluge";
-				group = "deluge";
-				openFirewall = true;
-        authFile = config.sops.secrets.deluge-secrets.path;
+	user = "deluge";
+	group = "deluge";
+	openFirewall = true;
+	authFile = pkgs.writeTextFile {
+        	name = "deluge-auth";
+        	text = "${config.sops.secrets.deluge-secrets.path}";
+        };
         config = {
           copy_torrent_file = true;
           move_completed = true;
-					torrentfiles_location = "/torrents/files";
-          download_location = "/torrents/downloading";
-          move_completed_path = "/torrents/completed";
+					torrentfiles_location = "/torrent/files";
+          download_location = "/torrent/downloading";
+          move_completed_path = "/torrent/completed";
           dont_count_slow_torrents = true;
           max_active_seeding = -1;
           max_active_limit = -1;
