@@ -8,7 +8,7 @@
 	desktop.enable = true;
   gaming.enable = true;
   cybersecurity.enable = true;
-	
+
 	imports = [
 	  ../shared-configuration.nix
 		./hardware-configuration.nix
@@ -18,7 +18,7 @@
     greetd.tuigreet
     ntfs3g
   ];
-	
+
   home-manager.users.juicy = import ../../modules/home-manager/window-manager/wayland;
 
   boot = {
@@ -57,7 +57,7 @@
     interfaces = {
       "enp5s0" = {
         useDHCP = false;
-          ipv4 = { 
+          ipv4 = {
             addresses = [
               {
                 address = "192.168.54.54";

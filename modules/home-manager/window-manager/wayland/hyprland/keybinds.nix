@@ -25,7 +25,7 @@ in
     wayland.windowManager.hyprland.settings = {
     "$mainMod" = "ALT";
       bind = [
-        "SUPER SHIFT, S, exec, ${pkgs.grim}/bin/grim -g '$(${pkgs.slurp}/bin/slurp)' | wl-copy"
+        "SUPER SHIFT, S, exec, ${pkgs.grim}/bin/grim -g '$(${pkgs.slurp}/bin/slurp)' | ${pkgs.wl-clipboard}/bin/wl-copy"
         "SUPER CTRL, C, exec, ${pkgs.grim}/bin/grim -g '$(${pkgs.slurp}/bin/slurp -p)' -t ppm - | ${pkgs.imagemagick}/bin/convert - -format '%[pixel:p{0,0}]' txt:- "
 		  	"$mainMod, return, exec, ${pkgs.kitty}/bin/kitty"
 		  	"$mainMod SHIFT, T, exec, [float; center] ${pkgs.kitty}/bin/kitty ${pkgs.neovim}/bin/nvim -c 'Neorg journal today"
@@ -41,8 +41,8 @@ in
 		  	"$mainMod, B, exec, ${pkgs.firefox}/bin/firefox"
 		  	"$mainMod SHIFT, B, exec, ${pkgs.qutebrowser}/bin/qutebrowser"
 		  	"$mainMod, slash, exec, ${pkgs.kitty}/bin/kitty ${pkgs.neovim}/bin/nvim $(${pkgs.fzf}/bin/fzf))"
-		  	", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_SINK@ 10%+"
-		  	", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_SINK@ 10%-"
+		  	", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_SINK@ 5%+"
+		  	", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_SINK@ 5%-"
 		  	", XF86AudioMute, exec, wpctl set-mute @DEFAULT_SINK@ toggle"
         ", XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_SOURCE@ toggle"
 
@@ -55,8 +55,6 @@ in
         "$mainMod, w, hy3:changefocus, lower"
         "$mainMod, tab, hy3:focustab, right, wrap"
         "$mainMod, SHIFT TAB, hy3:focustab, left, wrap"
-
-
 
   			"$mainMod CTRL, s, hy3:makegroup, h"
   			"$mainMod CTRL, f, hy3:makegroup, h"
@@ -78,12 +76,9 @@ in
 			  "$mainMod SHIFT, e, hy3:movewindow, u, once, visible"
 			  "$mainMod SHIFT, d, hy3:movewindow, d, once, visible"
 
-		  	# Scroll through existing workspaces with mainMod + scroll
-		  	"$mainMod, mouse_down, workspace, e+1"
-		  	"$mainMod, mouse_up, workspace, e-1"
-		  	# Special Workspace
-		  	"$mainMod, grave, togglespecialworkspace, scratchpad"
-		  	"$mainMod Shift, grave, movetoworkspace, special:scratchpad"
+        # Buggy with hy3
+        #"$mainMod, grave, togglespecialworkspace, scratchpad"
+        #"$mainMod Shift, grave, movetoworkspace, special:scratchpad"
 		  ]
 		  ++ workspaces;
 
