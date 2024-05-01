@@ -10,10 +10,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprland.url = "github:hyprwm/Hyprland";
-    /*hy3 = {
+    hy3 = {
       url = "github:outfoxxed/hy3";
       inputs.hyprland.follows = "hyprland";
-    };*/
+    };
     anyrun.url = "github:Kirottu/anyrun";
     anyrun.inputs.nixpkgs.follows = "nixpkgs";
     nix-colors.url = "github:misterio77/nix-colors";
@@ -21,7 +21,7 @@
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
     sops-nix.url = "github:Mic92/sops-nix";
   };
-  outputs = { self, nixos, nixpkgs, nixpkgs-stable, home-manager, hyprland, anyrun, nix-colors, nixvim, sops-nix, ... }@inputs:
+  outputs = { self, nixos, nixpkgs, nixpkgs-stable, home-manager, hyprland, hy3, anyrun, nix-colors, nixvim, sops-nix, ... }@inputs:
     let
       system = "x86_64-linux";
     in

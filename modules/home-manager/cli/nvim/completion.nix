@@ -1,6 +1,6 @@
 {
   programs.nixvim = {
-    opts.completeopt = ["menu" "menuone" "noselect"];
+    opts.completeopt = [ "menu" "menuone" "noselect" ];
 
     plugins = {
       luasnip.enable = true;
@@ -22,16 +22,16 @@
           };
 
           sources = [
-            {name = "path";}
-            {name = "nvim_lsp";}
-            {name = "cmp_tabby";}
-            {name = "luasnip";}
+            { name = "path"; }
+            { name = "nvim_lsp"; }
+            { name = "cmp_tabby"; }
+            { name = "luasnip"; }
             {
               name = "buffer";
               # Words from other open buffers can also be suggested.
               option.get_bufnrs.__raw = "vim.api.nvim_list_bufs";
             }
-            {name = "neorg";}
+            { name = "neorg"; }
           ];
         };
       };
@@ -59,16 +59,16 @@
             "<F2>" = "rename";
           };
         };
-	      servers = {
-		      nil_ls.enable = true;
-		      lua-ls.enable = true;
-		      rust-analyzer = {
-			      enable = true;
-		        filetypes = ["toml" "rs"];
-		        installCargo = false;
-			      installRustc = false;
-		      };
-	      };
+        servers = {
+          nil_ls.enable = true;
+          lua-ls.enable = true;
+          rust-analyzer = {
+            enable = true;
+            filetypes = [ "toml" "rs" ];
+            installCargo = false;
+            installRustc = false;
+          };
+        };
       };
       lsp-format.enable = true;
       none-ls = {
@@ -76,7 +76,7 @@
         enableLspFormat = true;
         sources = {
           formatting = {
-            nixpkgs_fmt.enable = true;
+            nixpkgs_fmt.enable = false;
             markdownlint.enable = true;
           };
         };

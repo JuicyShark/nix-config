@@ -1,15 +1,16 @@
-{lib, ...}:
+{ lib, ... }:
 {
-	options = { 
-		font = lib.mkOption {
-			default = "Hack Nerd Font";
-			type = lib.types.str;
-			description = "Font to use.";
-		};
-		scaling = lib.mkOption {
-			default = 1.2;
-			type = lib.types.float;
-			description = "Scaling; Higher on higher res and lower on lower res";
-		};
-	};
+  options = {
+    font = lib.mkOption {
+      default = "Hack Nerd Font";
+      type = lib.types.str;
+      description = "Font to use.";
+    };
+    scaling = lib.mkOption {
+      default = 1.0;
+      type = lib.types.float;
+      description = "Scaling; Higher on higher res and lower on lower res";
+    };
+
+  };
 }
