@@ -41,16 +41,7 @@
 
 
       settings = {
-        /****************************************************************************
-                                                                                                                                                                                                                                				 * Betterfox                                                                *
-                                                                                                                                                                                                                                				 * "Ad meliora"                                                             *
-                                                                                                                                                                                                                                				 * version: 115                                                             *
-                                                                                                                                                                                                                                				 * url: https://github.com/yokoffing/Betterfox                              *
-                                                                                                                                                                                    				****************************************************************************/
 
-        /****************************************************************************
-                                                                                                                                                                                                                                				 * SECTION: FASTFOX                                                         *
-                                                                                                                                                                                    				****************************************************************************/
         "nglayout.initialpaint.delay" = 5;
         "nglayout.initialpaint.delay_in_oopif" = 0;
         "content.notify.interval" = 100000;
@@ -99,9 +90,6 @@
         "network.dnsCacheExpiration" = 3600;
         "network.dns.max_high_priority_threads" = 8;
 
-        /****************************************************************************
-                                                                                                                                                                                                                                				 * SECTION: SECUREFOX                                                       *
-                                                                                                                                                                                    				****************************************************************************/
         /** TRACKING PROTECTION ***/
         "browser.contentblocking.category" = "strict";
         "urlclassifier.trackingSkipURLs" = "*.reddit.com, *.twitter.com, *.twimg.com, *.tiktok.com, *.facebook.com, *.youtube.com, *.netflix, *.binge.com";
@@ -223,9 +211,6 @@
         "browser.newtabpage.activity-stream.feeds.telemetry" = false;
         "browser.newtabpage.activity-stream.telemetry" = false;
 
-        /****************************************************************************
-                                                                                                                                                                                                                                				 * SECTION: PESKYFOX                                                        *
-                                                                                                                                                                                    				****************************************************************************/
         /** MOZILLA UI ***/
         "layout.css.prefers-color-scheme.content-override" = 0;
         "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
@@ -279,9 +264,6 @@
         "cookiebanners.service.mode" = 2;
         "cookiebanners.service.mode.privateBrowsing" = 2;
 
-        /****************************************************************************
-                                                                                                                                                                                                                                				 * SECTION: SMOOTHFOX                                                       *
-                                                                                                                                                                                    				****************************************************************************/
         # visit https://github.com/yokoffing/Betterfox/blob/master/Smoothfox.js
         # Enter your scrolling prefs below this line:
         "apz.overscroll.enabled" = true;
@@ -301,7 +283,7 @@
 
       userChrome = /* css */''
 :root {
-	--tab-active-bg-color: #${config.colorScheme.palette.base04};
+	--tab-active-bg-color: #${config.colorScheme.palette.base02};
 	--tab-inactive-bg-color: #${config.colorScheme.palette.base00};
 	--tab-active-fg-fallback-color: #${config.colorScheme.palette.base05};
 	--tab-inactive-fg-fallback-color: #${config.colorScheme.palette.base05};
@@ -312,8 +294,8 @@
   --urlbar-font: "${config.font}";
 
 	/* try increasing if you encounter problems */
-	--urlbar-height-setting: 24px;
-	--tab-min-height: 24px !important;
+	--urlbar-height-setting: 25px;
+	--tab-min-height: 25px !important;
 
 	/* I don't recommend you touch this unless you know what you're doing */
 	--arrowpanel-menuitem-padding: 2px !important;
@@ -348,7 +330,6 @@ menupopup > #context-sep-navigation { display: none !important; }
 
 #back-button { display: none; }
 #forward-button { display: none; }
-#reload-button { display: none; }
 #stop-button { display: none; }
 #home-button { display: none; }
 #library-button { display: none; }
@@ -551,11 +532,6 @@ tab {
 /* remove overflow scroll buttons */
 #scrollbutton-up, #scrollbutton-down { display: none !important; }
 
-/* remove new tab button */
-#tabs-newtab-button {
-	display: none !important;
-}
-
 /* hide private browsing indicator */
 #private-browsing-indicator-with-label {
 	display: none;
@@ -565,19 +541,19 @@ tab {
   #navigator-toolbox { display: flex; flex-wrap: wrap; flex-direction: row; }
   #nav-bar {
     order: 1;
-    width: 650px;
+    width: 450px;
 
   }
   #nav-bar #urlbar-container { min-width: 0px !important; width: auto !important; }
    #titlebar {
     order: 2;
-    width: calc(100vw - 651px);
+    width: calc(100vw - 451px);
 
 
   }
 #nav-bar{
-  max-height: 24px !important;
-	height: 24px !important;
+  max-height: 25px !important;
+	height: 25px !important;
 	min-height: 24px !important;
 }
       '';
