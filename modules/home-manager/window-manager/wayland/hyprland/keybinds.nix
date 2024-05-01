@@ -17,17 +17,21 @@ let
 in
 {
   config = lib.mkIf osConfig.desktop.enable {
+    home.packages = with pkgs; [
+      grim
+      slurp
+      imagemagick
+    ];
     wayland.windowManager.hyprland.settings = {
     "$mainMod" = "ALT";
       bind = [
-		  	"SUPER SHIFT, S, exec, ${pkgs.hyprshot}/bin/hyprshot -m region --clipboard-only"
-		  	"SUPER CTRL, S, exec, ${pkgs.hyprshot}/bin/hyprshot -m output --clipboard-only"
-		  	"SUPER CTRL, C, exec, ${pkgs.hyprpicker}/bin/hyprpicker"
+        "SUPER SHIFT, S, exec, ${pkgs.grim}/bin/grim -g '$(${pkgs.slurp}/bin/slurp)' | wl-copy"
+        "SUPER CTRL, C, exec, ${pkgs.grim}/bin/grim -g '$(${pkgs.slurp}/bin/slurp -p)' -t ppm - | ${pkgs.imagemagick}/bin/convert - -format '%[pixel:p{0,0}]' txt:- "
 		  	"$mainMod, return, exec, ${pkgs.kitty}/bin/kitty"
-		  	"$mainMod SHIFT, T, exec, [float; center] ${pkgs.kitty}/bin/kitty nvim -c 'Neorg journal today"
-        "$mainMod, T, exec, [float; center] ${pkgs.kitty}/bin/kitty nvim -c 'Neorg index'"
-		  	"$mainMod, escape, exec, [float; size 950 650; move onscreen 100%-0;] ${pkgs.kitty}/bin/kitty btm"
-		  	"$mainMod, period, exec, [float; size 1650 850; center;] ${pkgs.kitty}/bin/kitty yazi"
+		  	"$mainMod SHIFT, T, exec, [float; center] ${pkgs.kitty}/bin/kitty ${pkgs.neovim}/bin/nvim -c 'Neorg journal today"
+        "$mainMod, T, exec, [float; center] ${pkgs.kitty}/bin/kitty ${pkgs.neovim}/bin/nvim -c 'Neorg index'"
+		  	"$mainMod, escape, exec, [float; size 950 650; move onscreen 100%-0;] ${pkgs.kitty}/bin/kitty ${pkgs.bottom}/bin/btm"
+		  	"$mainMod, period, exec, [float; size 1650 850; center;] ${pkgs.kitty}/bin/kitty ${pkgs.yazi}/bin/yazi"
 		  	#"$mainMod, ?, exec, ${pkgs.kitty}/bin/kitty hyprkeys" #TODO implement keybind helper
 		  	"$mainMod SHIFT, Q, hy3:killactive,"
 		  	#"$mainMod, M, exit,"

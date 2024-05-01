@@ -11,6 +11,12 @@
     ./yt-dlp.nix
     ./direnv.nix
   ];
+  home.packages = with pkgs; [
+    nix-output-monitor
+    manix
+    nix-index
+    nix-tree
+  ];
   programs = {
     zoxide = {
       enable = true;
@@ -31,19 +37,20 @@
         path = "${config.xdg.dataHome}/zsh/zsh_history";
       };
       shellAliases = {
-        rebuild = "sudo nixos-rebuild switch --flake ${config.home.homeDirectory}/nixos#$(${pkgs.hostname}/bin/hostname -s)";
-        test = "sudo nixos-rebuild test --flake ${config.home.homeDirectory}/nixos#$(${pkgs.hostname}/bin/hostname -s)";
+        rebuild = "nixos-rebuild switch --flake ${config.home.homeDirectory}/nixos#$(${pkgs.hostname}/bin/hostname -s) --log-format internal-json -v |& ${pkgs.nix-output-monitor}/bin/nom --json";
+        test = "nixos-rebuild test --flake ${config.home.homeDirectory}/nixos#$(${pkgs.hostname}/bin/hostname -s ) --log-format internal-json -v |& ${pkgs.nix-output-monitor}/bin/nom --json";
         ff = "$EDITOR $(${pkgs.fzf}/bin/fzf --preview '${pkgs.bat}/bin/bat {}')";
-        rebuildclean = "sudo nixos-rebuild switch --flake ${config.home.homeDirectory}/nixos#$(${pkgs.hostname}/bin/hostname -s) --upgrade && nix-collect-garbage -d && sudo nix-collect-garbage -d && sudo nix-store --optimise";
-        upgrade = "nix flake update ${config.home.homeDirectory}/nixos && sudo nixos-rebuild switch --flake ${config.home.homeDirectory}/nixos";
-        cd = "z";
-        ls = "eza --group-directories-first -a --colour=always --icons=always";
-        cat = "bat";
-        btop = "btm";
-        nixconfig = "nvim ${config.home.homeDirectory}/nixos";
-        notes = "nvim -c 'Neorg index'";
-        journal = "nvim -c 'Neorg journal today'";
-        grep = "ripgrep";
+        rebuildclean = "nixos-rebuild switch --flake ${config.home.homeDirectory}/nixos#$(${pkgs.hostname}/bin/hostname -s) --upgrade --log-format internal-json -v |& ${pkgs.nix-output-monitor}/bin/nom --json && nix-collect-garbage -d && sudo nix-collect-garbage -d && sudo nix-store --optimise";
+        upgrade = "nix flake update ${config.home.homeDirectory}/nixos && nixos-rebuild switch --flake ${config.home.homeDirectory}/nixos --log-format internal-json -v |& ${pkgs.nix-output-monitor}/bin/nom --json";
+        cd = "${pkgs.zoxide}/bin/zoxide";
+        ls = "${pkgs.eza}/bin/eza --group-directories-first -a --colour=always --icons=always";
+        tree = "${pkgs.eza}/bin/eza --tree --icons=always --colour=always";
+        cat = "${pkgs.bat}/bin/bat";
+        btop = "${pkgs.bottom}/bin/btm";
+        nixconfig = "${pkgs.neovim}/bin/nvim ${config.home.homeDirectory}/nixos";
+        notes = "${pkgs.neovim}/bin/nvim -c 'Neorg index'";
+        journal = "${pkgs.neovim}/bin/nvim -c 'Neorg journal today'";
+        grep = "${pkgs.ripgrep}/bin/rg";
         dante = "ssh juicy@192.168.54.60 -p 2033";
         juicy = "ssh juicy@192.168.54.54 -p 2033";
       };
@@ -60,8 +67,8 @@
         }
       ];
       initExtra = ''
-        			  fastfetch
-        		  '';
+        fastfetch
+      '';
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
     };
