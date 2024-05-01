@@ -37,12 +37,12 @@
         path = "${config.xdg.dataHome}/zsh/zsh_history";
       };
       shellAliases = {
-        rebuild = "sudo nixos-rebuild switch --flake ${config.home.homeDirectory}/nixos#$(${pkgs.hostname}/bin/hostname -s) --log-format internal-json -v |& sudo ${pkgs.nix-output-monitor}/bin/nom --json";
-        test = "sudo nixos-rebuild test --flake ${config.home.homeDirectory}/nixos#$(${pkgs.hostname}/bin/hostname -s ) --log-format internal-json -v |& sudo ${pkgs.nix-output-monitor}/bin/nom --json";
+        rebuild = "nixos-rebuild switch --flake ${config.home.homeDirectory}/nixos#$(${pkgs.hostname}/bin/hostname -s) --log-format internal-json -v |& ${pkgs.nix-output-monitor}/bin/nom --json";
+        test = "nixos-rebuild test --flake ${config.home.homeDirectory}/nixos#$(${pkgs.hostname}/bin/hostname -s ) --log-format internal-json -v |& ${pkgs.nix-output-monitor}/bin/nom --json";
         ff = "$EDITOR $(${pkgs.fzf}/bin/fzf --preview '${pkgs.bat}/bin/bat {}')";
-        rebuildclean = "sudo nixos-rebuild switch --flake ${config.home.homeDirectory}/nixos#$(${pkgs.hostname}/bin/hostname -s) --upgrade --log-format internal-json -v |& sudo ${pkgs.nix-output-monitor}/bin/nom --json && nix-collect-garbage -d && sudo nix-collect-garbage -d && sudo nix-store --optimise";
-        upgrade = "sudo nix flake update ${config.home.homeDirectory}/nixos && nixos-rebuild switch --flake ${config.home.homeDirectory}/nixos --log-format internal-json -v |& sudo ${pkgs.nix-output-monitor}/bin/nom --json";
-        cd = "z";
+        rebuildclean = "nixos-rebuild switch --flake ${config.home.homeDirectory}/nixos#$(${pkgs.hostname}/bin/hostname -s) --upgrade --log-format internal-json -v |& ${pkgs.nix-output-monitor}/bin/nom --json && nix-collect-garbage -d && sudo nix-collect-garbage -d && sudo nix-store --optimise";
+        upgrade = "nix flake update ${config.home.homeDirectory}/nixos && nixos-rebuild switch --flake ${config.home.homeDirectory}/nixos --log-format internal-json -v |& ${pkgs.nix-output-monitor}/bin/nom --json";
+        cd = "${pkgs.zoxide}/bin/zoxide";
         ls = "${pkgs.eza}/bin/eza --group-directories-first -a --colour=always --icons=always";
         tree = "${pkgs.eza}/bin/eza --tree --icons=always --colour=always";
         cat = "${pkgs.bat}/bin/bat";
