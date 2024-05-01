@@ -7,6 +7,7 @@ keys:
 creation_rules:
   - path_regex: hosts/[^/]+\.(yaml|json|env|ini)$
     key_groups:
-    age:
+    - age:
       - *juicy
+      - *serverdante
       - *serverjuicy
