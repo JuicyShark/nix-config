@@ -3,25 +3,28 @@ let
   ifTheyExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
 in
 {
-	imports = [ 
-		inputs.home-manager.nixosModules.home-manager
-		inputs.sops-nix.nixosModules.sops
-		../modules/nixos
+  imports = [
+    inputs.home-manager.nixosModules.home-manager
+    inputs.sops-nix.nixosModules.sops
+    ../modules/nixos
   ];
-  environment.defaultPackages = lib.mkForce [];
-  
-  environment.systemPackages = with pkgs; [ sops ];  
+  environment = {
+    defaultPackages = lib.mkForce [ ];
+    systemPackages = with pkgs; [
+      sops
+    ];
+  };
   programs = {
     zsh.enable = true;
     git.enable = true;
   };
 
-	sops = {
-	  defaultSopsFile = ./secrets.yaml;
-	  defaultSopsFormat = "yaml";
+  sops = {
+    defaultSopsFile = ./secrets.yaml;
+    defaultSopsFormat = "yaml";
     age.keyFile = "/home/juicy/.config/sops/age/keys.txt";
 
-    secrets ={
+    secrets = {
       juicy-ssh = {
         owner = "juicy";
         group = "wheel";
@@ -32,16 +35,16 @@ in
       };
     };
   };
-  
-  nix = { 
-		gc = {
-			automatic = true;
-			dates = "weekly";
-			options = "--delete-older-than 5d";
-		};
-		optimise = {
-			automatic = true;
-			dates = ["daily"];
+
+  nix = {
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 5d";
+    };
+    optimise = {
+      automatic = true;
+      dates = [ "daily" ];
     };
     settings = {
       experimental-features = [ "nix-command" "flakes" ];
@@ -49,16 +52,16 @@ in
     };
   };
 
-	time.timeZone = "Australia/Brisbane";
-	i18n.defaultLocale = "en_AU.UTF-8";
+  time.timeZone = "Australia/Brisbane";
+  i18n.defaultLocale = "en_AU.UTF-8";
 
   users = {
     defaultUserShell = pkgs.zsh;
     users.juicy = {
-		  isNormalUser = true;
-		  description = "Juicy";
-      extraGroups = [ "wheel" ] 
-      ++ ifTheyExist [
+      isNormalUser = true;
+      description = "Juicy";
+      extraGroups = [ "wheel" ]
+        ++ ifTheyExist [
         "minecraft"
         "network"
         "wireshark"
@@ -77,14 +80,14 @@ in
       };
     };
   };
-  
-    home-manager =  {
-      extraSpecialArgs = { inherit inputs; };
-      useGlobalPkgs = true;
-    		users = {
-      	  juicy = import ../modules/home-manager/default.nix;
-    		};
-      };
+
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    useGlobalPkgs = true;
+    users = {
+      juicy = import ../modules/home-manager/default.nix;
+    };
+  };
 
   nixpkgs.config = {
     allowUnfree = true;
@@ -92,12 +95,12 @@ in
   };
 
   environment.profileRelativeSessionVariables = {
-    QT_PLUGIN_PATH = ["/lib/qt-6/plugins"];
+    QT_PLUGIN_PATH = [ "/lib/qt-6/plugins" ];
   };
 
   hardware.enableRedistributableFirmware = true;
 
-  fonts = { 
+  fonts = {
     fontDir.enable = true;
     enableDefaultPackages = true;
     fontconfig = {
@@ -114,8 +117,8 @@ in
 
     };
     packages = with pkgs; [
-	    hack-font
-		  (nerdfonts.override { fonts = ["Hack"]; })
+      hack-font
+      (nerdfonts.override { fonts = [ "Hack" ]; })
     ];
   };
   system.stateVersion = "24.05";

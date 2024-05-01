@@ -1,85 +1,85 @@
 { pkgs, config, ... }:
 {
-	programs.firefox = {
-    enable = true; 
+  programs.firefox = {
+    enable = true;
     profiles.juicy = {
       isDefault = true;
       name = "juicy";
-		  search = {
-		  	engines = {
-		  		"Nix Packages" = {
-		  			urls = [{
-		  				template = "https://search.nixos.org/packages";
-		  				params = [
-		  					{ name = "type"; value = "packages"; }
-		  					{ name = "query"; value = "{searchTerms}"; }
-		  				];
-		  			}];
-		  			icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-		  			definedAliases = [ "@nix" ];
-		  		};
-		  		"YT" = {
-		  			urls = [{
-		  				template = "https://www.youtube.com/results?search_query={searchTerms}";
-		  			}];
-		  			iconUpdateURL = "https://www.youtube.com/favicon.ico";
-		  			updateInterval = 24 * 60 * 60 * 1000;
-		  			definedAliases = [ "@yt" ];
-  				};
-    			"Google" = {
-	    			urls = [{
-	  					template = "http://google.com.au/search?q={searchTerms}";
-	  				}];
-	  				iconUpdateURL = "http://google.com.au/favicon.ico";
-	  				updateInterval = 24 * 60 * 60 * 1000;
-	  				definedAliases = [ "@g" ];
-		  		};
-		  	};
-		  	force = true;
-		  	default = "Google";
-		  };
-      
+      search = {
+        engines = {
+          "Nix Packages" = {
+            urls = [{
+              template = "https://search.nixos.org/packages";
+              params = [
+                { name = "type"; value = "packages"; }
+                { name = "query"; value = "{searchTerms}"; }
+              ];
+            }];
+            icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+            definedAliases = [ "@nix" ];
+          };
+          "YT" = {
+            urls = [{
+              template = "https://www.youtube.com/results?search_query={searchTerms}";
+            }];
+            iconUpdateURL = "https://www.youtube.com/favicon.ico";
+            updateInterval = 24 * 60 * 60 * 1000;
+            definedAliases = [ "@yt" ];
+          };
+          "Google" = {
+            urls = [{
+              template = "http://google.com.au/search?q={searchTerms}";
+            }];
+            iconUpdateURL = "http://google.com.au/favicon.ico";
+            updateInterval = 24 * 60 * 60 * 1000;
+            definedAliases = [ "@g" ];
+          };
+        };
+        force = true;
+        default = "Google";
+      };
+
 
       settings = {
-				/****************************************************************************
-				 * Betterfox                                                                *
-				 * "Ad meliora"                                                             *
-				 * version: 115                                                             *
-				 * url: https://github.com/yokoffing/Betterfox                              *
-				****************************************************************************/
+        /****************************************************************************
+                                                                                                                                                                                                                                				 * Betterfox                                                                *
+                                                                                                                                                                                                                                				 * "Ad meliora"                                                             *
+                                                                                                                                                                                                                                				 * version: 115                                                             *
+                                                                                                                                                                                                                                				 * url: https://github.com/yokoffing/Betterfox                              *
+                                                                                                                                                                                    				****************************************************************************/
 
-				/****************************************************************************
-				 * SECTION: FASTFOX                                                         *
-				****************************************************************************/
-				"nglayout.initialpaint.delay" = 5;
-				"nglayout.initialpaint.delay_in_oopif" = 0;
-				"content.notify.interval" = 100000;
-				"browser.startup.preXulSkeletonUI" = false;
+        /****************************************************************************
+                                                                                                                                                                                                                                				 * SECTION: FASTFOX                                                         *
+                                                                                                                                                                                    				****************************************************************************/
+        "nglayout.initialpaint.delay" = 5;
+        "nglayout.initialpaint.delay_in_oopif" = 0;
+        "content.notify.interval" = 100000;
+        "browser.startup.preXulSkeletonUI" = false;
 
-				/** EXPERIMENTAL ***/
-				"layout.css.grid-template-masonry-value.enabled" = true;
-				"dom.enable_web_task_scheduling" = true;
+        /** EXPERIMENTAL ***/
+        "layout.css.grid-template-masonry-value.enabled" = true;
+        "dom.enable_web_task_scheduling" = true;
 
-				/** GFX ***/
-				"gfx.webrender.all" = true;
-				"gfx.webrender.precache-shaders" = true;
-				"gfx.webrender.compositor" = true;
-				"layers.gpu-process.enabled" = true;
-				"media.hardware-video-decoding.enabled" = true;
-				"gfx.canvas.accelerated" = true;
-				"gfx.canvas.accelerated.cache-items" = 8192;
-				"gfx.canvas.accelerated.cache-size" = 2056;
-				"gfx.content.skia-font-cache-size" = 20;
-				"image.cache.size" = 10485760;
-				"image.mem.decode_bytes_at_a_time" = 131072;
-				"image.mem.shared.unmap.min_expiration_ms" = 120000;
-				"media.memory_cache_max_size" = 1048576;
-				"media.memory_caches_combined_limit_kb" = 2560000;
-				"media.cache_readahead_limit" = 9000;
+        /** GFX ***/
+        "gfx.webrender.all" = true;
+        "gfx.webrender.precache-shaders" = true;
+        "gfx.webrender.compositor" = true;
+        "layers.gpu-process.enabled" = true;
+        "media.hardware-video-decoding.enabled" = true;
+        "gfx.canvas.accelerated" = true;
+        "gfx.canvas.accelerated.cache-items" = 8192;
+        "gfx.canvas.accelerated.cache-size" = 2056;
+        "gfx.content.skia-font-cache-size" = 20;
+        "image.cache.size" = 10485760;
+        "image.mem.decode_bytes_at_a_time" = 131072;
+        "image.mem.shared.unmap.min_expiration_ms" = 120000;
+        "media.memory_cache_max_size" = 1048576;
+        "media.memory_caches_combined_limit_kb" = 2560000;
+        "media.cache_readahead_limit" = 9000;
         "media.cache_resume_threshold" = 6000;
         "media.ffmpeg.vaapi.enabled" = true;
         "media.av1.enabled" = false;
-        /** BROWSER CACHE **/ 
+        /** BROWSER CACHE **/
         "browser.cache.disk.smart_size.enabled" = false;
         "browser.cache.disk.capacity" = 1024000;
         "browser.cache.disk.max_entry_size" = 102400;
@@ -88,209 +88,207 @@
         "browser.cache.memory.capacity" = 4194304;
         "browser.sessionhistory.max_total_viewers" = 2;
 
-				/** NETWORK ***/
-				"network.buffer.cache.size" = 262144;
-				"network.buffer.cache.count" = 128;
-				"network.http.max-connections" = 2400;
-				"network.http.max-persistent-connections-per-server" = 10;
+        /** NETWORK ***/
+        "network.buffer.cache.size" = 262144;
+        "network.buffer.cache.count" = 128;
+        "network.http.max-connections" = 2400;
+        "network.http.max-persistent-connections-per-server" = 10;
         "network.ssl_tokens_cache_capacity" = 32768;
         "network.http.pacing.requests.enabled" = false;
         "network.dnsCacheEntries" = 1200;
         "network.dnsCacheExpiration" = 3600;
         "network.dns.max_high_priority_threads" = 8;
 
-				/****************************************************************************
-				 * SECTION: SECUREFOX                                                       *
-				****************************************************************************/
-				/** TRACKING PROTECTION ***/
-				"browser.contentblocking.category" = "strict";
-				"urlclassifier.trackingSkipURLs" = "*.reddit.com, *.twitter.com, *.twimg.com, *.tiktok.com";
-				"urlclassifier.features.socialtracking.skipURLs" = "*.instagram.com, *.twitter.com, *.twimg.com";
-				"privacy.query_stripping.strip_list" = "__hsfp __hssc __hstc __s _hsenc _openstat dclid fbclid gbraid gclid hsCtaTracking igshid mc_eid ml_subscriber ml_subscriber_hash msclkid oft_c oft_ck oft_d oft_id oft_ids oft_k oft_lk oft_sk oly_anon_id oly_enc_id rb_clickid s_cid twclid vero_conv vero_id wbraid wickedid yclid";
-				"browser.uitour.enabled" = false;
-				"privacy.globalprivacycontrol.enabled" = true;
-				"privacy.globalprivacycontrol.functionality.enabled" = true;
+        /****************************************************************************
+                                                                                                                                                                                                                                				 * SECTION: SECUREFOX                                                       *
+                                                                                                                                                                                    				****************************************************************************/
+        /** TRACKING PROTECTION ***/
+        "browser.contentblocking.category" = "strict";
+        "urlclassifier.trackingSkipURLs" = "*.reddit.com, *.twitter.com, *.twimg.com, *.tiktok.com, *.facebook.com, *.youtube.com, *.netflix, *.binge.com";
+        "urlclassifier.features.socialtracking.skipURLs" = "*.instagram.com, *.twitter.com, *.twimg.com, *.facebook.com";
+        "privacy.query_stripping.strip_list" = "__hsfp __hssc __hstc __s _hsenc _openstat dclid fbclid gbraid gclid hsCtaTracking igshid mc_eid ml_subscriber ml_subscriber_hash msclkid oft_c oft_ck oft_d oft_id oft_ids oft_k oft_lk oft_sk oly_anon_id oly_enc_id rb_clickid s_cid twclid vero_conv vero_id wbraid wickedid yclid";
+        "browser.uitour.enabled" = false;
+        "privacy.globalprivacycontrol.enabled" = true;
+        "privacy.globalprivacycontrol.functionality.enabled" = true;
 
-				/** OCSP & CERTS / HPKP ***/
-				"security.OCSP.enabled" = 0;
-				"security.remote_settings.crlite_filters.enabled" = true;
-				"security.pki.crlite_mode" = 2;
-				"security.cert_pinning.enforcement_level" = 2;
+        /** OCSP & CERTS / HPKP ***/
+        "security.OCSP.enabled" = 0;
+        "security.remote_settings.crlite_filters.enabled" = true;
+        "security.pki.crlite_mode" = 2;
+        "security.cert_pinning.enforcement_level" = 2;
 
-				/** SSL / TLS ***/
-				"security.ssl.treat_unsafe_negotiation_as_broken" = true;
-				"browser.xul.error_pages.expert_bad_cert" = true;
-				"security.tls.enable_0rtt_data" = false;
+        /** SSL / TLS ***/
+        "security.ssl.treat_unsafe_negotiation_as_broken" = true;
+        "browser.xul.error_pages.expert_bad_cert" = true;
+        "security.tls.enable_0rtt_data" = false;
 
-				/** DISK AVOIDANCE ***/
-				"browser.cache.disk.enable" = false;
-				"browser.privatebrowsing.forceMediaMemoryCache" = true;
-				"browser.sessionstore.privacy_level" = 2;
+        /** DISK AVOIDANCE ***/
+        "browser.cache.disk.enable" = false;
+        "browser.privatebrowsing.forceMediaMemoryCache" = true;
+        "browser.sessionstore.privacy_level" = 2;
 
-				/** SHUTDOWN & SANITIZING ***/
-				"privacy.history.custom" = true;
+        /** SHUTDOWN & SANITIZING ***/
+        "privacy.history.custom" = true;
 
-				/** SPECULATIVE CONNECTIONS ***/
-				"network.http.speculative-parallel-limit" = 0;
-				"network.dns.disablePrefetch" = true;
-				"browser.urlbar.speculativeConnect.enabled" = false;
-				"browser.places.speculativeConnect.enabled" = false;
-				"network.prefetch-next" = false;
-				"network.predictor.enabled" = false;
-				"network.predictor.enable-prefetch" = false;
+        /** SPECULATIVE CONNECTIONS ***/
+        "network.http.speculative-parallel-limit" = 0;
+        "network.dns.disablePrefetch" = true;
+        "browser.urlbar.speculativeConnect.enabled" = false;
+        "browser.places.speculativeConnect.enabled" = false;
+        "network.prefetch-next" = false;
+        "network.predictor.enabled" = false;
+        "network.predictor.enable-prefetch" = false;
 
-				/** SEARCH / URL BAR ***/
-				"browser.search.separatePrivateDefault.ui.enabled" = true;
-				"browser.urlbar.update2.engineAliasRefresh" = true;
-				"browser.search.suggest.enabled" = false;
-				"browser.urlbar.suggest.quicksuggest.sponsored" = false;
-				"browser.urlbar.suggest.quicksuggest.nonsponsored" = false;
-				"security.insecure_connection_text.enabled" = true;
-				"security.insecure_connection_text.pbmode.enabled" = true;
-				"network.IDN_show_punycode" = true;
+        /** SEARCH / URL BAR ***/
+        "browser.search.separatePrivateDefault.ui.enabled" = true;
+        "browser.urlbar.update2.engineAliasRefresh" = true;
+        "browser.search.suggest.enabled" = false;
+        "browser.urlbar.suggest.quicksuggest.sponsored" = false;
+        "browser.urlbar.suggest.quicksuggest.nonsponsored" = false;
+        "security.insecure_connection_text.enabled" = true;
+        "security.insecure_connection_text.pbmode.enabled" = true;
+        "network.IDN_show_punycode" = true;
 
-				/** HTTPS-FIRST MODE ***/
-				"dom.security.https_first" = true;
+        /** HTTPS-FIRST MODE ***/
+        "dom.security.https_first" = true;
 
-				/** PROXY / SOCKS / IPv6 ***/
-				"network.proxy.socks_remote_dns" = true;
-				"network.file.disable_unc_paths" = true;
-				"network.gio.supported-protocols" = "";
+        /** PROXY / SOCKS / IPv6 ***/
+        "network.proxy.socks_remote_dns" = true;
+        "network.file.disable_unc_paths" = true;
+        "network.gio.supported-protocols" = "";
 
-				/** ADDRESS + CREDIT CARD MANAGER ***/
-				"extensions.formautofill.addresses.enabled" = false;
-				"extensions.formautofill.creditCards.enabled" = false;
-				"extensions.formautofill.heuristics.enabled" = false;
-				"browser.formfill.enable" = false;
+        /** ADDRESS + CREDIT CARD MANAGER ***/
+        "extensions.formautofill.addresses.enabled" = false;
+        "extensions.formautofill.creditCards.enabled" = false;
+        "extensions.formautofill.heuristics.enabled" = false;
+        "browser.formfill.enable" = false;
 
-				/** MIXED CONTENT + CROSS-SITE ***/
-				"network.auth.subresource-http-auth-allow" = 1;
-				"pdfjs.enableScripting" = false;
-				"extensions.postDownloadThirdPartyPrompt" = false;
-				"permissions.delegation.enabled" = false;
+        /** MIXED CONTENT + CROSS-SITE ***/
+        "network.auth.subresource-http-auth-allow" = 1;
+        "pdfjs.enableScripting" = false;
+        "extensions.postDownloadThirdPartyPrompt" = false;
+        "permissions.delegation.enabled" = false;
 
-				/** HEADERS / REFERERS ***/
-				"network.http.referer.XOriginTrimmingPolicy" = 2;
+        /** HEADERS / REFERERS ***/
+        "network.http.referer.XOriginTrimmingPolicy" = 2;
 
-				/** CONTAINERS ***/
-				"privacy.userContext.ui.enabled" = true;
+        /** CONTAINERS ***/
+        "privacy.userContext.ui.enabled" = true;
 
-				/** WEBRTC ***/
-				"media.peerconnection.ice.proxy_only_if_behind_proxy" = true;
-				"media.peerconnection.ice.default_address_only" = true;
+        /** WEBRTC ***/
+        "media.peerconnection.ice.proxy_only_if_behind_proxy" = true;
+        "media.peerconnection.ice.default_address_only" = true;
 
-				/** SAFE BROWSING ***/
-				"browser.safebrowsing.downloads.remote.enabled" = false;
+        /** SAFE BROWSING ***/
+        "browser.safebrowsing.downloads.remote.enabled" = false;
 
-				/** MOZILLA ***/
-				"accessibility.force_disabled" = 1;
-				#"identity.fxaccounts.enabled" = false;
-				"browser.tabs.firefox-view" = false;
-				"permissions.default.desktop-notification" = 2;
-				"permissions.default.geo" = 2;
-				"geo.provider.network.url" = "https://location.services.mozilla.com/v1/geolocate?key=%MOZILLA_API_KEY%";
-				"geo.provider.ms-windows-location" = false; # WINDOWS
-				"geo.provider.use_corelocation" = false; # MAC
-				"geo.provider.use_gpsd" = false; # LINUX
-				"geo.provider.use_geoclue" = false; # LINUX
-				"permissions.manager.defaultsUrl" = "";
-				"webchannel.allowObject.urlWhitelist" = "";
+        /** MOZILLA ***/
+        "accessibility.force_disabled" = 1;
+        #"identity.fxaccounts.enabled" = false;
+        "browser.tabs.firefox-view" = false;
+        "permissions.default.desktop-notification" = 2;
+        "permissions.default.geo" = 2;
+        "geo.provider.network.url" = "https://location.services.mozilla.com/v1/geolocate?key=%MOZILLA_API_KEY%";
+        "geo.provider.use_gpsd" = false; # LINUX
+        "geo.provider.use_geoclue" = false; # LINUX
+        "permissions.manager.defaultsUrl" = "";
+        "webchannel.allowObject.urlWhitelist" = "";
 
-				/** TELEMETRY ***/
-				"toolkit.telemetry.unified" = false;
-				"toolkit.telemetry.enabled" = false;
-				"toolkit.telemetry.server" = "data:,";
-				"toolkit.telemetry.archive.enabled" = false;
-				"toolkit.telemetry.newProfilePing.enabled" = false;
-				"toolkit.telemetry.shutdownPingSender.enabled" = false;
-				"toolkit.telemetry.updatePing.enabled" = false;
-				"toolkit.telemetry.bhrPing.enabled" = false;
-				"toolkit.telemetry.firstShutdownPing.enabled" = false;
-				"toolkit.telemetry.coverage.opt-out" = true;
-				"toolkit.coverage.opt-out" = true;
-				"datareporting.healthreport.uploadEnabled" = false;
-				"datareporting.policy.dataSubmissionEnabled" = false;
-				"app.shield.optoutstudies.enabled" = false;
-				"browser.discovery.enabled" = false;
-				"breakpad.reportURL" = "";
-				"browser.tabs.crashReporting.sendReport" = false;
-				"browser.crashReports.unsubmittedCheck.autoSubmit2" = false;
-				"captivedetect.canonicalURL" = "";
-				"network.captive-portal-service.enabled" = false;
-				"network.connectivity-service.enabled" = false;
-				"default-browser-agent.enabled" = false;
-				"app.normandy.enabled" = false;
-				"app.normandy.api_url" = "";
-				"browser.ping-centre.telemetry" = false;
-				"browser.newtabpage.activity-stream.feeds.telemetry" = false;
-				"browser.newtabpage.activity-stream.telemetry" = false;
+        /** TELEMETRY ***/
+        "toolkit.telemetry.unified" = false;
+        "toolkit.telemetry.enabled" = false;
+        "toolkit.telemetry.server" = "data:,";
+        "toolkit.telemetry.archive.enabled" = false;
+        "toolkit.telemetry.newProfilePing.enabled" = false;
+        "toolkit.telemetry.shutdownPingSender.enabled" = false;
+        "toolkit.telemetry.updatePing.enabled" = false;
+        "toolkit.telemetry.bhrPing.enabled" = false;
+        "toolkit.telemetry.firstShutdownPing.enabled" = false;
+        "toolkit.telemetry.coverage.opt-out" = true;
+        "toolkit.coverage.opt-out" = true;
+        "datareporting.healthreport.uploadEnabled" = false;
+        "datareporting.policy.dataSubmissionEnabled" = false;
+        "app.shield.optoutstudies.enabled" = false;
+        "browser.discovery.enabled" = false;
+        "breakpad.reportURL" = "";
+        "browser.tabs.crashReporting.sendReport" = false;
+        "browser.crashReports.unsubmittedCheck.autoSubmit2" = false;
+        "captivedetect.canonicalURL" = "";
+        "network.captive-portal-service.enabled" = false;
+        "network.connectivity-service.enabled" = false;
+        "default-browser-agent.enabled" = false;
+        "app.normandy.enabled" = false;
+        "app.normandy.api_url" = "";
+        "browser.ping-centre.telemetry" = false;
+        "browser.newtabpage.activity-stream.feeds.telemetry" = false;
+        "browser.newtabpage.activity-stream.telemetry" = false;
 
-				/****************************************************************************
-				 * SECTION: PESKYFOX                                                        *
-				****************************************************************************/
-				/** MOZILLA UI ***/
-				"layout.css.prefers-color-scheme.content-override" = 0;
-				"toolkit.legacyUserProfileCustomizations.stylesheets" = true;
-				"app.update.suppressPrompts" = true;
-				"browser.compactmode.show" = true;
-				"browser.privatebrowsing.vpnpromourl" = "";
-				"extensions.getAddons.showPane" = false;
-				"extensions.htmlaboutaddons.recommendations.enabled" = false;
-				"browser.shell.checkDefaultBrowser" = false;
-				"browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons" = false;
-				"browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features" = false;
-				"browser.preferences.moreFromMozilla" = false;
-				"browser.tabs.tabmanager.enabled" = false;
-				"browser.aboutwelcome.enabled" = false;
-				"findbar.highlightAll" = true;
-				"middlemouse.contentLoadURL" = false;
-				"browser.privatebrowsing.enable-new-indicator" = false;
+        /****************************************************************************
+                                                                                                                                                                                                                                				 * SECTION: PESKYFOX                                                        *
+                                                                                                                                                                                    				****************************************************************************/
+        /** MOZILLA UI ***/
+        "layout.css.prefers-color-scheme.content-override" = 0;
+        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+        "app.update.suppressPrompts" = true;
+        "browser.compactmode.show" = true;
+        "browser.privatebrowsing.vpnpromourl" = "";
+        "extensions.getAddons.showPane" = false;
+        "extensions.htmlaboutaddons.recommendations.enabled" = false;
+        "browser.shell.checkDefaultBrowser" = false;
+        "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons" = false;
+        "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features" = false;
+        "browser.preferences.moreFromMozilla" = false;
+        "browser.tabs.tabmanager.enabled" = false;
+        "browser.aboutwelcome.enabled" = false;
+        "findbar.highlightAll" = true;
+        "middlemouse.contentLoadURL" = false;
+        "browser.privatebrowsing.enable-new-indicator" = false;
 
-				/** FULLSCREEN ***/
-				"full-screen-api.transition-duration.enter" = "0 0";
-				"full-screen-api.transition-duration.leave" = "0 0";
-				"full-screen-api.warning.delay" = -1;
-				"full-screen-api.warning.timeout" = 0;
+        /** FULLSCREEN ***/
+        "full-screen-api.transition-duration.enter" = "0 0";
+        "full-screen-api.transition-duration.leave" = "0 0";
+        "full-screen-api.warning.delay" = -1;
+        "full-screen-api.warning.timeout" = 0;
 
-				/** URL BAR ***/
-				"browser.urlbar.suggest.engines" = false;
-				"browser.urlbar.suggest.topsites" = false;
-				"browser.urlbar.suggest.calculator" = true;
-				"browser.urlbar.unitConversion.enabled" = true;
+        /** URL BAR ***/
+        "browser.urlbar.suggest.engines" = false;
+        "browser.urlbar.suggest.topsites" = false;
+        "browser.urlbar.suggest.calculator" = true;
+        "browser.urlbar.unitConversion.enabled" = true;
 
-				/** NEW TAB PAGE ***/
-				"browser.newtabpage.activity-stream.feeds.topsites" = false;
-				"browser.newtabpage.activity-stream.feeds.section.topstories" = false;
+        /** NEW TAB PAGE ***/
+        "browser.newtabpage.activity-stream.feeds.topsites" = false;
+        "browser.newtabpage.activity-stream.feeds.section.topstories" = false;
 
-				/*** POCKET ***/
-				"extensions.pocket.enabled" = false;
+        /*** POCKET ***/
+        "extensions.pocket.enabled" = false;
 
-				/** DOWNLOADS ***/
-				"browser.download.useDownloadDir" = false;
-				"browser.download.alwaysOpenPanel" = false;
-				"browser.download.manager.addToRecentDocs" = false;
-				"browser.download.always_ask_before_handling_new_types" = true;
+        /** DOWNLOADS ***/
+        "browser.download.useDownloadDir" = false;
+        "browser.download.alwaysOpenPanel" = false;
+        "browser.download.manager.addToRecentDocs" = false;
+        "browser.download.always_ask_before_handling_new_types" = true;
 
-				/** PDF ***/
-				"browser.download.open_pdf_attachments_inline" = true;
+        /** PDF ***/
+        "browser.download.open_pdf_attachments_inline" = true;
 
-				/** TAB BEHAVIOR ***/
-				"browser.tabs.loadBookmarksInTabs" = true;
-				"browser.bookmarks.openInTabClosesMenu" = false;
-				"layout.css.has-selector.enabled" = true;
-				"cookiebanners.service.mode" = 2;
-				"cookiebanners.service.mode.privateBrowsing" = 2;
+        /** TAB BEHAVIOR ***/
+        "browser.tabs.loadBookmarksInTabs" = true;
+        "browser.bookmarks.openInTabClosesMenu" = false;
+        "layout.css.has-selector.enabled" = true;
+        "cookiebanners.service.mode" = 2;
+        "cookiebanners.service.mode.privateBrowsing" = 2;
 
-				/****************************************************************************
-				 * SECTION: SMOOTHFOX                                                       *
-				****************************************************************************/
-				# visit https://github.com/yokoffing/Betterfox/blob/master/Smoothfox.js
-				# Enter your scrolling prefs below this line:
+        /****************************************************************************
+                                                                                                                                                                                                                                				 * SECTION: SMOOTHFOX                                                       *
+                                                                                                                                                                                    				****************************************************************************/
+        # visit https://github.com/yokoffing/Betterfox/blob/master/Smoothfox.js
+        # Enter your scrolling prefs below this line:
         "apz.overscroll.enabled" = true;
         "general.smoothScroll" = true;
         "general.smoothScroll.msdPhysics.continuousMotionMaxDeltaMS" = 12;
         "general.smoothScroll.msdPhysics.enabled" = true;
-        "general.smoothScroll.msdPhysics.motionBeginSpringConstant" = 600; 
+        "general.smoothScroll.msdPhysics.motionBeginSpringConstant" = 600;
         "general.smoothScroll.msdPhysics.regularSpringConstant" = 650;
         "general.smoothScroll.msdPhysics.slowdownMinDeltaMS" = 25;
         "general.smoothScroll.msdPhysics.slowdownMinDeltaRatio" = 2.0;
@@ -301,7 +299,7 @@
       };
 
 
-			userChrome = /* css */''
+      userChrome = /* css */''
 
         :root {
           --uc-border-radius: 0px;
@@ -313,160 +311,74 @@
 
         #pageActionButton { display: none !important; }
 
-#PanelUI-menu-button { padding: 0px !important; }
-#PanelUI-menu-button .toolbarbutton-icon { width: 1px !important; }
-#PanelUI-menu-button .toolbarbutton-badge-stack { padding: 0px !important; }
+        #PanelUI-menu-button { padding: 0px !important; }
+        #PanelUI-menu-button .toolbarbutton-icon { width: 1px !important; }
+        #PanelUI-menu-button .toolbarbutton-badge-stack { padding: 0px !important; }
 
 
 
 
 
-:root {
-  --uc-toolbar-position: 4;
-}
+        :root {
+          --uc-toolbar-position: 4;
+        }
+        @media { :root {
+          --uc-darken-toolbar: 0;
+        }}
 
-@media (prefers-color-scheme: dark) { :root {
-  --uc-darken-toolbar: 0;
-}} @media (prefers-color-scheme: light) { :root {
-  --uc-darken-toolbar: 0;
-}}
+        /* Disable the Navigation Buttons */
+        #back-button,
+        #forward-button { display: none !important; }
+        /* Disables the Tracking Protection Shield */
+        #tracking-protection-icon-container { display: none !important; }
+        #identity-permission-box { display: none !important; }
+        #identity-box { display: none !important }
 
+        /* Hide everything BUT the zoom indicator within the URL Bar */
+        #page-action-buttons > :not(#urlbar-zoom-button) { display: none !important; }
 
-
-
-/*---+---+---+---+---+---+---+
- | U | R | L | — | B | A | R |
- +---+---+---+---+---+---+---*/
-
-
-:root {
-
-  /*  Width of the URL Bar for the Oneline layout
-   *  If enabled the max-width is applied on focus
-   *  otherwise the URL Bar will always be it's min-width
-   */ --uc-urlbar-min-width: 30vw;
-      --uc-urlbar-max-width: 40vw;
-
-  /*  Position of the URL Bar
-   *  possible values:
-   *  1 – tabs on the right
-   *  3 – tabs on the left
-   */ --uc-urlbar-position: 1;
-
-  /*  Firefox can be a little wonky with the vertical
-   *  URL Bar placement. Change this variable to adapt
-   *  to this when necessary.
-   */ --uc-urlbar-top-spacing: 0px;
-
-}
+        /* Hide the »Go«-arrow in the URL Bar */
+        #urlbar-go-button { display: none !important; }
 
 
-/* Disable the Navigation Buttons */
-#back-button,
-#forward-button { display: none !important; }
+        /* Hide the secondary Tab Label
+        * e.g. playing indicator (the text, not the icon) */
+        .tab-secondary-label { display: none !important; }
 
-/* Disables the Tracking Protection Shield */
-  #tracking-protection-icon-container { display: none !important; } 
-  #identity-permission-box { display: none !important; }
-  #identity-box { display: none !important }
-
-/* Hide everything BUT the zoom indicator within the URL Bar */
- #page-action-buttons > :not(#urlbar-zoom-button) { display: none !important; }
-
-/* Hide the »Go«-arrow in the URL Bar */
-#urlbar-go-button { display: none !important; }
-
-/*---+---+---+---+---+---+---+
- | T | A | B | — | B | A | R |
- +---+---+---+---+---+---+---*/
-
-:root {
-  /*  Allow tabs to have dynamic widths based on
-   *  the Tab Bars maximum width
-   */
-  --uc-active-tab-width:   clamp(100px, 30vw, 300px);
-  --uc-inactive-tab-width: clamp(100px, 20vw, 200px);
-  --uc-active-tab-height: 20px;
-  --uc-inactive-tab-height: 20px;
-  --show-tab-close-button: none;
-  --show-tab-close-button-hover: none;
-  --uc-show-all-tabs-button: none;
-}
+        /*---+---+---+---+---+---+---+
+        | C | O | L | O | U | R | S |
+        +---+---+---+---+---+---+---*/
 
 
-/* Hide the secondary Tab Label
- * e.g. playing indicator (the text, not the icon) */
- .tab-secondary-label { display: none !important; }
+        @media { :root {
+        /* These colours are (mainly) used by the Container Tabs Plugin */
+          --uc-identity-colour-blue: #${config.colorScheme.palette.base0D};
+          --uc-identity-colour-turquoise: #${config.colorScheme.palette.base0C};
+          --uc-identity-colour-green: #${config.colorScheme.palette.base0B};
+          --uc-identity-colour-yellow: #${config.colorScheme.palette.base0A};
+          --uc-identity-colour-orange: #${config.colorScheme.palette.base06};
+          --uc-identity-colour-red: #${config.colorScheme.palette.base08};
+          --uc-identity-colour-pink: #${config.colorScheme.palette.base0F};
+          --uc-identity-colour-purple: #${config.colorScheme.palette.base0E};
+        /*  Cascades main Colour Scheme */
+          --uc-base-colour: #${config.colorScheme.palette.base00};
+          --uc-highlight-colour: #${config.colorScheme.palette.base03};
+          --uc-inverted-colour: #${config.colorScheme.palette.base05};
+          --uc-muted-colour: #${config.colorScheme.palette.base04};
+          --uc-accent-colour: var(--uc-identity-colour-blue);
+        }
+      }
+      /* reassigning variables based on the colours set above. */
 
- /*---+---+---+---+---+---+---+
- | C | O | L | O | U | R | S |
- +---+---+---+---+---+---+---*/
-
-
-@media (prefers-color-scheme: dark) { :root {
-  
-  /* These colours are (mainly) used by the
-     Container Tabs Plugin */
-  --uc-identity-colour-blue:      #7ED6DF;
-  --uc-identity-colour-turquoise: #55E6C1;
-  --uc-identity-colour-green:     #B8E994;
-  --uc-identity-colour-yellow:    #F7D794;
-  --uc-identity-colour-orange:    #F19066;
-  --uc-identity-colour-red:       #FC5C65;
-  --uc-identity-colour-pink:      #F78FB3;
-  --uc-identity-colour-purple:    #786FA6;
-  
-  /*  Cascades main Colour Scheme */
-  --uc-base-colour:               #1E2021;
-  --uc-highlight-colour:          #191B1C;
-  --uc-inverted-colour:           #FAFAFC;
-  --uc-muted-colour:              #AAAAAC;
-  --uc-accent-colour:             var(--uc-identity-colour-purple);
-  
-}}
-
-
-@media (prefers-color-scheme: light) { :root {
-  --uc-identity-colour-blue:      #1D65F5;
-  --uc-identity-colour-turquoise: #209FB5;
-  --uc-identity-colour-green:     #40A02B;
-  --uc-identity-colour-yellow:    #E49320;
-  --uc-identity-colour-orange:    #FE640B;
-  --uc-identity-colour-red:       #FC5C65;
-  --uc-identity-colour-pink:      #EC83D0;
-  --uc-identity-colour-purple:    #822FEE;
-  
-  /*  Cascades main Colour Scheme */
-  --uc-base-colour:               #FAFAFC;
-  --uc-highlight-colour:          #DADADC;
-  --uc-inverted-colour:           #1E2021;
-  --uc-muted-colour:              #191B1C;
-  --uc-accent-colour:             var(--uc-identity-colour-purple);
-  
-}}
-
-
-
-
-
-
-/* Down here I'm just reassigning variables based on the colours set above.
-   Feel free to play around with these but there is no editing necessary below this line. c:
-   */
-
-:root {
-
-  --lwt-frame: var(--uc-base-colour) !important;
-  --lwt-accent-color: var(--lwt-frame) !important;
-  --lwt-text-color: var(--uc-inverted-colour) !important;
-
-  --toolbar-field-color: var(--uc-inverted-colour) !important;
-
-  --toolbar-field-focus-color: var(--uc-inverted-colour) !important;
-  --toolbar-field-focus-background-color: var(--uc-highlight-colour) !important;
-  --toolbar-field-focus-border-color: transparent !important;
-
-  --toolbar-field-background-color: var(--lwt-frame) !important;
+      :root {
+        --lwt-frame: var(--uc-base-colour) !important;
+        --lwt-accent-color: var(--lwt-frame) !important;
+        --lwt-text-color: var(--uc-inverted-colour) !important;
+        --toolbar-field-color: var(--uc-inverted-colour) !important;
+        --toolbar-field-focus-color: var(--uc-inverted-colour) !important;
+        --toolbar-field-focus-background-color: var(--uc-highlight-colour) !important;
+        --toolbar-field-focus-border-color: transparent !important;
+        --toolbar-field-background-color: var(--lwt-frame) !important;
   --lwt-toolbar-field-highlight: var(--uc-inverted-colour) !important;
   --lwt-toolbar-field-highlight-text: var(--uc-highlight-colour) !important;
   --urlbar-popup-url-color: var(--uc-accent-colour) !important;
@@ -535,10 +447,6 @@
   box-shadow: inset 0 0 50vh rgba(0, 0, 0, var(--uc-darken-toolbar)) !important;;
 }
 
-
-
-
-
 #statuspanel #statuspanel-label {
 
   border: none !important;
@@ -548,27 +456,27 @@
   @media (min-width: 749px) {
   #navigator-toolbox { display: flex; flex-wrap: wrap; flex-direction: row; }
   #nav-bar {
-    order: var(--uc-urlbar-position);
-    width: var(--uc-urlbar-min-width);
+    order: var();
+    width: var(35vw);
   }
-  
-  #nav-bar #urlbar-container { min-width: 0px !important; width: auto !important; }
+
+  #nav-bar #urlbar-container { min-width: 10vw !important; width: auto !important; }
 
 
   #titlebar {
     order: 2;
-    width: calc(100vw - var(--uc-urlbar-min-width) - 1px);
+    width: calc(100vw - 35vw - 1px);
   }
 
 
   #PersonalToolbar {
-    order: var(--uc-toolbar-position);
+    order: 1;
     width: 100%;
   }
 
 
-  #navigator-toolbox:focus-within #nav-bar { width: var(--uc-urlbar-max-width); }
-  #navigator-toolbox:focus-within #titlebar { width: calc(100vw - var(--uc-urlbar-max-width) - 1px); }
+  #navigator-toolbox:focus-within #nav-bar { width: var(35vw); }
+  #navigator-toolbox:focus-within #titlebar { width: calc(100vw - 35vw - 1px); }
   #statuspanel #statuspanel-label { margin: 0 0 var(--uc-status-panel-spacing) var(--uc-status-panel-spacing) !important; }
   #navigator-toolbox:not(:-moz-lwtheme) { background: var(--toolbar-field-background-color) !important; }
 
@@ -584,8 +492,7 @@
 
 #urlbar,
 #urlbar * {
-
-  padding-block-start: var(--uc-urlbar-top-spacing) !important;
+  padding-block-start: 0px !important;
   outline: none !important;
   box-shadow: none !important;
 }
@@ -619,8 +526,12 @@
   > #tabbrowser-arrowscrollbox
   > .tabbrowser-tab:nth-child(1 of :not([pinned], [hidden])) { margin-inline-start: 0 !important; }
 
+  .tab-text.tab-label{
+    font-size: 13px;
+  }
+
 /* Hides the list-all-tabs button*/
-#alltabs-button { display: var(--uc-show-all-tabs-button) !important; }
+#alltabs-button { display: none !important; }
 
 /* remove tab shadow */
 .tabbrowser-tab
@@ -631,10 +542,6 @@
 #tabbrowser-tabs:not([noshadowfortests]) .tabbrowser-tab:is([multiselected])
   > .tab-stack
   > .tab-background:-moz-lwtheme { outline-color: var(--toolbarseparator-color) !important; }
-
-/* adaptive tab width */
-.tabbrowser-tab[selected][fadein]:not([pinned]) { max-width: var(--uc-active-tab-width) !important; }
-.tabbrowser-tab[fadein]:not([selected]):not([pinned]) { max-width: var(--uc-inactive-tab-width) !important; }
 
 
 /* container tabs indicator */
@@ -654,20 +561,7 @@
 /* show favicon when media is playing but tab is hovered */
 .tab-icon-image:not([pinned]) { opacity: 1 !important; }
 
-/* Makes the speaker icon to always appear if the tab is playing (not only on hover) */
-.tab-icon-overlay:not([crashed]),
-.tab-icon-overlay[pinned][crashed][selected] {
 
-  top: 5px !important;
-  z-index: 1 !important;
-
-  padding: 1.5px !important;
-  inset-inline-end: -8px !important;
-  width: 14px !important; height: 14px !important;
-
-  border-radius: 10px !important;
-
-}
 
 
 /* style and position speaker icon */
@@ -728,13 +622,6 @@
 
 }
 
-
-/* speaker icon colour fix */
-#TabsToolbar .tab-icon-overlay:not([crashed])[soundplaying],
-#TabsToolbar .tab-icon-overlay:not([crashed])[muted],
-#TabsToolbar .tab-icon-overlay:not([crashed])[activemedia-blocked] { color: var(--toolbar-color) !important; }
-
-
 /* speaker icon colour fix on hover */
 #TabsToolbar .tab-icon-overlay:not([crashed])[soundplaying]:hover,
 #TabsToolbar .tab-icon-overlay:not([crashed])[muted]:hover,
@@ -746,10 +633,10 @@
 }
       '';
 
-    userContent = /*css*/ ''
-        
-    
+      userContent = /*css*/ ''
+
+
       '';
-		};
-	};
+    };
+  };
 }
