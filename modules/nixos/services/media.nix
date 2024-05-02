@@ -7,19 +7,59 @@
 	};
 
     	users.groups.media = { };
+	environment.systemPackages = with pkgs; [
+		jellyfin-ffmpeg
+	];	
+	systemd.tmpfiles.rules = [
+      			"d /srv/media 0770 - media"
+      			"d /srv/media/downloading 0770 - media"
+      			"d /torrent 0770 - media"
+    		];
+		systemd.tmpfiles.settings = {
+		"jellyfin" = {
+			"/var/lib/jellyfin" = {
+				d = {
+					group = "media";
+					mode = "0775";
+					user = "jellyfin";
+				};
+			};
+			"/srv" = {
+				d = {
+					group = "media";
+					mode = "0775";
+					user = "root";
+				};
+			};
+		};
+		"deluge" = {
+			"/var/lib/deluge" = {
+				d = {
+					group = "media";
+					mode = "0775";
+					user = "deluge";
+				};
+			};
+			"/torrent" = {
+				d = {
+					group = "media";
+					mode = "0775";
+					user = "root";
+				};
+			};
 
-		systemd.tmpfiles.rules = [
-      "d /srv/media 0770 media media"
-      "d /srv/media/downloading 0770 media media"
-      "d /torrent 0770 media media"
-    ];
+		};
+	
+
+		};
+
 
 		services = {
 			jellyfin = {
 				enable = true;
 				group = "media";
 				openFirewall = true;
-      };
+      			};
 
 			deluge = {
 				enable = true;

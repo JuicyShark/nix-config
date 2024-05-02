@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 {
 	config = lib.mkIf config.hardware.nvidia.enable {
-    nixpkgs.config.nvidia.acceptLicense = true;
+    	nixpkgs.config.nvidia.acceptLicense = true;
   		
 	  hardware = {
   		opengl = {
@@ -9,22 +9,23 @@
     		driSupport = true;
     		driSupport32Bit = true;
     		extraPackages = with pkgs; [nvidia-vaapi-driver];
-      	setLdLibraryPath = true;
-      };
+      		setLdLibraryPath = true;
+      	};
 
-		  nvidia = {
+	nvidia = {
     		modesetting.enable = true;
     		powerManagement.enable = true;
     		powerManagement.finegrained = false;
   			open = false;
   			nvidiaSettings = false;
-  	  };
+  	  	};
 	  };
 	  services.xserver.videoDrivers = ["nvidia"]; 
 	  environment.systemPackages = with pkgs; [
-      vulkan-loader
-      vulkan-validation-layers
-      vulkan-tools
+      		vulkan-loader
+      		vulkan-validation-layers
+      		vulkan-tools
+		jellyfin-mpv-shim
 	  ];
 
 	  environment.sessionVariables = {
