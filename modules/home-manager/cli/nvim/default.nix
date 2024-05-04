@@ -1,12 +1,12 @@
 { inputs, pkgs, ...}:
 {
-  imports = [ 
+  imports = [
     inputs.nixvim.homeManagerModules.nixvim
     ./neorg.nix
     ./keybinds.nix
     ./completion.nix
   ];
-	
+
 	home.packages = with pkgs; [
 
 	];
@@ -14,7 +14,7 @@
   programs.nixvim = {
 		enable = true;
 		defaultEditor = true;
-		colorschemes.catppuccin = {
+  colorschemes.catppuccin = {
       enable = true;
       settings = {
 			  flavour = "mocha";
@@ -25,12 +25,12 @@
     globals = {
       mapleader = " ";
       maplocalleader = " ";
-      
+
       loaded_ruby_provider = 0; # Ruby
       loaded_perl_provider = 0; # Perl
       loaded_python_provider = 0; # Python 2
     };
-  
+
 
   	opts = {
   		linebreak = true;
@@ -50,14 +50,8 @@
       expandtab = true;
       autoindent = true;
   	};
-  	files = {
-  		"ftplugin/markdown.lua" = {
-  			opts = {
-  				conceallevel = 2;
-  			};
-  		};
-  	};
-		  
+  	
+
     plugins = {
       /* Rust */
       rustaceanvim.enable = true;
@@ -65,7 +59,7 @@
       /* Telescope */
       telescope = {
         enable = true;
-        
+
         keymaps = {
           # Find files using Telescope command-line sugar.
           "<leader>ff" = "find_files";
@@ -94,13 +88,13 @@
           pickers.find_files.hidden = true;
         };
       };
- 
+
       which-key = {
-        enable = true;
+        enable = false;
         showHelp = true;
         hidden = ["<silent>" "<cmd>" "<Cmd>" "<CR>" "^:" "^ " "^call " "^lua "];
       };
-      
+
       harpoon = {
         enable = true;
         enableTelescope = true;
@@ -113,9 +107,9 @@
         };
       };
 
-      openscad.enable = true;
-      godot.enable = true;
-       
+   #   openscad.enable = true;
+   #   godot.enable = true;
+
       /* Pretty */
       nix.enable = true;
       illuminate.enable = true;
@@ -127,7 +121,7 @@
       conform-nvim.enable = true;
       lualine.enable = true;
       auto-save.enable = true;
-      neogen.enable = true;
+   #   neogen.enable = true;
 
       /* Color preview */
       nvim-colorizer.enable = true;

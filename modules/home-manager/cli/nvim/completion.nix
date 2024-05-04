@@ -3,13 +3,15 @@
     opts.completeopt = [ "menu" "menuone" "noselect" ];
 
     plugins = {
-      luasnip.enable = true;
+    # luasnip currently disabled due to missing dependancy
+    # https://github.com/NixOS/nixpkgs/issues/306367
+    # luasnip.enable = true;
 
       cmp = {
         enable = true;
-
+        autoEnableSources = true;
         settings = {
-          snippet.expand = "function(args) require('luasnip').lsp_expand(args.body) end";
+          #snippet.expand = "function(args) require('luasnip').lsp_expand(args.body) end";
 
           mapping = {
             "<C-d>" = "cmp.mapping.scroll_docs(-4)";
@@ -21,18 +23,6 @@
             "<CR>" = "cmp.mapping.confirm({ select = true })";
           };
 
-          sources = [
-            { name = "path"; }
-            { name = "nvim_lsp"; }
-            { name = "cmp_tabby"; }
-            { name = "luasnip"; }
-            {
-              name = "buffer";
-              # Words from other open buffers can also be suggested.
-              option.get_bufnrs.__raw = "vim.api.nvim_list_bufs";
-            }
-            { name = "neorg"; }
-          ];
         };
       };
       cmp-rg.enable = true;
@@ -89,7 +79,7 @@
             nvim_lsp = "[LSP]";
             nvim_lua = "[api]";
             path = "[path]";
-            luasnip = "[snip]";
+         #   luasnip = "[snip]";
             buffer = "[buffer]";
             neorg = "[neorg]";
           };
