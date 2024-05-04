@@ -22,8 +22,9 @@
   imports = [
   	inputs.nix-colors.homeManagerModules.default
   	./cli
-	  ./programs
-    ./development
-];
+	./programs
+    	./development
+	
+	];
 	colorScheme = inputs.nix-colors.colorSchemes.catppuccin-mocha;
 }

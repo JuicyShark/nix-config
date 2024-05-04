@@ -10,8 +10,12 @@
   ];
 
   config = lib.mkIf osConfig.desktop.enable {
-    home. packages = with pkgs;
+    home.packages = with pkgs;
       [
+	wl-clipboard
+	wl-mirror
+ 	wlr-randr
+    	wf-recorder
         hyprpicker
         hyprlang
         hyprcursor
