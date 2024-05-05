@@ -47,9 +47,9 @@
         tree = "${pkgs.eza}/bin/eza --tree --icons=always --colour=always";
         cat = "${pkgs.bat}/bin/bat";
         btop = "${pkgs.bottom}/bin/btm";
-        nixconfig = "${pkgs.neovim}/bin/nvim ${config.home.homeDirectory}/nixos";
-        notes = "${pkgs.neovim}/bin/nvim -c 'Neorg index'";
-        journal = "${pkgs.neovim}/bin/nvim -c 'Neorg journal today'";
+        nixconfig = "nvim ${config.home.homeDirectory}/nixos";
+        notes = "nvim -c 'Neorg index'";
+        journal = "nvim -c 'Neorg journal today'";
         grep = "${pkgs.ripgrep}/bin/rg";
         dante = "ssh juicy@192.168.54.60 -p 2033";
         juicy = "ssh juicy@192.168.54.54 -p 2033";

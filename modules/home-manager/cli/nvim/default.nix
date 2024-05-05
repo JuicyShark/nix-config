@@ -7,10 +7,6 @@
     ./completion.nix
   ];
 
-	home.packages = with pkgs; [
-
-	];
-
   programs.nixvim = {
 		enable = true;
 		defaultEditor = true;
@@ -29,6 +25,7 @@
       loaded_ruby_provider = 0; # Ruby
       loaded_perl_provider = 0; # Perl
       loaded_python_provider = 0; # Python 2
+      loaded_npm_provider = 0; # Node Package Manager / Javascript
     };
 
 
@@ -50,7 +47,7 @@
       expandtab = true;
       autoindent = true;
   	};
-  	
+
 
     plugins = {
       /* Rust */
@@ -59,7 +56,6 @@
       /* Telescope */
       telescope = {
         enable = true;
-
         keymaps = {
           # Find files using Telescope command-line sugar.
           "<leader>ff" = "find_files";
@@ -90,7 +86,7 @@
       };
 
       which-key = {
-        enable = false;
+        enable = true;
         showHelp = true;
         hidden = ["<silent>" "<cmd>" "<Cmd>" "<CR>" "^:" "^ " "^call " "^lua "];
       };
@@ -121,7 +117,7 @@
       conform-nvim.enable = true;
       lualine.enable = true;
       auto-save.enable = true;
-   #   neogen.enable = true;
+      neogen.enable = true;
 
       /* Color preview */
       nvim-colorizer.enable = true;
@@ -145,12 +141,6 @@
         pattern = [ "markdown" "norg" ];
         command = "setlocal conceallevel=2";
         desc = "Conceal Syntax Attribute";
-      }
-      {
-        event = "FileType";
-        pattern = [ "markdown" "norg" ];
-        command = "setlocal spell spelllang=en,nl";
-        desc = "Spell Checking";
       }
       {
         event = "FileType";

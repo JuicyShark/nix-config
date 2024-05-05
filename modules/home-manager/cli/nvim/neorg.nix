@@ -6,7 +6,7 @@ in
 {
   programs.nixvim.plugins.neorg = {
     enable = true;
-    package = pkgs-stable.vimPlugins.neorg;
+    package = pkgs-stable.vimPlugins.neorg; #TODO switch back to unstable when Neorg breaking changes fixed
 	  modules = {
 		  "core.defaults" = {
 			  __empty = null;

@@ -24,12 +24,11 @@ in
     ];
     wayland.windowManager.hyprland.settings = {
     "$mainMod" = "ALT";
-      bind = [
-        "SUPER SHIFT, S, exec, ${pkgs.grim}/bin/grim -g '$(${pkgs.slurp}/bin/slurp)' | ${pkgs.wl-clipboard}/bin/wl-copy"
-        "SUPER CTRL, C, exec, ${pkgs.grim}/bin/grim -g '$(${pkgs.slurp}/bin/slurp -p)' -t ppm - | ${pkgs.imagemagick}/bin/convert - -format '%[pixel:p{0,0}]' txt:- "
-		  	"$mainMod, return, exec, ${pkgs.kitty}/bin/kitty"
-		  	"$mainMod SHIFT, T, exec, [float; center] ${pkgs.kitty}/bin/kitty ${pkgs.neovim}/bin/nvim -c 'Neorg journal today"
-        "$mainMod, T, exec, [float; center] ${pkgs.kitty}/bin/kitty ${pkgs.neovim}/bin/nvim -c 'Neorg index'"
+    bind = [
+      "SUPER SHIFT, S, exec, ${pkgs.hyprshot}/bin/hyprshot -m region"
+      	"$mainMod, return, exec, ${pkgs.kitty}/bin/kitty"
+		  	"$mainMod SHIFT, T, exec, [float; center] ${pkgs.kitty}/bin/kitty nvim -c 'Neorg journal today"
+        "$mainMod, T, exec, [float; center] ${pkgs.kitty}/bin/kitty nvim -c 'Neorg index'"
 		  	"$mainMod, escape, exec, [float; size 950 650; move onscreen 100%-0;] ${pkgs.kitty}/bin/kitty ${pkgs.bottom}/bin/btm"
 		  	"$mainMod, period, exec, [float; size 1650 850; center;] ${pkgs.kitty}/bin/kitty ${pkgs.yazi}/bin/yazi"
 		  	#"$mainMod, ?, exec, ${pkgs.kitty}/bin/kitty hyprkeys" #TODO implement keybind helper
@@ -39,12 +38,14 @@ in
 		  	"$mainMod SHIFT, P, pin"
 		  	"$mainMod, space, exec, anyrun"
 		  	"$mainMod, B, exec, ${pkgs.firefox}/bin/firefox"
-		  	"$mainMod SHIFT, B, exec, ${pkgs.qutebrowser}/bin/qutebrowser"
-		  	"$mainMod, slash, exec, ${pkgs.kitty}/bin/kitty ${pkgs.neovim}/bin/nvim $(${pkgs.fzf}/bin/fzf))"
+        #"$mainMod SHIFT, B, exec, ${pkgs.qutebrowser}/bin/qutebrowser"
+		  	"$mainMod, slash, exec, ${pkgs.kitty}/bin/kitty nvim $(${pkgs.fzf}/bin/fzf))"
 		  	", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_SINK@ 5%+"
 		  	", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_SINK@ 5%-"
 		  	", XF86AudioMute, exec, wpctl set-mute @DEFAULT_SINK@ toggle"
         ", XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_SOURCE@ toggle"
+
+	        "$mainMod, o, toggleopaque"
 
 		  	# Move focus with mainMod + arrow keys
 		  	"$mainMod, s, hy3:movefocus, l, visible"
