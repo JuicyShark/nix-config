@@ -1,16 +1,27 @@
 { inputs, pkgs, ...}:
+let
+  vimHyprNav = import ./plugins/vim-hypr-nav.nix {
+    inherit (pkgs) stdenv fetchFromGitHub installShellFiles;
+  };
+in
 {
   imports = [
     inputs.nixvim.homeManagerModules.nixvim
     ./neorg.nix
     ./keybinds.nix
     ./completion.nix
+
   ];
+  home.packages = [
+    vimHyprNav
+    pkgs.jq
+  ];
+
 
   programs.nixvim = {
 		enable = true;
 		defaultEditor = true;
-  colorschemes.catppuccin = {
+    colorschemes.catppuccin = {
       enable = true;
       settings = {
 			  flavour = "mocha";
@@ -47,6 +58,25 @@
       expandtab = true;
       autoindent = true;
   	};
+
+    extraPlugins = [
+
+        /* (pkgs.vimUtils.buildVimPluginFrom2Nix {
+            name = "vim-hypr-nav";
+            src = pkgs.fetchFromGitHub {
+              owner = "nuchs";
+              repo = "vim-hypr-nav";
+              rev = "6ab4865a7eb5aad35305298815a4563c9d48556a";
+              sha256 = "12gw5mnd1ajr95fmqw48m6s2naz9q9xda75maacm8kz9f47vv1jp";
+            };
+          }) */
+      (pkgs.vimUtils.buildVimPluginFrom2Nix {
+        name = "vim-hypr-nav";
+        src = vimHyprNav;
+      })
+
+        ];
+
 
 
     plugins = {
@@ -126,11 +156,6 @@
       dap.enable = true;
     };
     autoCmd = [
-      {
-        event = "VimEnter";
-        command = "set nofoldenable";
-        desc = "Unfold All";
-      }
       {
         event = "BufWrite";
         command = "%s/\\s\\+$//e";

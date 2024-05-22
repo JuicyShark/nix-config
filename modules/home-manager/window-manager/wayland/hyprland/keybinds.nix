@@ -9,77 +9,87 @@ let
           builtins.toString (x + 1 - (c * 10));
       in [
         "$mainMod, ${ws}, workspace, ${toString (x + 1)}"
-        "$mainMod SHIFT, ${ws}, hy3:movetoworkspace, ${toString (x + 1)}, follow"
-				"$mainMod CTRL, ${ws}, hy3:movetoworkspace, ${toString (x +1)}"
+        "$mainMod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}"
+				"$mainMod CTRL, ${ws}, movetoworkspacesilent, ${toString (x +1)}"
       ]
     )
     10);
+
+     vimHyprNav = import ../../../cli/nvim/plugins/vim-hypr-nav.nix {
+    inherit (pkgs) stdenv fetchFromGitHub installShellFiles;
+  };
 in
 {
   config = lib.mkIf osConfig.desktop.enable {
-    home.packages = with pkgs; [
-      grim
-      slurp
-      imagemagick
+    home.packages = [
+      pkgs.hyprshot
+      pkgs.kitty
+      vimHyprNav
     ];
     wayland.windowManager.hyprland.settings = {
-    "$mainMod" = "ALT";
+    "$mainMod" = "SUPER";
     bind = [
-      "SUPER SHIFT, S, exec, ${pkgs.hyprshot}/bin/hyprshot -m region"
-      	"$mainMod, return, exec, ${pkgs.kitty}/bin/kitty"
-		  	"$mainMod SHIFT, T, exec, [float; center] ${pkgs.kitty}/bin/kitty nvim -c 'Neorg journal today"
-        "$mainMod, T, exec, [float; center] ${pkgs.kitty}/bin/kitty nvim -c 'Neorg index'"
-		  	"$mainMod, escape, exec, [float; size 950 650; move onscreen 100%-0;] ${pkgs.kitty}/bin/kitty ${pkgs.bottom}/bin/btm"
-		  	"$mainMod, period, exec, [float; size 1650 850; center;] ${pkgs.kitty}/bin/kitty ${pkgs.yazi}/bin/yazi"
-		  	#"$mainMod, ?, exec, ${pkgs.kitty}/bin/kitty hyprkeys" #TODO implement keybind helper
-		  	"$mainMod SHIFT, Q, hy3:killactive,"
-		  	#"$mainMod, M, exit,"
-		  	"$mainMod, P, togglefloating"
+		  	# Move focus with mainMod + arrow keys
+		  	"$mainMod, left, exec, ${vimHyprNav}/bin/vim-hypr-nav l"
+		  	"$mainMod, right, exec, ${vimHyprNav}/bin/vim-hypr-nav r"
+		  	"$mainMod, up, exec, ${vimHyprNav}/bin/vim-hypr-nav u"
+        "$mainMod, down, exec, ${vimHyprNav}/bin/vim-hypr-nav d"
+
+        "$mainMod, next, changegroupactive, f"
+        "$mainMod, prior, changegroupactive, b"
+
+        # Move windows with mainMod + shift + arrow keys
+			  "$mainMod SHIFT, left, movewindow, l"
+			  "$mainMod SHIFT, right, movewindow, r"
+			  "$mainMod SHIFT, up, movewindow, u"
+        "$mainMod SHIFT, down, movewindow, d"
+
+        # Open next Window in given direction
+  			"$mainMod CTRL, left, layoutmsg, preselect l"
+  			"$mainMod CTRL, right, layoutmsg, preselect r"
+  			"$mainMod CTRL, up, layoutmsg, preselec u"
+        "$mainMod CTRL, down, layoutmsg, preselect d"
+
+  			# Resize windows with mainMod + SUPER + arrow keys
+	  		"$mainMod ALT SHIFT, left, resizeactive, 25 0"
+		  	"$mainMod ALT SHIFT, right, resizeactive, -25 0"
+			  "$mainMod ALT SHIFT, up, resizeactive, 0 -25"
+	  	  "$mainMod ALT SHIFT, down, resizeactive, 0 25"
+
+        # layout / window management
+        "$mainMod SHIFT, Q, killactive,"
+        "$mainMod SHIFT, A, layoutmsg, swap"
+        "$mainMod SHIFT, G, togglegroup"
+        "$mainMod SHIFT, L, lockactivegroup, toggle"
+        "$mainMod SHIFT, F, togglefloating"
+        "$mainMod SHIFT, T, settiled"
 		  	"$mainMod SHIFT, P, pin"
-		  	"$mainMod, space, exec, anyrun"
-		  	"$mainMod, B, exec, ${pkgs.firefox}/bin/firefox"
-        #"$mainMod SHIFT, B, exec, ${pkgs.qutebrowser}/bin/qutebrowser"
-		  	"$mainMod, slash, exec, ${pkgs.kitty}/bin/kitty nvim $(${pkgs.fzf}/bin/fzf))"
+        "$mainMod SHIFT, O, toggleopaque"
+
+        # Quick launch
+        "$mainMod CTRL, return, exec, ${pkgs.kitty}/bin/kitty"
+		  	"$mainMod CTRL, space, exec, anyrun"
+		  	"$mainMod CTRL, J, exec, [float; center] ${pkgs.kitty}/bin/kitty nvim -c 'Neorg journal today"
+        "$mainMod CTRL, N, exec, [float; center] ${pkgs.kitty}/bin/kitty nvim -c 'Neorg index'"
+		  	"$mainMod CTRL, escape, exec, [float; size 950 650; move onscreen 100%-0;] ${pkgs.kitty}/bin/kitty ${pkgs.bottom}/bin/btm"
+	      "$mainMod CTRL, F, exec, [float; size 1650 850; center;] ${pkgs.kitty}/bin/kitty ${pkgs.yazi}/bin/yazi"
+		  	"$mainMod CTRL, W, exec, ${pkgs.firefox}/bin/firefox"
+        "$mainMod CTRL, Q, exec, ${pkgs.qutebrowser}/bin/qutebrowser"
+        "$mainMod CTRL, slash, exec, ${pkgs.kitty}/bin/kitty nvim $(${pkgs.fzf}/bin/fzf))"
+
+        # Utility
+        "$mainMod, S, exec, ${pkgs.hyprshot}/bin/hyprshot -m region"
+
+        # Media
 		  	", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_SINK@ 5%+"
 		  	", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_SINK@ 5%-"
 		  	", XF86AudioMute, exec, wpctl set-mute @DEFAULT_SINK@ toggle"
         ", XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_SOURCE@ toggle"
 
-	        "$mainMod, o, toggleopaque"
 
-		  	# Move focus with mainMod + arrow keys
-		  	"$mainMod, s, hy3:movefocus, l, visible"
-		  	"$mainMod, f, hy3:movefocus, r, visible"
-		  	"$mainMod, e, hy3:movefocus, u, visible"
-        "$mainMod, d, hy3:movefocus, d, visible"
-		  	"$mainMod, r, hy3:changefocus, raise"
-        "$mainMod, w, hy3:changefocus, lower"
-        "$mainMod, tab, hy3:focustab, right, wrap"
-        "$mainMod, SHIFT TAB, hy3:focustab, left, wrap"
-
-  			"$mainMod CTRL, s, hy3:makegroup, h"
-  			"$mainMod CTRL, f, hy3:makegroup, h"
-  			"$mainMod CTRL, e, hy3:makegroup, v"
-        "$mainMod CTRL, d, hy3:makegroup, v"
-
-        "$mainMod CTRL, a, hy3:changegroup, opposite"
-			  "$mainMod, g, hy3:makegroup, tab"
-			  "$mainMod SHIFT, g, hy3:changegroup, toggletab"
-
-  			# Resize windows with mainMod + SUPER + arrow keys
-	  		"$mainMod SUPER, s, resizeactive, 25 0"
-		  	"$mainMod SUPER, f, resizeactive, -25 0"
-			  "$mainMod SUPER, e, resizeactive, 0 -25"
-			  "$mainMod SUPER, d, resizeactive, 0 25"
-			  # Move windows with mainMod + shift + arrow keys
-			  "$mainMod SHIFT, s, hy3:movewindow, l, once, visible"
-			  "$mainMod SHIFT, f, hy3:movewindow, r, once, visible"
-			  "$mainMod SHIFT, e, hy3:movewindow, u, once, visible"
-			  "$mainMod SHIFT, d, hy3:movewindow, d, once, visible"
-
-        # Buggy with hy3
-        #"$mainMod, grave, togglespecialworkspace, scratchpad"
-        #"$mainMod Shift, grave, movetoworkspace, special:scratchpad"
+         # Buggy with hy3
+        "$mainMod, grave, togglespecialworkspace, scratchpad"
+        "$mainMod Shift, grave, movetoworkspace, special:scratchpad"
 		  ]
 		  ++ workspaces;
 

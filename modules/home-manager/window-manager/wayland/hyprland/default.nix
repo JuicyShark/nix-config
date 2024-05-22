@@ -1,7 +1,8 @@
-{ inputs, pkgs, osConfig, lib, config, ... }:
+{system, inputs, pkgs, osConfig, lib, config, ... }:
 {
   imports = [
-    inputs.hyprland.homeManagerModules.default
+ #   inputs.hyprland.homeManagerModules.default
+
     ./keybinds.nix
     ./rules.nix
     ./autostart.nix
@@ -12,21 +13,20 @@
   config = lib.mkIf osConfig.desktop.enable {
     home.packages = with pkgs;
       [
-	wl-clipboard
-	wl-mirror
- 	wlr-randr
-    	wf-recorder
-        hyprpicker
-        hyprlang
-        hyprcursor
-        hyprland-protocols
-      ];
+	      wl-clipboard
+	      wl-mirror
+ 	      wlr-randr
+    	  wf-recorder
+
+        tomlplusplus
+ #       configure-gtk
+    ];
 
     wayland.windowManager.hyprland = {
       enable = true;
-      plugins = [ inputs.hy3.packages.x86_64-linux.hy3 ];
+    #  plugins = [ inputs.hy3.packages.x86_64-linux.hy3];
       settings = {
-        monitor = [ ",highrr,0x0,1,bitdepth,10" "HDMI-A-1,disable"];
+        monitor = [ ",highrr,0x0,1,""HDMI-A-1,disable"];
         xwayland.force_zero_scaling = true;
         input = { kb_layout = "us,us";
             follow_mouse = 1;
@@ -36,32 +36,44 @@
             };
 
             general = {
-              gaps_in = 7.5;
+              gaps_in = 6;
               gaps_out = 25;
               border_size = 3;
               no_border_on_floating = true;
               resize_corner = 4;
-              no_cursor_warps = true;
+             # no_cursor_warps = true;
               resize_on_border = true;
-              allow_tearing = true;
+              allow_tearing = false;
               no_focus_fallback = true;
               "col.inactive_border" = "rgba(${config.colorScheme.palette.base02}ff)";
               "col.active_border" = "rgba(${config.colorScheme.palette.base0D}ff)";
-              layout = "hy3";
+              layout = "dwindle";
             };
 
+          dwindle = {
+            pseudotile = "yes";
+            force_split = 2;
+            preserve_split = "yes";
+            no_gaps_when_only = 1;
+            split_width_multiplier = "1.15";
+          };
             decoration = {
               drop_shadow = true;
-              rounding = 8;
+              rounding = 9;
+              active_opacity = 0.85;
+              inactive_opacity = 0.85;
+              fullscreen_opacity = 1.0;
               blur = {
                 enabled = true;
-                size = 10;
+                ignore_opacity = true;
+                popups = true;
+                new_optimizations = true;
+                size = 3;
                 contrast = 0.8916;
                 brightness = 0.8672;
                 vibrancy = 0.2496;
                 vibrancy_darkness = 0.15;
-                passes = 2;
-                xray = false;
+                passes = 4;
               };
             };
 
@@ -91,7 +103,7 @@
           };
 
           plugin = {
-            hy3 = {
+        /*  hy3 = {
               no_gaps_when_only = 1;
               node_collapse_policy = 2; # default: 2
               group_inset = 0; # default: 10
@@ -122,7 +134,7 @@
                 trigger_height = 550; # default: 0
                 workspaces =  "not:2";# default: all
               };
-            };
+            };*/
           };
         };
 
@@ -135,5 +147,7 @@
         ];
       };
     };
-  };
+
+};
+
 }
