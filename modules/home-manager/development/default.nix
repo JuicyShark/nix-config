@@ -6,10 +6,11 @@
     rustc
     cargo
     rustfmt
+    python3
 
-		/* nix tools */ 
+		/* nix tools */
 		manix  # Nix pkg and options search
-		 
+
 		/* Raspberry Pico */
 		pico-sdk
 		picotool
@@ -17,7 +18,7 @@
 
 	];
 
-	imports = [ 
+	imports = [
 		./git.nix
 	];
 }

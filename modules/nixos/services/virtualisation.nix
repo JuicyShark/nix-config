@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 {
-  config = lib.mkIf (config.cybersecurity.enable) {
+  config = lib.mkIf (config.cyberSec.enable) {
     virtualisation = {
       waydroid.enable = true;
       libvirtd = {
@@ -35,5 +35,20 @@
         };
       };
     };
+
+ services.neo4j = {
+      enable = true;
+      bolt = {
+        enable = true;
+        tlsLevel = "DISABLED";
+        listenAddress = "127.0.0.1:7687";
+      };
+      http = {
+        enable = true;
+        listenAddress = "127.0.0.1:7474";
+      };
+      https.enable = false;
+    };
+    systemd.services.neo4j.wantedBy = lib.mkForce [];
   };
 }

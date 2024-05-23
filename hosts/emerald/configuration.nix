@@ -30,12 +30,12 @@
     udis86
   ];
 	programs.hyprland.enable = true;
-  #home-manager.users.juicy = import ../../modules/home-manager/window-manager/wayland;
+
  home-manager = {
     extraSpecialArgs = { inherit inputs; };
     useGlobalPkgs = true;
     users = {
-      juicy = import ../../modules/home-manager/default.nix;
+      jake = import ../../modules/home-manager/jake.nix;
     };
   };
   boot = {
@@ -53,17 +53,14 @@
 		enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --greeting 'Welcome Juicy' --cmd Hyprland";
-        user = "juicy";
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --greeting 'Welcome Jake' --cmd Hyprland";
+        user = "jake";
       };
     };
   };
-  services.emacs = {
-    package = pkgs.emacsGcc;
-    enable = true;
-  };
 
-  networking.hostName = "juicy";
+
+  networking.hostName = "emerald";
 
   # Probably better place to put these
   services.printing.enable = true;
@@ -78,12 +75,12 @@
     defaultGateway = "192.168.54.99";
     nameservers = ["192.168.54.99"];
     interfaces = {
-      "enp5s0" = {
+      "enp3s0" = {
         useDHCP = true;
           ipv4 = {
             addresses = [
               {
-                address = "192.168.54.54";
+                address = "192.168.54.69";
                 prefixLength = 24;
               }
             ];

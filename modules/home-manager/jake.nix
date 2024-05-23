@@ -1,7 +1,7 @@
 { ... }:
 {
   imports = [ ./common.nix ];
-	home.username = "juicy";
-	home.homeDirectory = "/home/juicy";
+	home.username = "jake";
+	home.homeDirectory = "/home/jake";
 	home.stateVersion = "24.05";
 }

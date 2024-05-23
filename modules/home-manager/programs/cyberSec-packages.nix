@@ -1,8 +1,7 @@
-{ config, lib, pkgs, ... }:
+{ osConfig, lib, pkgs, ... }:
 {
-  config = lib.mkIf (config.cybersecurity.enable) {
-    environment = {
-      systemPackages = with pkgs; [
+  config = lib.mkIf (osConfig.cyberSec.enable) {
+    home.packages = with pkgs; [
         # Cyber Tools
         nmap
         crackmapexec
@@ -55,15 +54,14 @@
         samba
         net-snmp
         tcpdump
-        inetutils
-        distrobox
+        #inetutils
+        #distrobox
 
         #dependencies
         libxml2
       ];
-      wordlist = { };
-    };
-    programs.wireshark.enable = true;
+     # wordlist = { };
+    #programs.wireshark.enable = true;
 
   };
 }

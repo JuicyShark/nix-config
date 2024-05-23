@@ -11,8 +11,8 @@
 		textColor = "#${base05}";
 		anchor = "top-center";
 	  layer = "overlay";
-		height = 350;
-		width = 525;
+		height = 270;
+		width = 475;
 		defaultTimeout = 7500;
 		maxIconSize = 160;
   };

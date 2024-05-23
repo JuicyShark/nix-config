@@ -7,16 +7,23 @@
     ./obs.nix
     ./themes.nix
     ./mpv.nix
-  ];
-	
+  #  ./neo4j.nix
+  #  ./cyberSec-packages.nix
+    ./qutebrowser.nix
+ ];
+
 	home.packages = with pkgs; [
-			
+
 		/* Miscellaneous */
-    
-    xorg.xinit	
-		logiops
-	  nix-search-cli 
-		signal-desktop
-		tidal-hifi
+	  nix-search-cli
+		signal-desktop #Messages
+		tidal-hifi  # Music
+		fractal #Matrix desktop GTK client
+    ventoy # USB Imager installe
+    discord
+    discordo
+    parrot
+    obsidian
+
 	];
 }

@@ -51,10 +51,10 @@ in
         "$mainMod CTRL, down, layoutmsg, preselect d"
 
   			# Resize windows with mainMod + SUPER + arrow keys
-	  		"$mainMod ALT SHIFT, left, resizeactive, 25 0"
-		  	"$mainMod ALT SHIFT, right, resizeactive, -25 0"
-			  "$mainMod ALT SHIFT, up, resizeactive, 0 -25"
-	  	  "$mainMod ALT SHIFT, down, resizeactive, 0 25"
+	  		"$mainMod ALT SHIFT, left, resizeactive, 75 0"
+		  	"$mainMod ALT SHIFT, right, resizeactive, -75 0"
+			  "$mainMod ALT SHIFT, up, resizeactive, 0 -75"
+	  	  "$mainMod ALT SHIFT, down, resizeactive, 75"
 
         # layout / window management
         "$mainMod SHIFT, Q, killactive,"
@@ -74,11 +74,11 @@ in
 		  	"$mainMod CTRL, escape, exec, [float; size 950 650; move onscreen 100%-0;] ${pkgs.kitty}/bin/kitty ${pkgs.bottom}/bin/btm"
 	      "$mainMod CTRL, F, exec, [float; size 1650 850; center;] ${pkgs.kitty}/bin/kitty ${pkgs.yazi}/bin/yazi"
 		  	"$mainMod CTRL, W, exec, ${pkgs.firefox}/bin/firefox"
-        "$mainMod CTRL, Q, exec, ${pkgs.qutebrowser}/bin/qutebrowser"
+        "$mainMod CTRL, Q, exec, [group new;] ${pkgs.qutebrowser}/bin/qutebrowser --target window www.google.com"
         "$mainMod CTRL, slash, exec, ${pkgs.kitty}/bin/kitty nvim $(${pkgs.fzf}/bin/fzf))"
 
         # Utility
-        "$mainMod, S, exec, ${pkgs.hyprshot}/bin/hyprshot -m region"
+        "$mainMod SHIFT, S, exec, ${pkgs.hyprshot}/bin/hyprshot -m region"
 
         # Media
 		  	", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_SINK@ 5%+"
@@ -88,7 +88,7 @@ in
 
 
          # Buggy with hy3
-        "$mainMod, grave, togglespecialworkspace, scratchpad"
+        "$mainMod, grave, togglespecialworkspace, special:scratchpad"
         "$mainMod Shift, grave, movetoworkspace, special:scratchpad"
 		  ]
 		  ++ workspaces;

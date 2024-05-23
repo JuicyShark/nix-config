@@ -4,11 +4,10 @@
     wayland.windowManager.hyprland.settings = {
   		workspace = [
   			"1, monitor:DP-1, default:true, defaultName:󰖟"
-  			"2, monitor:DP-1, defaultName:󰊴, decorate:false, layoutopt:orientation:left"
-  			"3, monitor:DP-1, defaultName:󰍥, gapsin:10, gapsout:20"
-  			"4, monitor:DP-1, defaultName:, border:4, on-created-empty:kitty"
-  			"5, monitor:DP-1, defaultName:"
-  			"6, monitor:DP-1, defaultName:, on-created-empty:tidal-hifi, gapsin:30, gapsout:75"
+  			"2, monitor:DP-1, defaultName:"
+  			"3, monitor:DP-1, defaultName:󰍥"
+  			"4, monitor:DP-1, defaultName:󰊴, border:false, decorate:false, shadow:false"
+  			"5, monitor:DP-1, defaultName:, gapsin:30, gapsout:75"
   			"7, monitor:HDMI-A-1, default:true, name:"
   		];
 
@@ -26,8 +25,11 @@
         # Opacity themeing, disable for streaming
   		  "opacity 0.95, class:^(kitty)$"
   		  "opacity 0.85, class:^(steam)$"
-  		  "opacity 0.90, class:^(Signal)$"
-  		  "opacity 0.92 override 0.92 override 1.0 override, class:^(firefox)$"
+        "opacity 0.90, class:^(Signal)$"
+        "opacity 0.90, class:^(discord)$"
+        "opacity 0.90, class:^(tidal-hifi)$"
+        "opacity 0.92 override 0.92 override 1.0 override, class:^(firefox)$"
+        #"opacity 0.92 override 0.92 override 1.0 override, class:^(org.qutebrowser.qutebrowser)$"
         "opacity 1.0 override 1.0 override 1.0 override, title:^(.*WATCH ON BINGE.*)$"
         "opacity 1.0 override 1.0 override 1.0 override, title:^(.*- YouTube.*)$"
         "opacity 1.0 override 1.0 override 1.0 override, title:^(Netflix -.*)$"
@@ -36,7 +38,7 @@
         "opacity 1.0 override 1.0 override 1.0 override, title:^(Picture-in-Picture)$"
 
        # Game Specific Settings
-        "noborder, class:^(steam_app.*)$"
+        "workspace 4, class:^(steam_app.*)$"
         "noblur, class:^(steam_app.*)$"
         "xray 1, class:^(steam_app.*)$"
         "opacity 1.0 override 1.0 override 1.0 override, class:^(steam_app.*)$"
@@ -44,6 +46,11 @@
         "float, class:^(Waydroid)$"
 
         # Misc Web apps
+        "workspace 3, class:^(discord)$"
+        "workspace 3, class:^(Signal)$"
+        "workspace 5, class:^(tidal-hifi)$"
+
+
         "float, title:^(Picture-in-Picture)$"
         "pin, title:^(Picture-in-Picture)$"
         "noborder, title:^(Picture-in-Picture)$"
@@ -55,6 +62,7 @@
 
         "float, title:^(Extension: (Bitwarden - Free Password Manager) - Bitwarden —.*)$"
         "size 550 750, title:^(Extension: (Bitwarden - Free Password Manager) - Bitwarden —.*)$"
+        "float, onworkspace:r[3-4]"
         ];
     };
   };
