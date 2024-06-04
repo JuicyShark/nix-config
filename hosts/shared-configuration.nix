@@ -1,39 +1,20 @@
 { config, inputs, pkgs, lib, ... }:
-let
-  ifTheyExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
-in
 {
   imports = [
     inputs.home-manager.nixosModules.home-manager
-    inputs.sops-nix.nixosModules.sops
-    ../modules/nixos
+    ./common/services
   ];
-  environment = {
-    defaultPackages = lib.mkForce [ ];
-    systemPackages = with pkgs; [
-      sops
-    ];
+
+  environment.defaultPackages = lib.mkForce [ ];
+
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    useGlobalPkgs = true;
   };
+
   programs = {
     zsh.enable = true;
     git.enable = true;
-  };
-
-  sops = {
-    defaultSopsFile = ./secrets.yaml;
-    defaultSopsFormat = "yaml";
-    age.keyFile = "/home/juicy/.config/sops/age/keys.txt";
-
-    secrets = {
-      juicy-ssh = {
-        owner = "juicy";
-        group = "wheel";
-      };
-      dante-ssh = {
-        owner = "juicy";
-        group = "wheel";
-      };
-    };
   };
 
   nix = {
@@ -54,40 +35,6 @@ in
 
   time.timeZone = "Australia/Brisbane";
   i18n.defaultLocale = "en_AU.UTF-8";
-
-  users = {
-    defaultUserShell = pkgs.zsh;
-    users.juicy = {
-      isNormalUser = true;
-      description = "Juicy";
-      extraGroups = [ "wheel" ]
-        ++ ifTheyExist [
-        "minecraft"
-        "network"
-        "wireshark"
-        "mysql"
-        "media"
-        "git"
-        "libvirtd"
-        "deluge"
-        "nextcloud"
-      ];
-      openssh = {
-        authorizedKeys.keys = [
-          config.sops.secrets.juicy-ssh.path
-          config.sops.secrets.dante-ssh.path
-        ];
-      };
-    };
-  };
-
-  home-manager = {
-    extraSpecialArgs = { inherit inputs; };
-    useGlobalPkgs = true;
-    users = {
-      juicy = import ../modules/home-manager/default.nix;
-    };
-  };
 
   nixpkgs.config = {
     allowUnfree = true;
@@ -118,6 +65,11 @@ in
     };
     packages = with pkgs; [
       hack-font
+      roboto
+      material-icons
+      icomoon-feather
+      iosevka
+
       (nerdfonts.override { fonts = [ "Hack" ]; })
     ];
   };

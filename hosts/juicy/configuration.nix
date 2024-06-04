@@ -1,94 +1,125 @@
-{ pkgs, inputs, neorg-overlay, ... }:
+{ pkgs, inputs, lib, ... }:
 
 {
 
-  nixpkgs.overlays = [
-    (import (builtins.fetchTarball {
-      url = "https://github.com/nix-community/emacs-overlay/archive/master.tar.gz";
-      sha256 = "12y6mvmhzilibwrzlsdnhsmb8cipk9iwwib2m406kyajjaqq6iw6";
-    }))
-   # neorg-overlay.overlays.default
-  ];
-
-  hardware.nvidia.enable = true;
-	desktop.enable = true;
-  gaming.enable = true;
-  cyberSec.enable = true;
-
-	imports = [
-	  ../shared-configuration.nix
-		./hardware-configuration.nix
-  ];
-
-  environment.systemPackages = with pkgs; [
-    greetd.tuigreet
-    ntfs3g
-    wally-cli
-    keymapviz
-    libusb #zsa moonlander
-    cmake
-    udis86
-  ];
-	programs.hyprland.enable = true;
-  #home-manager.users.juicy = import ../../modules/home-manager/window-manager/wayland;
- home-manager = {
-    extraSpecialArgs = { inherit inputs; };
-    useGlobalPkgs = true;
-    users = {
-      juicy = import ../../modules/home-manager/default.nix;
-    };
+  options.main-user = lib.mkOption {
+    type = lib.types.str;
+    default = "juicy";
   };
-  boot = {
-    kernelPackages = pkgs.linuxKernel.packages.linux_zen;
-    binfmt.emulatedSystems = [
+  imports = [
+    inputs.hyprland.nixosModules.default
+    ../shared-configuration.nix
+    ../common/users/juicy
+    ../common/nvidia.nix
+    ./hardware-configuration.nix
+  ];
+  config = {
 
+    cybersecurity.enable = true;
+    homelab.enable = false;
+
+
+    nixpkgs.overlays = [
+      inputs.emacs-overlay.overlay
+      inputs.neorg-overlay.overlays.default
+      inputs.rust-overlay.overlays.default
+      inputs.nixpkgs-f2k.overlays.default
     ];
-    loader = {
-	    systemd-boot.enable = true;
-	    efi.canTouchEfiVariables = true;
-    };
-  };
 
-	services.greetd = {
-		enable = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --greeting 'Welcome Juicy' --cmd Hyprland";
-        user = "juicy";
-      };
-    };
-  };
-  services.emacs = {
-    package = pkgs.emacsGcc;
-    enable = true;
-  };
+    environment.systemPackages = with pkgs; [
+      wally-cli
+      keymapviz
+      rust-bin.stable.latest.default
+      steamPackages.steamcmd
+    ];
 
   networking.hostName = "juicy";
 
-  # Probably better place to put these
-  services.printing.enable = true;
+  #programs / WM's to ensure downloaded on system
+  programs = {
+    hyprland.enable = true;
+    river.enable = true;
+    steam = {
+      enable = true;
+      extest.enable = false;
+      localNetworkGameTransfers.openFirewall = true;
+      dedicatedServer.openFirewall = true;
+      remotePlay.openFirewall = true;
+      extraCompatPackages = with pkgs; [
+        proton-ge-bin
+      ];
+    };
+
+    #sway.enable = true;
+    openvpn3.enable = true;
+  };
+  services = {
+    greetd = {
+	  	enable = true;
+      settings = {
+        default_session = {
+          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --greeting 'Welcome Juicy' --cmd Hyprland";
+          user = "juicy";
+        };
+      };
+    };
+    blueman.enable = true;
+  };
+ /*   ## x11/awesome stuff
+    picom.enable = true;
+    devmon.enable = true;
+    udisks2.enable = true;
+    gnome = {
+      glib-networking.enable = true;
+      gnome-keyring.enable = true;
+    };
+
+    dbus = {
+      enable = true;
+      packages = with pkgs; [dconf gcr];
+    };
+ gvfs.enable = true;
+    xserver = {
+      enable = true;
+      videoDrivers = ["nvidia"];
+
+      windowManager.awesome = {
+        enable = true;
+        package = pkgs.awesome-git;
+      };
+      displayManager.startx.enable = true;
+      displayManager.session = [{ manage = "desktop";
+      name = "awesomeDebug";
+      start = ''
+       exec ${pkgs.awesome-git}/bin/awesome >> ~/.cache/awesome/stdout 2>> ~/.cache/awesome/stderr
+      '';
+    }];
+    displayManager.defaultSession = "awesomeDebug";
+    desktopManager.xterm.enable = false;
+
+    windowManager.qtile = {
+      enable = true;
+      configFile = /home/juicy/nixos/home/window-manager/qtile;
+      backend = "x11";
+      extraPackages = python3Packages: with python3Packages; [
+        qtile-extras
+      ];
+    };
+    };
+  };
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
+    config.common.default = [ "gtk" ];
+  };
+*/
+  security.pam.loginLimits = [
+    { domain = "@users"; item = "rtprio"; type = "-"; value = 1; }
+  ];
   hardware = {
     bluetooth.enable = true;
     keyboard.zsa.enable = true;
     logitech.wireless.enable = true;
   };
-
-  networking = {
-    useDHCP = true;
-    defaultGateway = "192.168.54.99";
-    nameservers = ["192.168.54.99"];
-    interfaces = {
-      "enp5s0" = {
-        useDHCP = true;
-          ipv4 = {
-            addresses = [
-              {
-                address = "192.168.54.54";
-                prefixLength = 24;
-              }
-            ];
-          };
-        };
-      };
-  };
+};
 }
