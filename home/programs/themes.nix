@@ -1,7 +1,20 @@
-{  pkgs, config, ...}:
+{ pkgs, config, ...}:
 {
-	home.sessionVariables.GTK_THEME = "Catppuccin-Mocha-Compact-Blue-Dark";
-	gtk = {
+  home.sessionVariables.GTK_THEME = config.gtk.theme.name;
+  home.packages = with pkgs; [
+    dconf
+  ];
+
+  dconf = {
+    enable = true;
+    settings = {
+      "org/gnome/desktop/interface" = {
+        color-scheme = "prefer-dark";
+      };
+    };
+  };
+
+  gtk = {
     enable = true;
 		theme = {
     	name = "Catppuccin-Mocha-Compact-Blue-Dark";

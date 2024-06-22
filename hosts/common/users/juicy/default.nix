@@ -19,6 +19,7 @@ in
         "libvirtd"
         "deluge"
         "nextcloud"
+        "networkmanager"
       ];
 
       openssh.authorizedKeys.keys = lib.splitString "\n" (builtins.readFile ./ssh.pub);

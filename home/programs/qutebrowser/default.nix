@@ -152,7 +152,9 @@ in
       colors = {
         webpage = {
           darkmode.enabled = true;
+          darkmode.policy.page = "smart";
           preferred_color_scheme = "dark";
+
         };
         hints = {
           bg = "#${config.colorScheme.palette.base09}";
@@ -167,9 +169,9 @@ in
       c.fileselect.folder.command = ["kitty", "yazi", "{}"]
 
       c.fonts.web.size.default = 18
-      c.fonts.web.size.default_fixed = 14
-      c.fonts.web.size.minimum = 6
-      c.fonts.web.size.minimum_logical = 8
+      c.fonts.web.size.default_fixed = 15
+      c.fonts.web.size.minimum = 7
+      c.fonts.web.size.minimum_logical = 9
 
       c.colors.completion.category.bg = "#${config.colorScheme.palette.base00}"
       c.colors.completion.category.border.bottom = "#${config.colorScheme.palette.base01}"

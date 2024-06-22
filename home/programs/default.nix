@@ -6,10 +6,11 @@
     ./firefox.nix
     ./obs.nix
     ./themes.nix
-  #  ./neo4j.nix
-    ./cyberSec-packages.nix
+    #./neo4j.nix
+    #./cyberSec-packages.nix
     ./qutebrowser
-    ./emacs.nix
+    ./music.nix
+    #./emacs.nix
  ];
 
 	home.packages = with pkgs; [
@@ -17,10 +18,15 @@
 		/* Miscellaneous */
     signal-desktop #Messages
     telegram-desktop
-		tidal-hifi  # Music
+
+    tidal-hifi  # Music
+
     discord
-    discordo
-    parrot
+    #discordo
+    #parrot
+
     bambu-studio
+    #orca-slicer
+    osu-lazer
 	];
 }

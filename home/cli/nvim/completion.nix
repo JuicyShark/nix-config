@@ -53,8 +53,8 @@
           nil_ls.enable = true;
           lua-ls.enable = true;
           rust-analyzer = {
-            enable = true;
-            filetypes = [ "toml" "rs" ];
+            enable = false;
+            #filetypes = [ "toml" "rs" ];
             installCargo = false;
             installRustc = false;
           };

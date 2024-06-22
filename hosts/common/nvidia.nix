@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ pkgs, ... }:
 {
   nixpkgs.config.nvidia.acceptLicense = true;
 	environment.systemPackages = with pkgs; [
@@ -8,25 +8,15 @@
   ];
 
 	hardware = {
-  	opengl = {
-    	enable = true;
-    	driSupport = true;
-    	driSupport32Bit = true;
-    	extraPackages = with pkgs; [nvidia-vaapi-driver];
-      setLdLibraryPath = true;
-    };
+  	/*opengl = {
+      enable = true;
+      extraPackages = with pkgs; [nvidia-vaapi-driver];
+    };*/
 
     nvidia = {
       # Explicit Sync is here
-      package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
-        version = "555.42.02";
-        sha256_64bit = "sha256-k7cI3ZDlKp4mT46jMkLaIrc2YUx1lh1wj/J4SVSHWyk=";
-        sha256_aarch64 = "sha256-rtDxQjClJ+gyrCLvdZlT56YyHQ4sbaL+d5tL4L4VfkA=";
-        openSha256 = "sha256-rtDxQjClJ+gyrCLvdZlT56YyHQ4sbaL+d5tL4L4VfkA=";
-        settingsSha256 = "sha256-rtDxQjClJ+gyrCLvdZlT56YyHQ4sbaL+d5tL4L4VfkA=";
-        persistencedSha256 = lib.fakeSha256;
-      };
-    	modesetting.enable = true;
+      package = pkgs.linuxKernel.packages.linux_zen.nvidia_x11_beta;
+      modesetting.enable = true;
     	powerManagement.enable = false;
     	powerManagement.finegrained = false;
   		open = false;

@@ -22,6 +22,5 @@ stdenv.mkDerivation {
   meta = {
     description = "A Neovim plugin with some handy navigational for hyprland tools";
     homepage = "https://github.com/nuchs/vim-hypr-nav";
-
   };
 }

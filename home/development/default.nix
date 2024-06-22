@@ -2,7 +2,7 @@
 {
   home.packages = with pkgs; [
     gcc       # C compiler
-    rust-bin.stable.latest.default # Rust Staple Toolchain
+ #   rust-bin.stable.latest.default # Rust Staple Toolchain
 
 
 		/* nix tools */

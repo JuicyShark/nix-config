@@ -6,6 +6,7 @@
     type = lib.types.str;
     default = "juicy";
   };
+
   imports = [
     inputs.hyprland.nixosModules.default
     ../shared-configuration.nix
@@ -13,24 +14,17 @@
     ../common/nvidia.nix
     ./hardware-configuration.nix
   ];
+
   config = {
-
     cybersecurity.enable = true;
-    homelab.enable = false;
-
 
     nixpkgs.overlays = [
-      inputs.emacs-overlay.overlay
       inputs.neorg-overlay.overlays.default
-      inputs.rust-overlay.overlays.default
-      inputs.nixpkgs-f2k.overlays.default
     ];
 
     environment.systemPackages = with pkgs; [
       wally-cli
       keymapviz
-      rust-bin.stable.latest.default
-      steamPackages.steamcmd
     ];
 
   networking.hostName = "juicy";
@@ -38,7 +32,7 @@
   #programs / WM's to ensure downloaded on system
   programs = {
     hyprland.enable = true;
-    river.enable = true;
+    river.enable = false;
     steam = {
       enable = true;
       extest.enable = false;
@@ -50,10 +44,76 @@
       ];
     };
 
-    #sway.enable = true;
     openvpn3.enable = true;
   };
-  services = {
+  services.mopidy = {
+    enable = true;
+    extensionPackages = with pkgs; [
+      mopidy-tidal
+      mopidy-mpd
+    ];
+    configuration = ''
+      [audio_output]
+      type = "pipewire"
+      name = "PipeWire Sound Server"
+      [mpd]
+      enabled = true
+      hostname = ::
+      port = 6600
+      max_connections = 30
+      connection_timeout = 720
+      [http]
+      enabled = true
+      port = 5809
+      [file]
+      enabled = true
+      [tidal]
+      enabled = true
+      quality = LOSSLESS
+      playlist_cache_refresh_secs = 0
+      #lazy = false
+      #login_method = AUTO
+#      auth_method = PKCE
+     # login_server_port = 5889
+      client_id = 2jVGCyHcBLfzfzmE
+      client_secret = GMtHAEeRBptasCVz2enAtoQxQ82mTyyiJ7bXN7HXKBE=
+     # [tidal]
+     # quality = LOSSLESS
+     # playlist_cache_refresh_secs = 5000
+     # login_method = AUTO
+     # auth_method = PKCE
+     # login_server_port = 5889
+      '';
+    };
+
+    services = {
+      xserver = {
+        enable = true;
+        libinput = {
+          enable = true;
+          mouse = {
+            accelProfile = "flat";
+          };
+        };
+        xrandrHeads = [
+          "DP-1"
+          {
+            primary = true;
+
+          }
+          "HDMI-A-1"
+          {
+            primary = false;
+          }
+        ];
+      };
+    # Printing
+    printing = {
+      enable = true;
+      openFirewall = true;
+      defaultShared = true;
+    };
+    # ags dep
     greetd = {
 	  	enable = true;
       settings = {
@@ -63,56 +123,12 @@
         };
       };
     };
-    blueman.enable = true;
-  };
- /*   ## x11/awesome stuff
-    picom.enable = true;
-    devmon.enable = true;
     udisks2.enable = true;
-    gnome = {
-      glib-networking.enable = true;
-      gnome-keyring.enable = true;
-    };
-
-    dbus = {
-      enable = true;
-      packages = with pkgs; [dconf gcr];
-    };
- gvfs.enable = true;
-    xserver = {
-      enable = true;
-      videoDrivers = ["nvidia"];
-
-      windowManager.awesome = {
-        enable = true;
-        package = pkgs.awesome-git;
-      };
-      displayManager.startx.enable = true;
-      displayManager.session = [{ manage = "desktop";
-      name = "awesomeDebug";
-      start = ''
-       exec ${pkgs.awesome-git}/bin/awesome >> ~/.cache/awesome/stdout 2>> ~/.cache/awesome/stderr
-      '';
-    }];
-    displayManager.defaultSession = "awesomeDebug";
-    desktopManager.xterm.enable = false;
-
-    windowManager.qtile = {
-      enable = true;
-      configFile = /home/juicy/nixos/home/window-manager/qtile;
-      backend = "x11";
-      extraPackages = python3Packages: with python3Packages; [
-        qtile-extras
-      ];
-    };
-    };
+    power-profiles-daemon.enable = true;
+    gvfs.enable = true;
   };
-  xdg.portal = {
-    enable = true;
-    extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
-    config.common.default = [ "gtk" ];
-  };
-*/
+
+  security.pam.services.hyprlock = {};
   security.pam.loginLimits = [
     { domain = "@users"; item = "rtprio"; type = "-"; value = 1; }
   ];

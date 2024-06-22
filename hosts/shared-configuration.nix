@@ -1,4 +1,7 @@
 { config, inputs, pkgs, lib, ... }:
+let
+  #inherit (config.module.args) self;
+in
 {
   imports = [
     inputs.home-manager.nixosModules.home-manager
