@@ -33,7 +33,6 @@
   };
   swapDevices = [ { device = "/dev/disk/by-uuid/cb625649-165e-4b56-8fc3-681e34e58c16"; } ];
 
-  programs.nm-applet.enable = true;
   networking = {
     useDHCP = lib.mkDefault false;
     defaultGateway = "192.168.54.99";

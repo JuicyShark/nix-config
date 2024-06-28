@@ -1,21 +1,25 @@
 {pkgs, lib, config, ...}:
 {
 	config = lib.mkIf config.homelab.enable {
-	users.users.media = { 
-	isSystemUser = true;
-	group = "media";
+    
+  users.users.media = { 
+	  isSystemUser = true;
+	  group = "media";
 	};
 
-    	users.groups.media = { };
-	environment.systemPackages = with pkgs; [
+  users.groups.media = { };
+  
+  environment.systemPackages = with pkgs; [
 		jellyfin-ffmpeg
-	];	
+  ];
+
 	systemd.tmpfiles.rules = [
       			"d /srv/media 0770 - media"
       			"d /srv/media/downloading 0770 - media"
       			"d /torrent 0770 - media"
-    		];
-		systemd.tmpfiles.settings = {
+  ];
+  
+  systemd.tmpfiles.settings = {
 		"jellyfin" = {
 			"/var/lib/jellyfin" = {
 				d = {
@@ -129,12 +133,12 @@
 				openFirewall = true;
 			};
 		};
-    sops.secrets = {
+    /*sops.secrets = {
       deluge-secrets ={
         owner =  config.users.users.deluge.name;
         group =  config.users.users.deluge.group;
         mode = "0600";
       };
-    };
+    };*/
 	};
 }

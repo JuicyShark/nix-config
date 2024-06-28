@@ -4,24 +4,25 @@
 { ... }:
 
 {
-	imports = [
-		../shared-configuration.nix
-		./hardware-configuration.nix
-	];
-	
-	# Enable Custom flags for Module selection
-	homelab.enable = true;
-	desktop.enable = true;
-	hardware.nvidia.enable = true;
-	hardware.nvidia.legacyEnable = true;
 
-  home-manager.users.juicy = import ../../modules/home-manager/window-manager/x11/i3;
-     services = {
-			xserver = {
-  			enable = true;
-				displayManager.lightdm.enable = true;
-				windowManager.i3.enable = true;
-  		};
-		};
-  networking.hostName = "dante";
+	imports = [
+    ../shared-configuration.nix
+    ../common/users/juicy
+    ../common/nvidia.nix
+		./hardware-configuration.nix
+  ];  
+
+  options.main-user = lib.mkOption {
+    type = lib.types.str;
+    default = "juicy";
+  };
+  
+  config = {
+	  # Enable Custom flags for Module selection
+	  homelab.enable = true;
+    cybersecurity.enable = true;
+	  nvidiaLegacy.enable = true;
+
+    networking.hostName = "dante";
+  };
 }

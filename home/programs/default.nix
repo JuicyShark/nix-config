@@ -11,18 +11,12 @@
     ./qutebrowser
     ./music.nix
     #./emacs.nix
+    ./messaging.nix
  ];
 
 	home.packages = with pkgs; [
 
-		/* Miscellaneous */
-    signal-desktop #Messages
-    telegram-desktop
-
     tidal-hifi  # Music
-
-    discord
-    #discordo
     #parrot
 
     bambu-studio

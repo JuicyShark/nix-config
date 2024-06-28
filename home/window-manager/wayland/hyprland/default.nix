@@ -50,7 +50,7 @@ in
       XDG_SESSION_TYPE  = "wayland";
       XDG_SESSION_DESKTOP = "Hyprland";
 
-      QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+      #QT_AUTO_SCREEN_SCALE_FACTOR = "1";
       QT_QPA_PLATFORM = "wayland;xcb";
       QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
       QT_QPA_PLATFORMTHEME = "qt5ct";
@@ -58,6 +58,8 @@ in
       GTK_THEME = "Catppuccin-Mocha-Compact-Blue-Dark";
       XCURSOR_THEME = "Catppuccin-Mocha-Blue-Cursors";
       XCURSOR_SIZE = "32";
+      HYPRCURSOR_THEME = "Catppuccin-Mocha-Blue-Cursors";
+      HYPRCURSOR_SIZE = "32";
 		};
 
     packages = with pkgs;[
@@ -66,9 +68,17 @@ in
         wlr-randr
         wf-recorder
         ddcutil
+        xsettingsd
+        xorg.xprop
+        swww
       ];
     };
-
+    
+    xdg.configFile."xsettingsd/xsettingsd.conf".text = ''
+      Gdk/UnscaledDPI 98304
+      Gdk/WindowScalingFactor 2
+    '';
+     
     programs.ags = {
       enable = true;
       configDir = ../../../../ags;
@@ -89,7 +99,7 @@ in
       enable = true;
       plugins = [
         #inputs.hy3.packages.x86_64-linux.hy3
-        #inputs.hypr-plugins.packages.x86_64-linux.hyprbars
+        inputs.hypr-plugins.packages.x86_64-linux.hyprbars
       ];
       settings = {
         "$mainMod" = "SUPER";
@@ -112,7 +122,7 @@ in
 	      };
 
         general = {
-          gaps_in = 7;
+          gaps_in = 10;
           gaps_out = 25;
           border_size = 3;
           no_border_on_floating = false;
@@ -198,7 +208,7 @@ in
 
         xwayland = {
 		      use_nearest_neighbor = true;
-		      force_zero_scaling = true;
+          #force_zero_scaling = true;
 	      };
 
         plugin = {
@@ -234,7 +244,7 @@ in
             };
           };*/
 
-          /*hyprbars = {
+          hyprbars = {
             bar_height = 30;
             bar_color = "rgb(${config.colorScheme.palette.base00})";
             col.text = "rgb(${config.colorScheme.palette.base0B})";
@@ -251,7 +261,7 @@ in
               "rgb(${config.colorScheme.palette.base0E}), 10, 󰖭, hyprctl dispatch killactive"
               "rgb(${config.colorScheme.palette.base06}), 10, , hyprctl dispatch fullscreen 1"
             ];
-          };*/
+          };
         };
 
         bind = [
@@ -318,7 +328,6 @@ in
 	        ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_SINK@ toggle"
           ", XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_SOURCE@ toggle"
 
-
           # Buggy with hy3
           "$mainMod, grave, togglespecialworkspace, special:scratchpad"
           "$mainMod Shift, grave, movetoworkspace, special:scratchpad"
@@ -358,25 +367,27 @@ in
 
           "[workspace 7 silent; group deny] qutebrowser --target window https://youtube.com"
 	      ];
-
+  exec = [
+    "xrandr --output DP-1 --primary"
+  ];
         workspace = [
           "m[HDMI-A-1], gapsout:0, gapsin:0, border:false, rounding:false, decorate:false, shadow:false"
 
           "1, monitor:DP-1, default:true"
   	      "2, monitor:DP-1"
   	      "3, monitor:DP-1, defaultName:Terminal, gapsin:0, gapsout:0, shadow:false, rounding:false"
-  	      "4, monitor:DP-1, defaultName:Social, bordersize:6, gapsin:15, gapsout:75"
+          "4, monitor:DP-1, defaultName:Social, bordersize:6, gapsin:15, gapsout:75"
+          "5, monitor:DP-1, defaultName:Games, border:false, decorate:false, shadow:false, rounding:false, gapsin:0, gapsout:0"
           "6, monitor:DP-1, defaultName:Misc, bordersize:9, gapsin:30, gapsout:75"
   	      "7, monitor:HDMI-A-1, default:true, defaultName:TV"
 
 	        # 5120x1440 Monitor on  DP-1 try to somewhat center windows based on
           # Visible windows
 
-          "w[vt1] m[DP-1], gapsout:35 1115 35 1115"
-          "w[vt2] m[DP-1], gapsout:25 525 25 525"
-          "w[vt3] m[DP-1], gapsout:25 330 25 330"
-          "w[vt1-5] m[DP-1] r[3-3], gapsout:0 870 0 870, gapsin:0"
-          "5, monitor:DP-1, defaultName:Games, border:false, decorate:false, shadow:false, rounding:false"
+          "w[vt1] m[DP-1] r[1-4], gapsout:25 1000 25 1000"
+          "w[vt2-3] m[DP-1] r[1-4], gapsout:25 400 25 400"
+          "w[vt1] m[DP-1] r[5-5], gapsout:0 780 0 780, gapsin:0"
+          
           
         ];
 
@@ -384,7 +395,7 @@ in
           # Dont allow windows to maximize unless specified
           "suppressevent maximize, class:^(.*)$"
           # Flating windows should have a title bar
-          #"plugin:hyprbars:nobar, floating:0"
+          "plugin:hyprbars:nobar, floating:0"
 
           #Tagging windows
           "tag +games, class:^(steam_app.*)$"
@@ -401,8 +412,10 @@ in
           "tag media, title:^(Prime Video.*)$"
           "tag media, title:^(.*- Twitch.*)$"
           "tag +media, title:^(Picture-in-Picture)$"
+          "tag +media, class:(mpv)"
 
           "tag +pinnedMedia, title:(Picture-in-Picture)$"
+          "tag +pinnedMedia, class:(mpv)"
 
 	        "tag +social, class:^(Signal)$"
 	        "tag +social, class:^(discord)$"
@@ -456,7 +469,7 @@ in
           "maxsize 2208 1242, tag:pinnedMedia"
           "minsize 640 480, tag:PinnedMedia"
           "move onscreen 100%-w-50, tag:PinnedMedia"
-          "keepaspectratio, tag:pinnedMedia"
+          #"keepaspectratio, tag:pinnedMedia"
           "suppressevent fullscreen, tag:pinnedMedia"
 
           "float, title:^(Extension: (Bitwarden - Free Password Manager) - Bitwarden —.*)$"
@@ -471,6 +484,7 @@ in
         extraCommands = [
           "systemctl --user stop graphical-session.target"
           "systemctl --user start hyprland-session.target"
+          "systemctl --user start xsettingsd.service && echo 'Xft.dpi: 192' | xrdb -merge && xprop -root -format _XWAYLAND_GLOBAL_OUTPUT_SCALE 32c -set _XWAYLAND_GLOBAL_OUTPUT_SCALE 2"
         ];
       };
     };

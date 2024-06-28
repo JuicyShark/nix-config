@@ -50,7 +50,8 @@ in
     keyBindings = {
       normal = { } //
         (if config.programs.mpv.enable then {
-          ",m" = "spawn ${config.programs.mpv.package}/bin/mpv {url}";
+          "ww" = "spawn ${config.programs.mpv.package}/bin/umpv {url}";
+          "wW" = "hint links spawn ${config.programs.mpv.package}/bin/umpv {hint-url}')";
         } else { });
       };
 
@@ -75,7 +76,7 @@ in
 
       url = (if isJuicy then {
         default_page = "https://search.brave.com";
-        start_pages = [ "https://search.brave.com" "https://youtube.com" ];
+        start_pages = [ "https://search.brave.com" ];
         open_base_url = false;
       } else {
         default_page = "https://search.brave.com";
@@ -91,6 +92,16 @@ in
         bar = (if isJuicy then "never" else "always");
         smooth = true;
       };
+
+      fileselect = {
+        handler = "external";
+        folder.command = [ "kitty" "-e" "yazi" "--cwd-file" "{}" ];
+        multiple_files.command = [ "kitty" "-e" "yazi" "--chooser-file" "{}" ];
+        single_file.command = [ "kitty" "-e" "yazi" "--chooser-file" "{}" ];
+      };
+      
+      editor.command = [ "kitty" "-e" "nvim" "{}" ];
+
       content = {
         fullscreen.window = true;
         default_encoding = "utf-8";
@@ -102,6 +113,9 @@ in
         local_content_can_access_file_urls = true;
         local_content_can_access_remote_urls = false;
         canvas_reading = false;
+        persistent_storage = true;
+        notifications.enabled = true;
+        register_protocol_handler = true;
         notifications.presenter = "libnotify";
         pdfjs = true;
       };
@@ -117,17 +131,22 @@ in
         mode = "letter";
         uppercase = false;
       };
+
       statusbar = {
         widgets = ["keypress" "url" "search_match" "scroll" "progress"];
         position = "bottom";
         show = "always";
       };
 
-     qt.chromium = {
-        process_model = "process-per-site-instance";
-        sandboxing = "enable-all";
+      qt = {
+        args = [ "disable-backing-store-limit" "enable-accelerated-video-decode" "disable-gpu-driver-bug-workarounds" ];
+        chromium = {
+          process_model =  "process-per-site-instance";
+          low_end_device_mode = "never";
+          sandboxing = "enable-all";
+        };
       };
-     input = {
+      input = {
         insert_mode = {
           auto_enter = true;
           auto_leave = true;
@@ -144,7 +163,7 @@ in
         spatial_navigation = false;
       };
 
-   downloads.location = {
+      downloads.location = {
         prompt = true;
         remember = true;
         suggestion = "both";
@@ -165,8 +184,6 @@ in
     };
     extraConfig = ''
 
-      c.editor.command = ["nvim", "{file}", "--cmd", "normal {line}G{column0}l"]
-      c.fileselect.folder.command = ["kitty", "yazi", "{}"]
 
       c.fonts.web.size.default = 18
       c.fonts.web.size.default_fixed = 15

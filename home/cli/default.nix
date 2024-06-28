@@ -1,4 +1,7 @@
 {  pkgs, ... }:
+let 
+  shaders_dir = "${pkgs.mpv-shim-default-shaders}/share/mpv-shim-default-shaders/shaders";
+in 
 {
   imports = [
 	  ./kitty.nix
@@ -7,7 +10,9 @@
     ./cava.nix
     ./yazi.nix
   ];
-    home.packages = with pkgs; [
+  home.packages = with pkgs; [
+
+ mpv-shim-default-shaders
     #Pretty Fluff
     peaclock
     cmatrix
@@ -42,21 +47,65 @@
       bindings = {
         UP = "add volume +2";
         DOWN = "add volume -2";
-      };
+      };  
+
+      scripts = [
+        pkgs.mpvScripts.mpris
+        #pkgs.mpvScripts.mpv-notify-send
+        pkgs.mpvScripts.youtube-upnext
+        pkgs.mpvScripts.uosc
+        pkgs.mpvScripts.thumbfast
+        pkgs.mpvScripts.sponsorblock
+        pkgs.mpvScripts.mpv-cheatsheet
+        pkgs.mpvScripts.dynamic-crop
+      ]; 
+
       config = {
-        hwdec = "auto-safe";
-        keep-open = "yes";
-        cache = "yes";
-        cache-secs = "300";
-        demuxer-max-back-bytes = "20M";
-        demuxer-max-bytes = "20M";
-        gpu-context = "wayland";
-        vo = "gpu";
+        # video
         profile = "gpu-hq";
+        #gpu-api = "vulkan";
+        gpu-context = "wayland";
+        vo = "gpu-next";
+        hwdec = "auto";
+        video-sync = "display-resample";
+        interpolation = true;
+        tscale = "oversample";
+        cache = "yes";
+        cache-secs = "500";
+
+        keep-open = "yes";
+        
+        # network streaming
+        demuxer-max-back-bytes = "50Mib";
+        demuxer-max-bytes = "600Mib";
+        demuxer-readahead-secs = 300;
+        force-seekable = "yes"; # for seeking when not preloaded
+     
+
+      
         osc = false;
         border = false;
+        ytdl-format = "bestvideo+bestaudio";
+
+        # audio
+        ao = "pipewire";
+        alang = "eng,en,jpn,jp";
+        slang = "enm,eng,en,enCA,enUS,jpn,jp";
+        sub-auto = "fuzzy";
+        subs-with-matching-audio = "yes"; # can be removed after 0.36.0'
+
+        # shaders
+        glsl-shader = "~~/shaders/NVScaler.glsl";
+        scale = "lanczos";
+        cscale = "lanczos";
+        dscale = "mitchell";
+        deband = "yes";
+        scale-antiring = 1;
       };
-     # scripts = with pkgs.mpvScripts; [thumbnail sponsorblock mpris youtube-upnext mpv-notify-send];
     };
+  };
+
+   home.file = {
+    ".config/mpv/shaders/NVScaler.glsl".source = "${shaders_dir}/NVScaler.glsl";
   };
 }

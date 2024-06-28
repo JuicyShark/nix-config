@@ -25,14 +25,22 @@
     environment.systemPackages = with pkgs; [
       wally-cli
       keymapviz
+      xdg-desktop-portal-gtk
     ];
 
   networking.hostName = "juicy";
 
   #programs / WM's to ensure downloaded on system
   programs = {
-    hyprland.enable = true;
+    hyprland = {
+      enable = true;
+      package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+    };
+    gamescope = {
+      enable = true;
+    };
     river.enable = false;
+
     steam = {
       enable = true;
       extest.enable = false;
@@ -43,9 +51,13 @@
         proton-ge-bin
       ];
     };
-
-    openvpn3.enable = true;
   };
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
+  };
+
   services.mopidy = {
     enable = true;
     extensionPackages = with pkgs; [
@@ -126,6 +138,7 @@
     udisks2.enable = true;
     power-profiles-daemon.enable = true;
     gvfs.enable = true;
+    blueman.enable = false;
   };
 
   security.pam.services.hyprlock = {};
@@ -136,6 +149,9 @@
     bluetooth.enable = true;
     keyboard.zsa.enable = true;
     logitech.wireless.enable = true;
+    #xone.enable = true;
+    steam-hardware.enable = true;
+    xpadneo.enable = true;
   };
 };
 }
