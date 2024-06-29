@@ -1,4 +1,4 @@
-{ pkgs, osConfig, sops, ... }:
+{ pkgs, sops, ... }:
 {
 	home.packages = with pkgs; [
 		twitch-tui

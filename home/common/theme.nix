@@ -1,18 +1,13 @@
-{ pkgs, config, ...}:
+{ pkgs, config, lib, ...}:
+let
+  isJuicy = config.home.username == "juicy";
+in
 {
   home.sessionVariables.GTK_THEME = config.gtk.theme.name;
   home.packages = with pkgs; [
-    #dconf
+    gtk3
+    gtk4
   ];
-
-  /*dconf = {
-    enable = true;
-    settings = {
-      "org/gnome/desktop/interface" = {
-        color-scheme = "prefer-dark";
-      };
-    };
-  };*/
 
   gtk = {
     enable = true;
@@ -33,13 +28,14 @@
       gtk-xft-hintstyle = "hintmedium";
       gtk-xft-rgba = "rgb";
     };
+    
     font = {
       name = config.font;
-      size = 15;
+      size = 13;
     };
 
 		theme = {
-    	name = "Catppuccin-Mocha-Compact-Blue-Dark";
+    	name = lib.mkDefault "Catppuccin-Mocha-Compact-Blue-Dark";
     	package = pkgs.catppuccin-gtk.override {
       	accents = [ "blue" ];
       	size = "compact";
@@ -49,22 +45,17 @@
     };
 
     cursorTheme = {
-      name = "Catppuccin-Mocha-Blue-Cursors";
+      name = lib.mkDefault "Catppuccin-Mocha-Blue-Cursors";
       size = 32;
-      package = pkgs.catppuccin-cursors.mochaBlue;
+      package = lib.mkDefault pkgs.catppuccin-cursors.mochaBlue;
     };
 
     iconTheme = {
-      name = "Papirus-Dark";
-      package = pkgs.catppuccin-papirus-folders;
+      name = lib.mkDefault "Papirus-Dark";
+      package = lib.mkDefault pkgs.catppuccin-papirus-folders;
     };
 
   };
- # home.pointerCursor = {
-  # gtk.enable = true;
-  # package = pkgs.catppuccin-cursors.mochaBlue;
-  # name = "Catppuccin-Mocha-Blue-Cursors";
-  #};
 
 	# Now symlink the `~/.config/gtk-4.0/` folder declaratively:
 	xdg.configFile = {

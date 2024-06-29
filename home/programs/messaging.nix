@@ -3,7 +3,7 @@
 {
   home.packages = with pkgs; [
     discord
-    discordo
+    discordo     # Terminal Discord
 
     signal-desktop
   ];

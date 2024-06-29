@@ -1,22 +1,24 @@
-{ inputs, config, lib, ... }:
+{ inputs, config, osConfig, lib, ... }:
 {
-  options = {
+
+
+  imports = [
+    inputs.nix-colors.homeManagerModules.default
+  	../cli
+  ];
+  # Match font options from nix config
+ options = {
     font = lib.mkOption {
-      default = "Hack Nerd Font";
+      default = osConfig.font;
       type = lib.types.str;
       description = "Font to use.";
     };
     scaling = lib.mkOption {
-      default = 1.2;
+      default = osConfig.scaling;
       type = lib.types.float;
       description = "Scaling; Higher on higher res and lower on lower res";
     };
   };
-
-  imports = [
-    inputs.nix-colors.homeManagerModules.default
-  	./cli
-	];
 
   config = {
 	  programs.home-manager.enable = true;

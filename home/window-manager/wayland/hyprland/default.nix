@@ -1,4 +1,4 @@
-{inputs, pkgs,  config, ... }:
+{inputs, pkgs, config, ... }:
 let
   # binds $mod + [shift +] {1..10} to [move to] workspace {1..10}
   workspaces = builtins.concatLists (builtins.genList (
@@ -41,7 +41,7 @@ in
 		sessionVariables = {
 			MOZ_ENABLE_WAYLAND = "1";
       WLR_NO_HARDWARE_CURSORS = "1";
-
+      NIXOS_OZONE_WL = "1";
 
       GDK_BACKEND = "wayland,x11,*";
       SDL_VIDEODRIVER = "wayland";
@@ -55,11 +55,12 @@ in
       QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
       QT_QPA_PLATFORMTHEME = "qt5ct";
 
-      GTK_THEME = "Catppuccin-Mocha-Compact-Blue-Dark";
-      XCURSOR_THEME = "Catppuccin-Mocha-Blue-Cursors";
-      XCURSOR_SIZE = "32";
-      HYPRCURSOR_THEME = "Catppuccin-Mocha-Blue-Cursors";
-      HYPRCURSOR_SIZE = "32";
+      GTK_THEME = config.gtk.theme.name;
+      XCURSOR_THEME = config.gtk.cursorTheme.name;
+      XCURSOR_SIZE = config.gtk.cursorTheme.size;
+      HYPRCURSOR_THEME = config.gtk.cursorTheme.name;
+      HYPRCURSOR_SIZE = config.gtk.cursorTheme.size;
+
 		};
 
     packages = with pkgs;[
@@ -88,11 +89,17 @@ in
       ];
     };
 
-    services.udiskie = {
-      enable = true;
-      automount = true;
-      notify = true;
-      tray = "auto";
+    services = {
+      kdeconnect = {
+        enable = true;
+      };
+
+      udiskie = {
+        enable = true;
+        automount = true;
+        notify = true;
+        tray = "auto";
+      };
     };
 
     wayland.windowManager.hyprland = {
@@ -344,7 +351,8 @@ in
  exec-once = [
         	"hyprpaper"
 		      "hypridle"
-		      "ags"
+          "ags"
+          "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-authentication-agent-1"
           "[workspace 1 silent; group deny] firefox --new-window"
           "[workspace 1 silent;] ${neorg}"
 
@@ -478,13 +486,14 @@ in
       };
 
       systemd = {
-        variables = [
-          "--all"
-        ];
-        extraCommands = [
-          "systemctl --user stop graphical-session.target"
-          "systemctl --user start hyprland-session.target"
-          "systemctl --user start xsettingsd.service && echo 'Xft.dpi: 192' | xrdb -merge && xprop -root -format _XWAYLAND_GLOBAL_OUTPUT_SCALE 32c -set _XWAYLAND_GLOBAL_OUTPUT_SCALE 2"
+      variables = [
+        "--all"
+      ];
+      
+      extraCommands = [
+        "systemctl --user stop graphical-session.target"
+        "systemctl --user start hyprland-session.target"
+        "systemctl --user start xsettingsd.service && echo 'Xft.dpi: 192' | xrdb -merge && xprop -root -format _XWAYLAND_GLOBAL_OUTPUT_SCALE 32c -set _XWAYLAND_GLOBAL_OUTPUT_SCALE 2"
         ];
       };
     };

@@ -7,11 +7,22 @@
   imports =
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
+    boot = {
+      kernelpackages = pkgs.linuxkernel.packages.linux_zen;
+      kernelModules = [ "kvm-intel" ];
+      extraModulePackages = [ ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
-  boot.extraModulePackages = [ ];
+      initrd = {
+        availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
+        kernelModules = [ ];
+      };
+
+      loader = {
+        systemd-boot.enable = true;
+        efi.cantouchefivariables = true;
+      };
+    };
+
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/27e1c866-d71c-4ecb-b2b6-a79b306a73ce";
       fsType = "ext4";
@@ -24,6 +35,10 @@
     };
 
   swapDevices = [ ];
+
+  hardware.xpadneo.enable = true;         # optional; xbox gamepad firmware
+  hardware.bluetooth.enable = true;       # optional; Bluetooth support
+
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's

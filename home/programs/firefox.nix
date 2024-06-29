@@ -2,9 +2,11 @@
 {
   programs.firefox = {
     enable = true;
-    profiles.juicy = {
+
+    profiles.default = {
       isDefault = true;
-      name = "juicy";
+      name = "default";
+      
       search = {
         engines = {
           "Nix Packages" = {

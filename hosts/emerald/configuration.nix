@@ -1,149 +1,68 @@
-{ pkgs, inputs, ... }:
+{ pkgs, inputs, ... }: {
 
-{
+  imports = [
+    inputs.hyprland.nixosModules.default  # Use Hyprland Flake for latest updates
 
-  nixpkgs.overlays = [
-    inputs.rust-overlay.overlays.default
-    inputs.nixpkgs-f2k.overlays.default
-    inputs.emacs-overlay.overlay
+    ../shared-configuration.nix           # Global options between machines
+    ../common/users/jake                  # Jake user specific settings 
+    ../common/nvidia.nix                  # Nvidia compatibilty
+    ../common/gaming.nix                  # Add Steam
+    ../common/printer.nix                 # will i ever print?
+    ./hardware-configuration.nix          # Options specifc to pc hardware unique to you only
   ];
 
-  cyberSec.enable = true;
+  # define custom options the rest of nixconfig will recognize
+  options = {
+    main-user = lib.mkoption {
+      type = lib.types.str;
+      default = "jake";
+    };
+  };
 
-	imports = [
-    ./hardware-configuration.nix
-    ../common/users/jake
-    ../common/nvidia.nix
-    ../shared-configuration
-  ];
 
-  environment.systemPackages = with pkgs; [
-    greetd.tuigreet
-    protonplus
-    vscode-with-extensions
-  ];
-  programs = {
-    steam = {
+  config = {
+    ## enable xserver and gnome desktop
+    services.xserver = {
       enable = true;
-      extest.enable = false;
-      localNetworkGameTransfers.openFirewall = true;
-      dedicatedServer.openFirewall = true;
-      remotePlay.openFirewall = true;
-      extraCompatPackages = with pkgs; [
-        proton-ge-bin
-      ];
-      gamescopeSession = {
-        enable = true;
-        args = [
+      displaymanager.gdm.enable = true;
+      desktopmanager.gnome.enable = true;    
+    };
 
-          #"--output-width 2560"
-          #"--output-height 1440"
-          "--prefer-output DP-1"
-          #"--expose-wayland"
-          "--steam"
+    # optional hyprland setup
+    programs.hyprland = {
+      enable = true;
+      package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+    };
+
+    xdg.portal = {
+      enable = true;
+      extraportals = with pkgs; [ xdg-desktop-portal-gtk ];
+    };
+
+
+    environment.systempackages = with pkgs; [
+      # Moved to Home Manager config
+    ];
+
+    security = { 
+      pam = {
+        services.gdm.enableGnomeKeyring = true;
+        loginLimits = [
+          { domain = "@users"; item = "rtprio"; type = "-"; value = 1; } #allow apps to request realtime priority
         ];
       };
     };
-    gamescope.enable = true;
-    gamemode = {
-      enable = true;
-      enableRenice = true;
-    };
-    thunar = {
-      enable = true;
-      plugins = with pkgs.xfce; [ thunar-archive-plugin thunar-volman ];
-    };
-    openvpn3.enable = true;
-  };
-  services = {
-    blueman.enable = true;
-
-    ## x11/awesome stuff
-    picom.enable = true;
-    devmon.enable = true;
-    udisks2.enable = true;
-    gnome = {
-      glib-networking.enable = true;
-      gnome-keyring.enable = true;
-    };
-
-    dbus = {
-      enable = true;
-      packages = with pkgs; [dconf gcr];
-    };
- gvfs.enable = true;
-    xserver = {
-      enable = true;
-      videoDrivers = ["nvidia"];
-
-      windowManager.awesome = {
-        enable = true;
-        package = pkgs.awesome-git;
-      };
-      displayManager.startx.enable = true;
-      displayManager.lightdm.enable = true;
-      displayManager.session = [{ manage = "desktop";
-      name = "awesomeDebug";
-      start = ''
-       exec ${pkgs.awesome-git}/bin/awesome >> ~/.cache/awesome/stdout 2>> ~/.cache/awesome/stderr
-      '';
-    }];
-    displayManager.defaultSession = "awesomeDebug";
-    desktopManager.xterm.enable = false;
-
-    windowManager.qtile = {
-      enable = true;
-      configFile = /home/juicy/nixos/home/window-manager/qtile;
-      backend = "x11";
-      extraPackages = python3Packages: with python3Packages; [
-        qtile-extras
-      ];
-    };
-    };
-  };
-  xdg.portal = {
-    enable = true;
-    extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
-    config.common.default = [ "gtk" ];
+   
+    services = {
+      gvfs.enable = true;                   # required; gnome virtual file system
+      udisks2.enable = true;                # optional; auto mounts usb filesystems
+      sysprof.enable = true;                # optional; monitor system 
+      blueman.enable = true;                # optional; gui for managing bluetooth devices
+      udev.packages = with pkgs; [ gnome.gnome-settings-daemon ]; 
+      power-profiles-daemon.enable = true;  # Optional;
+      gnome.gnome-keyring.enable = true;
   };
 
- home-manager = {
-    extraSpecialArgs = { inherit inputs; };
-    useGlobalPkgs = true;
-    users = {
-      jake = import ../../home/jake.nix;
-    };
-  };
-  boot = {
-    kernelPackages = pkgs.linuxKernel.packages.linux_zen;
-    binfmt.emulatedSystems = [
-
-    ];
-    loader = {
-	    systemd-boot.enable = true;
-	    efi.canTouchEfiVariables = true;
-    };
-  };
-
-
-
- ###Stutter fixes
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
-
-  environment.variables = {
-  ELECTRON_OZONE_PLATFORM_HINT = "auto";
-  };
-  networking.hostName = "emerald";
-
-  # Probably better place to put these
-  services.printing.enable = true;
-  hardware.bluetooth.enable = true;
-  hardware.xone.enable = true;
-
-
-  networking = {
-    useDHCP = true;
-    defaultGateway = "192.168.54.99";
-    nameservers = ["192.168.54.99"];
-   };
+  networking.hostname = "emerald";
+  networking.networkmanager.enable = true;
 }
