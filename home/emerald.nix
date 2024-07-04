@@ -18,8 +18,7 @@
   };
 
   home.packages = with pkgs; [
-      armcord      #protonplus       Delete if only wanting latest GE Proton      
-      gtk3                    
+      armcord      #protonplus       Delete if only wanting latest GE Proton                          
       gnome.gnome-characters
       gnome.gnome-shell-extensions 
   ];

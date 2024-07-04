@@ -1,9 +1,12 @@
-{ pkgs, config, ... }:
+{ lib, pkgs, config, ... }:
 let 
- isJuicy = config.main-user == "juicy"; 
+  isJuicy = config.main-user == "juicy"; 
+  primary = monitors: lib.head (lib.filter (monitor: monitor.primary == true) monitors);
 in
   {
-
+    environment.systemPackages = with pkgs; [
+      heroic
+    ];
   # Enable Steam and gamescope
   ## Include latest GE proton
   programs = {
@@ -19,7 +22,7 @@ in
         enable = true;
         args = [
 
-          "--output-width 2560"
+         "--output-width ${toString config.hardware.display.monitors[0].width}"
           "--output-height 1440"
           "--prefer-output DP-1"
           "--steam"

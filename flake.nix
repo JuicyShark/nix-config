@@ -5,7 +5,12 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixos.url = "nixpkgs/nixos-unstable";
     neorg-overlay.url = "github:nvim-neorg/nixpkgs-neorg-overlay";
-    emacs-overlay.url  = "github:nix-community/emacs-overlay";
+    nix-gaming.url = "github:fufexan/nix-gaming";
+    ags.url = "github:Aylur/ags";
+    nix-colors.url = "github:misterio77/nix-colors";
+    nix-software-center.url = "github:snowfallorg/nix-software-center";
+    sops-nix.url = "github:Mic92/sops-nix";
+    #emacs-overlay.url  = "github:nix-community/emacs-overlay";
     #nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -35,29 +40,26 @@
       submodules = true;
       inputs.hyprland.follows = "hyprland";
     };*/
-    ags.url = "github:Aylur/ags";
-    nix-colors.url = "github:misterio77/nix-colors";
     nixvim = {
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    sops-nix.url = "github:Mic92/sops-nix";
     /* rust-overlay = {
       url = "github:oxalicalay";
       inputs.nixpkgs.follows = "nixpkgs";
     }; */
   };
-  outputs = { self, nixos, nixpkgs, home-manager, hyprland, hypr-plugins, ags, anyrun, nix-colors, nixvim, sops-nix, ... }@inputs:
+  outputs = { self, nixos, nixpkgs, nix-gaming, home-manager, hyprland, hypr-plugins, ags, anyrun, nix-colors, nixvim, nix-software-center, sops-nix, ... }@inputs:
   let
     system = "x86_64-linux";
   in
   {
     nixosConfigurations = {
-      juicy = nixpkgs.lib.nixosSystem {
+      leo = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit self inputs system; };
-       modules = [
-         ./hosts/juicy/configuration.nix
-       ];
+        modules = [
+          ./hosts/juicy/configuration.nix
+        ];
       };
       emerald = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit self inputs system; };

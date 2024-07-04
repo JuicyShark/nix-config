@@ -1,12 +1,13 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 {
   home.packages = with pkgs; [
     obsidian
   ];
+  
   programs.nixvim.plugins.obsidian = {
     enable = true;
     settings = {
-      dir = "~/documents/notes";
+      dir = "${config.xdg.userDirs.documents}/notes";
       image_name_func = ''
         function()
           -- Prefix image names with timestamp.

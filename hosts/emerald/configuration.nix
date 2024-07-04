@@ -9,6 +9,7 @@
     ../common/gaming.nix                  # Add Steam
     ../common/printer.nix                 # will i ever print?
     ./hardware-configuration.nix          # Options specifc to pc hardware unique to you only
+  inputs.nix-software-center.packages.${system}.nix-software-center # Graphical software installer for Nix
   ];
 
   # define custom options the rest of nixconfig will recognize

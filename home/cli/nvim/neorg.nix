@@ -15,7 +15,6 @@
 			  config = {
 				  workspaces = {
             home = "${config.xdg.userDirs.documents}/notes";
-            nixosConfig = "${config.xdg.userDirs.documents}/nixos";
             publicNotes = "${config.xdg.userDirs.documents}/share";
 				  };
 				  default_workspace = "home";

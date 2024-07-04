@@ -24,6 +24,7 @@ let
   hdrop =  "${inputs.hypr-scripts.packages.x86_64-linux.hdrop}/bin/hdrop";
   screenshot = "${inputs.hypr-scripts.packages.x86_64-linux.grimblast}/bin/grimblast";
   terminal = "${pkgs.kitty}/bin/kitty";
+
   neorg = "${pkgs.kitty}/bin/kitty nvim -c 'Neorg index'";
 in
 {
@@ -55,12 +56,11 @@ in
       QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
       QT_QPA_PLATFORMTHEME = "qt5ct";
 
-      GTK_THEME = config.gtk.theme.name;
-      XCURSOR_THEME = config.gtk.cursorTheme.name;
-      XCURSOR_SIZE = config.gtk.cursorTheme.size;
-      HYPRCURSOR_THEME = config.gtk.cursorTheme.name;
-      HYPRCURSOR_SIZE = config.gtk.cursorTheme.size;
-
+      #GTK_THEME = config.gtk.theme.name;
+      #XCURSOR_THEME = config.gtk.cursorTheme.name;
+      #XCURSOR_SIZE = config.gtk.cursorTheme.size;
+      #HYPRCURSOR_THEME = config.gtk.cursorTheme.name;
+      #HYPRCURSOR_SIZE = config.gtk.cursorTheme.size;
 		};
 
     packages = with pkgs;[
@@ -71,7 +71,6 @@ in
         ddcutil
         xsettingsd
         xorg.xprop
-        swww
       ];
     };
     
@@ -313,18 +312,18 @@ in
           "$mainMod SHIFT, O, toggleopaque"
 
           # Quick launch
-          "$meh, return, exec, ${pkgs.kitty}/bin/kitty"
-          "$meh, T, exec, ${pkgs.kitty}/bin/kitty"
+          "$meh, return, exec, ${terminal}"
+          "$meh, T, exec, ${terminal}"
           "$meh, space, exec, anyrun"
           "$meh, O, exec, anyrun"
-	        "$meh, J, exec, [float; center] ${pkgs.kitty}/bin/kitty nvim -c 'Neorg journal today"
-          "$meh, N, exec, [float; center] ${pkgs.kitty}/bin/kitty nvim -c 'Neorg index'"
+	        "$meh, J, exec, [float; center] ${terminal} nvim -c 'Neorg journal today"
+          "$meh, N, exec, [float; center] ${terminal} nvim -c 'Neorg index'"
           #"$meh, E, exec, ${pkgs.kitty}/bin/kitty emacs -nw"
-	        "$meh, escape, exec, [float; size 950 650; move onscreen 100%-0;] ${pkgs.kitty}/bin/kitty ${pkgs.bottom}/bin/btm"
-	        "$meh, F, exec, [float; size 1650 850; center;] ${pkgs.kitty}/bin/kitty ${pkgs.yazi}/bin/yazi"
+	        "$meh, escape, exec, [float; size 950 650; move onscreen 100%-0;] ${terminal} ${pkgs.bottom}/bin/btm"
+	        "$meh, F, exec, [float; size 1650 850; center;] ${terminal} ${pkgs.yazi}/bin/yazi"
 	        "$meh, W, exec, ${pkgs.firefox}/bin/firefox"
           "$meh, Q, exec, [group new;] ${pkgs.qutebrowser}/bin/qutebrowser"
-          "$meh, slash, exec, ${pkgs.kitty}/bin/kitty nvim $(${pkgs.fzf}/bin/fzf))"
+          "$meh, slash, exec, ${terminal} nvim $(${pkgs.fzf}/bin/fzf))"
 
           # Utility
           "$mainMod, Print, exec, ${pkgs.hyprshot}/bin/hyprshot -m region"
@@ -352,7 +351,7 @@ in
         	"hyprpaper"
 		      "hypridle"
           "ags"
-          "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-authentication-agent-1"
+          "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1"
           "[workspace 1 silent; group deny] firefox --new-window"
           "[workspace 1 silent;] ${neorg}"
 

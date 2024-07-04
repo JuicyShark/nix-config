@@ -4,11 +4,18 @@ let
   username = "juicy";
 in
   {
+    age.secrets.juicy-pass = {
+      file = ../../../juicy/secrets/juicy-pass.age;
+      mode = "770";
+      owner = username;
+      group = "root";
+    };
     users.users.${username} = {
       isNormalUser = true;
+      passwordFile = config.age.secrets.juicy-pass.path;
       shell = pkgs.zsh;
       description = username;
-      extraGroups = [ "wheel" ]
+      extraGroups = [ "wheel" "juicy" ]
       ++ ifTheyExist [
         "minecraft"
         "network"
@@ -28,12 +35,7 @@ in
     #hashedPasswordFile = config.sops.secrets.juicy-password.path;
   };
 
-
+    
     home-manager.users.${username} = import ../../../../home/${config.networking.hostName}.nix;
 
-
-  /* sops = {
-    defaultSopsFile = ../../../secrets.yaml;
-    age.keyFile = "/home/${config.users.users.juicy.name}/.config/sops/age/keys.txt";
-  }; */
 }

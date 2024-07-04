@@ -8,7 +8,7 @@ in
   imports = [
     inputs.nixvim.homeManagerModules.nixvim
     ./neorg.nix
-    ./obsidian.nix
+    #./obsidian.nix
     ./keybinds.nix
     ./completion.nix
 
@@ -70,7 +70,7 @@ in
 
 
     plugins = {
-      /* Rust */
+
       rustaceanvim.enable = true;
 
       /* Telescope */

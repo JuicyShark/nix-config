@@ -4,6 +4,7 @@
 
   imports = [
     inputs.nix-colors.homeManagerModules.default
+    inputs.sops-nix.homeManagerModules.sops
   	../cli
   ];
   # Match font options from nix config
@@ -33,6 +34,7 @@
       videos =  "${config.xdg.userDirs.documents}/videos";
       pictures =  "${config.xdg.userDirs.documents}/pictures";
       music =  "${config.xdg.userDirs.documents}/music";
+
     };
 
     home = {
@@ -43,6 +45,11 @@
       sessionVariables = {
         FLAKE = "$HOME/nixos";
       };
+    };
+
+    sops = {
+      age.sshKeyPaths = "${config.home.homeDirectory}/.ssh/id_ed25519";
+      defaultSopsFile = ../../secrets.yaml;
     };
 
     colorScheme = inputs.nix-colors.colorSchemes.catppuccin-mocha;

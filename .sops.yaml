@@ -1,14 +1,47 @@
+# TODO setup Jake's Keys and Dante Host keys
 keys:
-  - &users:
-    - &juicy age1zasvffe7jux3eghf2zqvdg8ha6tagdpqeddpn9e8r7cleemgt33q77cwq8
-  - &hosts:
-      - &serverjuicy age1mp04ph9th74krnc6te2uty542zkrlzd6ftke7u9nvz4j7a6w83aqeyqn62
-      - &serverdante age1ajduv7vmursskhad4a8vk9gyjlwl6wwcmgggp5y9ej6amgfc4vusny68fw
-
+  # User Keys Based on ~/.ssh/id_ed25519
+  - &juicy age1m8pwqstk2k8t509gm84vexx229aleu8d6a35jhdxwfgwc5qsx4cs8uv0pz
+  - &jake age1m8pwqstk2k8t509gm84vexx229aleu8d6a35jhdxwfgwc5qsx4cs8uv0pz
+  # Host Keys Based on /etc/ssh/ssh_host_[rsa/ed25519]_key
+  - &leo age1mp04ph9th74krnc6te2uty542zkrlzd6ftke7u9nvz4j7a6w83aqeyqn62
+  - &leoGPG 6c480e7f1d8a45f3a54f0478ec9243c65e854f30
+  - &emerald age1mp04ph9th74krnc6te2uty542zkrlzd6ftke7u9nvz4j7a6w83aqeyqn62
+  - &emeraldGPG 6c480e7f1d8a45f3a54f0478ec9243c65e854f30
+  - &dante age1w2rx4rmpeu56f5rwjpk53n5z4xcnqatfq937tcg5fzumdx3q935qh2xcnf
+  - &danteGPG 6c480e7f1d8a45f3a54f0478ec9243c65e854f30
 creation_rules:
-  - path_regex: hosts/secrets.yaml$
+  - path_regex:  secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - age:
       - *juicy
-      - *serverdante
-      - *serverjuicy
+      - *leo
+      - *jake
+      - *emerald
+      - *dante
+      gpg:
+      - *leoGPG
+      - *emeraldGPG
+      - *danteGPG
+  - path_regex:  hosts/juicy/secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+    - age:
+      - *juicy
+      - *leo
+      gpg:
+      - *leoGPG
+  - path_regex:  hosts/jake/secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+    - age:
+      - *jake
+      - *emerald
+      gpg:
+      - *emeraldGPG
+  - path_regex:  hosts/dante/secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+    - age:
+      - *juicy
+      - *jake
+      - *dante
+      gpg:
+      - *danteGPG

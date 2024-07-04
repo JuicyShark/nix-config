@@ -4,7 +4,7 @@
 	  services.nextcloud = {
 			enable = true;
 			hostName = "localhost";
-			config.adminpassFile = config.sops.secrets.nextcloud-admin-pass.path;
+			config.adminpassFile = config.sops.secrets.nextcloud-admin.path;
 			extraApps = {
 				inherit (config.services.nextcloud.package.packages.apps) contacts calendar tasks;
 			};
@@ -13,7 +13,7 @@
         dbhost = "127.0.0.1:9050";
       };
     };
-    sops.secrets.nextcloud-admin-pass = {
+    sops.secrets.nextcloud-admin = {
       owner = "nextcloud";
       group = "nextcloud";
     };

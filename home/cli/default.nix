@@ -1,7 +1,7 @@
 {  pkgs, ... }:
-let 
+let
   shaders_dir = "${pkgs.mpv-shim-default-shaders}/share/mpv-shim-default-shaders/shaders";
-in 
+in
 {
   imports = [
 	  ./kitty.nix
@@ -9,6 +9,7 @@ in
     ./nvim
     ./cava.nix
     ./yazi.nix
+    ./git.nix
   ];
   home.packages = with pkgs; [
 
@@ -34,6 +35,18 @@ in
     rustscan
     ffsend
     gitui
+
+    gcc       # C compiler
+    #   rust-bin.stable.latest.default # Rust Staple Toolchain
+
+
+		/* nix tools */
+		manix  # Nix pkg and options search
+
+		/* Raspberry Pico */
+		pico-sdk
+		picotool
+		minicom
   ];
 
   # Terminal Based Programs/Tools
@@ -47,7 +60,7 @@ in
       bindings = {
         UP = "add volume +2";
         DOWN = "add volume -2";
-      };  
+      };
 
       scripts = [
         pkgs.mpvScripts.mpris
@@ -58,7 +71,7 @@ in
         pkgs.mpvScripts.sponsorblock
         pkgs.mpvScripts.mpv-cheatsheet
         pkgs.mpvScripts.dynamic-crop
-      ]; 
+      ];
 
       config = {
         # video
@@ -74,15 +87,15 @@ in
         cache-secs = "500";
 
         keep-open = "yes";
-        
+
         # network streaming
         demuxer-max-back-bytes = "50Mib";
         demuxer-max-bytes = "600Mib";
         demuxer-readahead-secs = 300;
         force-seekable = "yes"; # for seeking when not preloaded
-     
 
-      
+
+
         osc = false;
         border = false;
         ytdl-format = "bestvideo+bestaudio";
