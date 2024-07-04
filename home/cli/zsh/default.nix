@@ -52,6 +52,7 @@
         journal = "nvim -c 'Neorg journal today'";
         grep = "${pkgs.ripgrep}/bin/rg";
         dante = "ssh ${osConfig.main-user}@192.168.54.60 -p 2033";
+        jake = "ssh ${osConfig.main-user}@192.168.54.60 -p 2033";
         juicy = "ssh ${osConfig.main-user}@192.168.54.54 -p 2033";
       };
       plugins = [

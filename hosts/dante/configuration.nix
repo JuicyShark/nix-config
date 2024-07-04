@@ -48,7 +48,6 @@ in
       ];
 
       openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPWp4U81Sg1isQ2Dbb93WhciatLAkZmGn5NrHGJ1tLpG"
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJaHQ2CZkI0ApcMHZzqNcU7fiTl/prML3ONJ3KrSmy4I"
       ];
 
@@ -72,7 +71,7 @@ in
         "networkmanager"
       ];
 
-     # openssh.authorizedKeys.keys = [ ];
+     openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBMsJd6JmEQtQ1er5vuTA3Frz2JBcgndpPcQlhjK7xcY" ];
     };
   };
 }

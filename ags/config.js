@@ -5,6 +5,7 @@ const battery = await Service.import("battery")
 const systemtray = await Service.import("systemtray")
 const network = await Service.import("network")
 import { OpenWallpaper, Wallpaper } from "./wallpaper.js"
+import { applauncher } from "./widgets/appLauncher/main.js"
 
 const mem = Variable(0, {
     poll: [5000, App.configDir + '/scripts/mem.sh']
@@ -45,7 +46,7 @@ App.config({
     style: "./style.css",
     windows: [
         Bar(),
-        Wallpaper(),
+        applauncher,
     ],
 })
 
@@ -74,7 +75,7 @@ function Bottom() {
             Notification(),
             Network(),
             OpenWallpaper(),
-            Time(),          
+            Time(),
         ],
     })
 }
@@ -97,7 +98,7 @@ function Workspaces() {
     })
 }
 
-function Time() { 
+function Time() {
   return Widget.Button({
     class_name: "dateBox",
 
@@ -120,7 +121,7 @@ function Time() {
     child: Widget.Box({
       vertical: true,
       spacing: 2,
-      
+
 
       children: [
         Widget.Label({

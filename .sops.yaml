@@ -6,7 +6,7 @@ keys:
   # Host Keys Based on /etc/ssh/ssh_host_[rsa/ed25519]_key
   - &leo age1mp04ph9th74krnc6te2uty542zkrlzd6ftke7u9nvz4j7a6w83aqeyqn62
   - &leoGPG 6c480e7f1d8a45f3a54f0478ec9243c65e854f30
-  - &emerald age1mp04ph9th74krnc6te2uty542zkrlzd6ftke7u9nvz4j7a6w83aqeyqn62
+  - &emerald age1xasl8sn9dq3whnjd8qmzrv3rph45d47kfyj0fql52p87p7fesurqntay57
   - &emeraldGPG 6c480e7f1d8a45f3a54f0478ec9243c65e854f30
   - &dante age1w2rx4rmpeu56f5rwjpk53n5z4xcnqatfq937tcg5fzumdx3q935qh2xcnf
   - &danteGPG 6c480e7f1d8a45f3a54f0478ec9243c65e854f30
@@ -30,7 +30,7 @@ creation_rules:
       - *leo
       gpg:
       - *leoGPG
-  - path_regex:  hosts/jake/secrets/[^/]+\.(yaml|json|env|ini)$
+  - path_regex:  hosts/emerald/secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - age:
       - *jake

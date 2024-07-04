@@ -31,7 +31,7 @@ in
   imports = [
     inputs.hyprland.homeManagerModules.default
     inputs.ags.homeManagerModules.default
-    ../../../programs/anyrun.nix
+    #../../../programs/anyrun.nix
     ./hyprlock.nix
     ./hyprpaper.nix
   ];
@@ -314,8 +314,8 @@ in
           # Quick launch
           "$meh, return, exec, ${terminal}"
           "$meh, T, exec, ${terminal}"
-          "$meh, space, exec, anyrun"
-          "$meh, O, exec, anyrun"
+          "$meh, space, exec, ags -t applauncher"
+          "$meh, O, exec, ags -t applauncher"
 	        "$meh, J, exec, [float; center] ${terminal} nvim -c 'Neorg journal today"
           "$meh, N, exec, [float; center] ${terminal} nvim -c 'Neorg index'"
           #"$meh, E, exec, ${pkgs.kitty}/bin/kitty emacs -nw"
