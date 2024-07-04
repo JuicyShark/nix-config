@@ -2,7 +2,7 @@
 keys:
   # User Keys Based on ~/.ssh/id_ed25519
   - &juicy age1m8pwqstk2k8t509gm84vexx229aleu8d6a35jhdxwfgwc5qsx4cs8uv0pz
-  - &jake age1m8pwqstk2k8t509gm84vexx229aleu8d6a35jhdxwfgwc5qsx4cs8uv0pz
+  - &jake age104uhq6v95vethuvqqrctzn6f9lr2xx4hr4evrw35qcwdse34v3mq5gdmhn
   # Host Keys Based on /etc/ssh/ssh_host_[rsa/ed25519]_key
   - &leo age1mp04ph9th74krnc6te2uty542zkrlzd6ftke7u9nvz4j7a6w83aqeyqn62
   - &leoGPG 6c480e7f1d8a45f3a54f0478ec9243c65e854f30

@@ -1,4 +1,4 @@
-{inputs, pkgs, config, ... }:
+{inputs, pkgs, config, osConfig, ... }:
 let
   # binds $mod + [shift +] {1..10} to [move to] workspace {1..10}
   workspaces = builtins.concatLists (builtins.genList (
@@ -291,8 +291,6 @@ in
   	      "$mainMod CTRL, right, layoutmsg, preselect r"
   	      "$mainMod CTRL, up, layoutmsg, preselect u"
           "$mainMod CTRL, down, layoutmsg, preselect d"
-	        "$mainMod CTRL, S, layoutmsg, togglesplit"
-	        "$mainMod CTRL, R, layoutmsg, swapsplit"
 
           "$mainMod CTRL, G, togglegroup"
 
@@ -311,22 +309,7 @@ in
 	        "$mainMod SHIFT, P, pin"
           "$mainMod SHIFT, O, toggleopaque"
 
-          # Quick launch
-          "$meh, return, exec, ${terminal}"
-          "$meh, T, exec, ${terminal}"
-          "$meh, space, exec, ags -t applauncher"
-          "$meh, O, exec, ags -t applauncher"
-	        "$meh, J, exec, [float; center] ${terminal} nvim -c 'Neorg journal today"
-          "$meh, N, exec, [float; center] ${terminal} nvim -c 'Neorg index'"
-          #"$meh, E, exec, ${pkgs.kitty}/bin/kitty emacs -nw"
-	        "$meh, escape, exec, [float; size 950 650; move onscreen 100%-0;] ${terminal} ${pkgs.bottom}/bin/btm"
-	        "$meh, F, exec, [float; size 1650 850; center;] ${terminal} ${pkgs.yazi}/bin/yazi"
-	        "$meh, W, exec, ${pkgs.firefox}/bin/firefox"
-          "$meh, Q, exec, [group new;] ${pkgs.qutebrowser}/bin/qutebrowser"
-          "$meh, slash, exec, ${terminal} nvim $(${pkgs.fzf}/bin/fzf))"
 
-          # Utility
-          "$mainMod, Print, exec, ${pkgs.hyprshot}/bin/hyprshot -m region"
 
           # Media
 	        ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_SINK@ 5%+"
@@ -337,8 +320,45 @@ in
           # Buggy with hy3
           "$mainMod, grave, togglespecialworkspace, special:scratchpad"
           "$mainMod Shift, grave, movetoworkspace, special:scratchpad"
-		    ]
-		    ++ workspaces;
+
+        ]
+        # Check if Nix config has hardware.keyboard.zsa.enable true or false
+        # osConfig refers to Nix config in Home-Manager
+        # config refers to the config you are in Nix/Home
+        ++ (if osConfig.hardware.keyboard.zsa.enable then [
+	        "$mainMod CTRL, S, layoutmsg, togglesplit"
+          "$mainMod CTRL, R, layoutmsg, swapsplit"
+
+          "$mainMod, Print, exec, ${pkgs.hyprshot}/bin/hyprshot -m region"
+
+          # Quick launch
+          "$meh, return, exec, ${terminal}"
+          "$meh, T, exec, ${terminal}"
+          "$meh, space, exec, ags -t applauncher"
+          "$meh, O, exec, ags -t applauncher"
+	        "$meh, J, exec, [float; center] ${terminal} nvim -c 'Neorg journal today"
+          "$meh, N, exec, [float; center] ${terminal} nvim -c 'Neorg index'"
+	        "$meh, escape, exec, [float; size 950 650; move onscreen 100%-0;] ${terminal} ${pkgs.bottom}/bin/btm"
+	        "$meh, F, exec, [float; size 1650 850; center;] ${terminal} ${pkgs.yazi}/bin/yazi"
+	        "$meh, W, exec, ${pkgs.firefox}/bin/firefox"
+          "$meh, Q, exec, [group new;] ${pkgs.qutebrowser}/bin/qutebrowser"
+          "$meh, slash, exec, ${terminal} nvim $(${pkgs.fzf}/bin/fzf))"
+        ] else [
+          "$mainMod SHIFT, S, exec, ${pkgs.hyprshot}/bin/hyprshot -m region"
+
+          # Quick launch
+          "$mainMod, return, exec, ${terminal}"
+          "$mainMod, T, exec, ${terminal}"
+          "$mainMod, space, exec, ags -t applauncher"
+          "$mainMod, O, exec, ags -t applauncher"
+	        "$mainMod, J, exec, [float; center] ${terminal} nvim -c 'Neorg journal today"
+          "$mainMod, N, exec, [float; center] ${terminal} nvim -c 'Neorg index'"
+	        "$mainMod, escape, exec, [float; size 950 650; move onscreen 100%-0;] ${terminal} ${pkgs.bottom}/bin/btm"
+	        "$mainMod, F, exec, [float; size 1650 850; center;] ${terminal} ${pkgs.yazi}/bin/yazi"
+	        "$mainMod, W, exec, ${pkgs.firefox}/bin/firefox"
+          "$mainMod, Q, exec, [group new;] ${pkgs.qutebrowser}/bin/qutebrowser"
+          "$mainMod, slash, exec, ${terminal} nvim $(${pkgs.fzf}/bin/fzf))"
+        ]) ++ workspaces;
 
 		    # Move/resize windows with mainMod + LMB/RMB and dragging
 		    bindm = [
