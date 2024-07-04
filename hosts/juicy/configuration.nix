@@ -34,7 +34,7 @@ in
       };
 
     };
-    systemd = {
+    /*systemd = {
       user.services.polkit-gnome-autentication-agent-1 = {
         description = "polkit-gnome-authentication-agent-1";
         wantedBy = ["graphical-session.target"];
@@ -49,7 +49,7 @@ in
           TimeoutStopSec = 10;
        };
       };
-    };
+    };*/
     # GTK portal not installed properly by hyprland
     xdg.portal = {
       enable = true;
@@ -128,20 +128,12 @@ in
         "nextcloud"
         "networkmanager"
       ];
-
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJaHQ2CZkI0ApcMHZzqNcU7fiTl/prML3ONJ3KrSmy4I"
       ];
-
-     /* openssh.authorizedKeys.keyFiles = [
-        ./secrets/id_ed25519.pub
-        ./secrets/ssh_host_ed25519_key.pub
-        ./secrets/ssh_host_rsa_key.pub
-      ]; */
       packages = [pkgs.home-manager];
-  };
+    };
 
 
-    home-manager.users.${config.main-user} = import ../../home/${config.networking.hostName}.nix;
 
 }

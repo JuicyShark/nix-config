@@ -13,6 +13,7 @@
       type = lib.types.str;
       default = "juicy";
     };
+
     font = lib.mkOption {
       default = "Hack Nerd Font";
       type = lib.types.str;
@@ -24,7 +25,7 @@
       description = "Scaling; Higher on higher res and lower on lower res";
     };
 
-    hardware.display = {
+/*    hardware.display = {
   monitors = lib.mkOption {
     type = lib.types.listOf (lib.types.attrsOf {
       name = lib.types.str;
@@ -38,19 +39,20 @@
     description = "List of monitor configurations.";
     default = [];
   };
-};
+}; */
+
   };
 
 
   config = {
     environment.defaultPackages = lib.mkForce [ ];
 
-    
+
     home-manager = {
       extraSpecialArgs = { inherit inputs; };
       useGlobalPkgs = true;
+      users.${config.main-user} = import ../../home/${config.networking.hostName}.nix;
     };
-
     programs = {
       zsh.enable = true;
       git.enable = true;
@@ -127,7 +129,6 @@
     };
 
     system.stateVersion = "24.05";
-
     /* sops = {
     defaultSopsFile = ./secrets/secrets.yaml;
     #defaultSopsFormat = "yaml";
