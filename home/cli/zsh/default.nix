@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, config, osConfig, ... }:
 {
   imports = [
     ./bat.nix
@@ -51,8 +51,8 @@
         notes = "nvim -c 'Neorg index'";
         journal = "nvim -c 'Neorg journal today'";
         grep = "${pkgs.ripgrep}/bin/rg";
-        dante = "ssh juicy@192.168.54.60 -p 2033";
-        juicy = "ssh juicy@192.168.54.54 -p 2033";
+        dante = "ssh ${osConfig.main-user}@192.168.54.60 -p 2033";
+        juicy = "ssh ${osConfig.main-user}@192.168.54.54 -p 2033";
       };
       plugins = [
         {

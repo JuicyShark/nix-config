@@ -1,10 +1,7 @@
 { pkgs, config, lib, ... }:
 {
 
-  options.nvidiaLegacy = lib.mkOption {
-  type = lib.types.bool;
-  default = false;
-  };
+  options.nvidiaLegacy.enable = lib.mkEnableOption "Enable Legacy 470 nvidia driver";
 
   config = {
   nixpkgs.config.nvidia.acceptLicense = true;
@@ -19,7 +16,7 @@
 	hardware = {
       nvidia = {
       # Explicit Sync is here
-      package = (if config.nvidiaLegacy then config.boot.kernelPackages.nvidiaPackages.legacy_470 else pkgs.linuxKernel.packages.linux_zen.nvidia_x11_beta);
+      package = (if config.nvidiaLegacy.enable then config.boot.kernelPackages.nvidiaPackages.legacy_470 else pkgs.linuxKernel.packages.linux_zen.nvidia_x11_beta);
       modesetting.enable = true;
     	powerManagement.enable = false;
     	powerManagement.finegrained = false;
@@ -35,7 +32,7 @@
 
   services.xserver.videoDrivers = ["nvidia"];
   
-  boot.extraModulePackages = [ (if config.nvidiaLegacy then config.boot.kernelPackages.nvidia_x11_legacy470 else config.boot.kernelPackages.nvidia_x11_beta) ];
+  boot.extraModulePackages = [ (if config.nvidiaLegacy.enable then config.boot.kernelPackages.nvidia_x11_legacy470 else config.boot.kernelPackages.nvidia_x11_beta) ];
   environment.sessionVariables = {
 		LIBVA_DRIVER_NAME = "nvidia";
 	  GBM_BACKEND = "nvidia-drm";

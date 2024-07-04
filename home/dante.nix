@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   # Import Files Specific to Homelab config
   imports = [

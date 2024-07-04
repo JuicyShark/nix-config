@@ -50,7 +50,7 @@
           };
         };
         servers = {
-          nil_ls.enable = true;
+          nil-ls.enable = true;
           lua-ls.enable = true;
           rust-analyzer = {
             enable = false;

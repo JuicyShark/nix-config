@@ -4,11 +4,6 @@ let
 in
 {
 
-  options.main-user = lib.mkOption {
-    type = lib.types.str;
-    default = "juicy";
-  };
-
   imports = [
     inputs.hyprland.nixosModules.default
     ../common/shared-configuration.nix
@@ -19,7 +14,6 @@ in
   ];
 
 
-  config = {
     cybersecurity.enable = true;
 
     nixpkgs.overlays = [
@@ -149,5 +143,5 @@ in
 
 
     home-manager.users.${config.main-user} = import ../../home/${config.networking.hostName}.nix;
-  };
+
 }

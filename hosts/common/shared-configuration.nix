@@ -9,6 +9,10 @@
   ];
 
   options = {
+    main-user = lib.mkOption {
+      type = lib.types.str;
+      default = "juicy";
+    };
     font = lib.mkOption {
       default = "Hack Nerd Font";
       type = lib.types.str;
@@ -41,6 +45,7 @@
   config = {
     environment.defaultPackages = lib.mkForce [ ];
 
+    
     home-manager = {
       extraSpecialArgs = { inherit inputs; };
       useGlobalPkgs = true;
@@ -49,6 +54,7 @@
     programs = {
       zsh.enable = true;
       git.enable = true;
+      dconf.enable = true;
     };
 
 

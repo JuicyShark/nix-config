@@ -15,19 +15,19 @@
       /*podman = {
         enable = true;
         defaultNetwork.settings.dns_enabled = true;
-      };*/
+        };*/
       spiceUSBRedirection.enable = true;
     };
 
     programs.virt-manager.enable = true;
     environment.systemPackages = with pkgs; [
-      #podman-tui
+#podman-tui
       spice
-      spice-gtk
-      spice-protocol
-      virt-viewer
+        spice-gtk
+        spice-protocol
+        virt-viewer
     ];
-    home-manager.users.juicy = {
+    home-manager.users."${config.main-user}" = {
       dconf.settings = {
         "org/virt-manager/virt-manager/connections" = {
           autoconnect = [ "qemu:///system" ];
