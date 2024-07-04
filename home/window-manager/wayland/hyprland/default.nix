@@ -113,7 +113,7 @@ in
         "$hyper" = "ALT SHIFT CTRL SUPER";
 
 
-        monitor = [ ",highrr,0x0,1,""HDMI-A-1,highrr,-5120x0,1"];
+        monitor = [ ",5120x1440,0x0,1,""HDMI-A-1,highrr,-5120x0,1"];
 
         input = { kb_layout = "us,us";
           follow_mouse = 1;
@@ -136,8 +136,8 @@ in
           resize_on_border = true;
           allow_tearing = false;
           no_focus_fallback = true;
-          "col.inactive_border" = "rgba(${config.colorScheme.palette.base02}ff)";
-          "col.active_border" = "rgba(${config.colorScheme.palette.base0D}ff)";
+          "col.inactive_border" = "rgb(${config.colorScheme.palette.base02})";
+          "col.active_border" = "rgb(${config.colorScheme.palette.base0D})";
           layout = "dwindle";
         };
 
@@ -172,10 +172,10 @@ in
         };
 
         group = {
-          "col.border_inactive" = "rgba(${config.colorScheme.palette.base03}ff)";
-          "col.border_active" = "rgba(${config.colorScheme.palette.base0B}ff)";
-          "col.border_locked_active" = "rgba(${config.colorScheme.palette.base0E}ff)";
-          "col.border_locked_inactive" = "rgba(${config.colorScheme.palette.base00}ff)";
+          "col.border_inactive" = "rgb(${config.colorScheme.palette.base03})";
+          "col.border_active" = "rgb(${config.colorScheme.palette.base0B})";
+          "col.border_locked_active" = "rgb(${config.colorScheme.palette.base0E})";
+          "col.border_locked_inactive" = "rgb(${config.colorScheme.palette.base00})";
 
           groupbar = {
             font_size = 15;
@@ -185,10 +185,10 @@ in
             gradients = true;
 		        priority = 2;
             text_color = "rgb(${config.colorscheme.palette.base05})";
-            "col.inactive" = "rgba(${config.colorScheme.palette.base03}ff)";
-            "col.active" = "rgba(${config.colorScheme.palette.base0D}ff)";
-            "col.locked_active" = "rgba(${config.colorScheme.palette.base0E}ff)";
-            "col.locked_inactive" = "rgba(${config.colorScheme.palette.base02}ff)";
+            "col.inactive" = "rgb(${config.colorScheme.palette.base03})";
+            "col.active" = "rgb(${config.colorScheme.palette.base0D})";
+            "col.locked_active" = "rgb(${config.colorScheme.palette.base0E})";
+            "col.locked_inactive" = "rgb(${config.colorScheme.palette.base02})";
           };
         };
 
@@ -207,7 +207,7 @@ in
           swallow_regex = "^(kitty)$";
           new_window_takes_over_fullscreen = 2;
           disable_hyprland_logo = true;
-          vrr = 0;
+          vrr = 2;
           vfr = true;
           font_family = "${config.font}";
         };
@@ -441,7 +441,7 @@ in
 	        "idleinhibit focus, tag:media"
 
           # Transparency
-  	      "opacity 0.95, tag:term"
+  	      "opacity 0.85 override, tag:term"
 	        "opacity 0.90, tag:social"
 	        "opacity 0.90, tag:music"
 	        "opacity 0.93 override 0.90 override 1.0 override, tag:browser"

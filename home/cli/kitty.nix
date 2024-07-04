@@ -5,7 +5,6 @@
 		settings = {
 			confirm_os_window_close = 0;
 			font_size = 13;
-			background_opacity = "0.80";
 			background = "#${config.colorScheme.palette.base00}";
 			foreground = "#${config.colorScheme.palette.base05}";
 			selection_background = "#${config.colorScheme.palette.base0D}";
