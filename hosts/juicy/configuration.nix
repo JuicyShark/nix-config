@@ -29,7 +29,7 @@ in
     environment.systemPackages = with pkgs; [
       wally-cli   # Flash zsa Keyboard
       keymapviz   # Zsa Oryx dep
-      github-desktop
+      polkit_gnome
     ];
 
     #programs / WM's to ensure downloaded on system
@@ -38,16 +38,34 @@ in
         enable = true;
         package = inputs.hyprland.packages.${pkgs.system}.hyprland;
       };
-    };
 
+    };
+    systemd = {
+      user.services.polkit-gnome-autentication-agent-1 = {
+        description = "polkit-gnome-authentication-agent-1";
+        wantedBy = ["graphical-session.target"];
+        wants = ["graphical-session.target"];
+        after = ["graphical-session.target"];
+
+        serviceConfig = {
+          Type = "simple";
+          ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+          Restart = "on-failure";
+          RestartSec = 1;
+          TimeoutStopSec = 10;
+       };
+      };
+    };
     # GTK portal not installed properly by hyprland
     xdg.portal = {
       enable = true;
       extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
     };
 
+
     # Services should be installed via Nix Config to work
     services = {
+
       #TODO use ags to power login with greetd
       greetd = {
 	  	  enable = true; # login manager
@@ -67,17 +85,21 @@ in
           mopidy-mpd
         ];
       };
-
+      gnome.gnome-keyring.enable = true;
       udisks2.enable = true;
       power-profiles-daemon.enable = true;
       gvfs.enable = true;
     };
 
-    security.pam.services.hyprlock = {};
-    security.pam.sshAgentAuth.enable = true;
-    security.pam.loginLimits = [
-      { domain = "@users"; item = "rtprio"; type = "-"; value = 1; }
-    ];
+
+    security = {
+      polkit.enable = true;
+      pam.services.hyprlock = {};
+      pam.loginLimits = [
+        { domain = "@users"; item = "rtprio"; type = "-"; value = 1; }
+      ];
+    };
+
 
     hardware = {
       keyboard.zsa.enable = true;
@@ -113,6 +135,9 @@ in
         "networkmanager"
       ];
 
+      openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJaHQ2CZkI0ApcMHZzqNcU7fiTl/prML3ONJ3KrSmy4I"
+      ];
 
      /* openssh.authorizedKeys.keyFiles = [
         ./secrets/id_ed25519.pub

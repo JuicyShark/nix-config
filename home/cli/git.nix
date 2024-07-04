@@ -2,7 +2,7 @@
 {
 	programs.git = {
     enable = true;
-    package = pkgs.gitAndTools.gitFull;
+    #package = pkgs.gitAndTools.gitFull;
 
     userName = "JuicyShark";
 		userEmail = "maxwellb9879@gmail.com";
@@ -20,6 +20,9 @@
       push.autoSetupRemote = true;
       # Reuse merge conflict fixes when rebasing
       rerere.enabled = true;
+      credential.helper = "${
+				pkgs.git.override { withLibsecret = true; }
+			}/bin/git-credential-libsecret";
     };
     lfs.enable = true;
     ignores = [

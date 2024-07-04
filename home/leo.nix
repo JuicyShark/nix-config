@@ -6,7 +6,15 @@
    	./programs
     ./window-manager/wayland/hyprland
   ];
-
+# Daemon to manage secret (private) keys independently from any protocol
+programs.gpg.enable = true;
+services.gpg-agent = {
+  enable = true;
+  enableSshSupport = true;
+  enableZshIntegration = true;
+  pinentryPackage = pkgs.pinentry-gtk2;
+  #pinentryFlavor = "gtk2"; # Hyprland/Wayland
+};
   # Packages Specific to Juicy User
   home.packages = with pkgs; [
     bambu-studio

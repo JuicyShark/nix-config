@@ -73,12 +73,12 @@ in
         xorg.xprop
       ];
     };
-    
+
     xdg.configFile."xsettingsd/xsettingsd.conf".text = ''
       Gdk/UnscaledDPI 98304
       Gdk/WindowScalingFactor 2
     '';
-     
+
     programs.ags = {
       enable = true;
       configDir = ../../../../ags;
@@ -351,7 +351,7 @@ in
         	"hyprpaper"
 		      "hypridle"
           "ags"
-          "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1"
+          "polkit-gnome-authentication-agent-1"
           "[workspace 1 silent; group deny] firefox --new-window"
           "[workspace 1 silent;] ${neorg}"
 
@@ -394,8 +394,8 @@ in
           "w[vt1] m[DP-1] r[1-4], gapsout:25 1000 25 1000"
           "w[vt2-3] m[DP-1] r[1-4], gapsout:25 400 25 400"
           "w[vt1] m[DP-1] r[5-5], gapsout:0 780 0 780, gapsin:0"
-          
-          
+
+
         ];
 
         windowrulev2 = [
@@ -488,7 +488,7 @@ in
       variables = [
         "--all"
       ];
-      
+
       extraCommands = [
         "systemctl --user stop graphical-session.target"
         "systemctl --user start hyprland-session.target"
