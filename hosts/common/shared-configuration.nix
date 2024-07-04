@@ -47,18 +47,21 @@
   config = {
     environment.defaultPackages = lib.mkForce [ ];
 
+    nixpkgs.overlays = [
+      inputs.neorg-overlay.overlays.default
+    ];
 
     home-manager = {
       extraSpecialArgs = { inherit inputs; };
       useGlobalPkgs = true;
       users.${config.main-user} = import ../../home/${config.networking.hostName}.nix;
     };
+
     programs = {
       zsh.enable = true;
       git.enable = true;
       dconf.enable = true;
     };
-
 
     nix = {
       gc = {
@@ -86,10 +89,10 @@
       allowUnfreePredicate = true;
     };
 
-    environment.profileRelativeSessionVariables = {
-      QT_PLUGIN_PATH = [ "/lib/qt-6/plugins" ];
-    };
-
+    security.polkit.enable = true;
+    security.pam.loginLimits = [
+        { domain = "@users"; item = "rtprio"; type = "-"; value = 1; }
+      ];
     hardware.enableRedistributableFirmware = true;
 
     # Installed Fonts
@@ -121,7 +124,7 @@
             "Noto Color Emoji"
             "Hack Nerd Font"
           ];
-          sansSerif = ["Lexend" "Noto Color Emoji"];
+          sansSerif = ["Noto Sans" "Noto Color Emoji"];
           serif = ["Noto Serif" "Noto Color Emoji"];
           emoji = ["Noto Color Emoji"];
         };
@@ -129,12 +132,5 @@
     };
 
     system.stateVersion = "24.05";
-    /* sops = {
-    defaultSopsFile = ./secrets/secrets.yaml;
-    #defaultSopsFormat = "yaml";
-    #sops.age.sshKeyPaths = [ /etc/ssh/ssh_host_ed25519_key ];
-    age.generateKey = true;
-    }; */
-
   };
 }

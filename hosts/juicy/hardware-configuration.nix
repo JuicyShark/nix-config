@@ -2,6 +2,11 @@
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
+  hardware = {
+    keyboard.zsa.enable = true;
+    logitech.wireless.enable = true;
+  };
+
   boot = {
     kernelModules = [ "kvm-intel" ];
     kernelPackages = pkgs.linuxKernel.packages.linux_zen;
