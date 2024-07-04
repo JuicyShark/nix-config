@@ -26,7 +26,7 @@ in
         mopidy-mpd
       ];
     };
-    secuity.polkit.enable = true;
+    security.polkit.enable = true;
 
     networking.hostName = "dante";
 
