@@ -113,7 +113,7 @@ in
         "$hyper" = "ALT SHIFT CTRL SUPER";
 
 
-        monitor = [ ",5120x1440,0x0,1,""HDMI-A-1,highrr,-5120x0,1"];
+        monitor = ( if isJuicy then [ ",5120x1440,0x0,1,""HDMI-A-1,highrr,-5120x0,1"] else ["DP-1,2560x1440@165,0x0,1," "HDMI-A-1,1920x1080@60,2560x0,1"]);
 
         input = { kb_layout = "us,us";
           follow_mouse = 1;
@@ -146,7 +146,7 @@ in
           force_split = 2;
           preserve_split = true;
           no_gaps_when_only = 0;
-          split_width_multiplier = "1.15";
+          split_width_multiplier = "1.0";
           default_split_ratio = 1;
         };
 
