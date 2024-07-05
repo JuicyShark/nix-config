@@ -4,11 +4,8 @@ let
 
 in
 {
-  config.main-user = "jake";
-
   imports = [
-
-    ../shared-configuration.nix           # Global options between machines
+    ../common/shared-configuration.nix           # Global options between machines
     ../common/nvidia.nix                  # Nvidia compatibilty
     ../common/gaming.nix                  # Add Steam
     ../common/printer.nix                 # will i ever print?
@@ -17,12 +14,13 @@ in
     inputs.nix-software-center.packages.${pkgs.system}.nix-software-center # Graphical software installer for Nix
   ];
 
-
+  config = {
+    main-user = "jake";
     ## enable xserver and gnome desktop
     services.xserver = {
-      enable = true;
-      displaymanager.gdm.enable = true;
-      desktopmanager.gnome.enable = true;
+      enable = false;
+      displayManager.gdm.enable = false;
+      desktopManager.gnome.enable = false;
     };
 
     security = {
@@ -66,4 +64,5 @@ in
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBMsJd6JmEQtQ1er5vuTA3Frz2JBcgndpPcQlhjK7xcY"
       ];
     };
+  };
 }

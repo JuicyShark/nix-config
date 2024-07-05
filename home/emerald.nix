@@ -4,7 +4,8 @@
   imports = [
     ./common
     ./common/theme.nix
-  	./programs
+    ./programs
+    ./window-manager/wayland/hyprland
   ];
 
 

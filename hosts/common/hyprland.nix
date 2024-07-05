@@ -29,7 +29,7 @@
 	    enable = (if config.services.xserver.enable then false else true); # login manager
       settings = {
         default_session = {
-          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --greeting 'Welcome Juicy' --cmd Hyprland";
+          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --greeting 'Welcome ${config.main-user}' --cmd Hyprland";
           user = config.main-user;
         };
       };
