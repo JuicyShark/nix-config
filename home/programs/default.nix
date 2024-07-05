@@ -11,6 +11,7 @@
     ./music.nix
     #./emacs.nix
     ./messaging.nix
+    ./kitty.nix
  ];
 
 	home.packages = with pkgs; [

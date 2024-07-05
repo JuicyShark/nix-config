@@ -3,6 +3,7 @@
   # Import files specific to Juicy User Config
   imports = [
     ./common     # Import Globals
+    ./common/theme.nix
    	./programs
     ./window-manager/wayland/hyprland
   ];

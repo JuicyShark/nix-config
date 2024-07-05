@@ -19,19 +19,13 @@ let
     inherit (pkgs) stdenv fetchFromGitHub installShellFiles;
   };
 
-  isJuicy = config.home.username == "juicy";
-  colour = config.colorScheme.palette;
-  hdrop =  "${inputs.hypr-scripts.packages.x86_64-linux.hdrop}/bin/hdrop";
-  screenshot = "${inputs.hypr-scripts.packages.x86_64-linux.grimblast}/bin/grimblast";
   terminal = "${pkgs.kitty}/bin/kitty";
-
   neorg = "${pkgs.kitty}/bin/kitty nvim -c 'Neorg index'";
 in
 {
   imports = [
     inputs.hyprland.homeManagerModules.default
     inputs.ags.homeManagerModules.default
-    #../../../programs/anyrun.nix
     ./hyprlock.nix
     ./hyprpaper.nix
   ];
@@ -55,12 +49,6 @@ in
       QT_QPA_PLATFORM = "wayland;xcb";
       QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
       QT_QPA_PLATFORMTHEME = "qt5ct";
-
-      #GTK_THEME = config.gtk.theme.name;
-      #XCURSOR_THEME = config.gtk.cursorTheme.name;
-      #XCURSOR_SIZE = config.gtk.cursorTheme.size;
-      #HYPRCURSOR_THEME = config.gtk.cursorTheme.name;
-      #HYPRCURSOR_SIZE = config.gtk.cursorTheme.size;
 		};
 
     packages = with pkgs;[
@@ -71,7 +59,23 @@ in
         ddcutil
         xsettingsd
         xorg.xprop
-      ];
+      ] ++ (if osConfig.hardware.keyboard.zsa.enable then [
+
+      ] else [
+       which
+        dart-sass
+        fd
+        fzf
+        brightnessctl
+        swww
+        slurp
+        wayshot
+        swappy
+        hyprpicker
+        pavucontrol
+        networkmanager
+        gtk3
+      ]);
     };
 
     xdg.configFile."xsettingsd/xsettingsd.conf".text = ''
@@ -81,7 +85,7 @@ in
 
     programs.ags = {
       enable = true;
-      configDir = ../../../../ags;
+      configDir = (if osConfig.hardware.keyboard.zsa.enable then ../ags-juicy else ../ags-jake);
       extraPackages = with pkgs; [
         accountsservice
         gnome.gnome-bluetooth
@@ -113,13 +117,12 @@ in
         "$hyper" = "ALT SHIFT CTRL SUPER";
 
 
-        monitor = ( if isJuicy then [ ",5120x1440,0x0,1,""HDMI-A-1,highrr,-5120x0,1"] else ["DP-1,2560x1440@165,0x0,1," "HDMI-A-1,1920x1080@60,2560x0,1"]);
+        monitor = ( if osConfig.hardware.keyboard.zsa.enable then [ ",5120x1440,0x0,1,""HDMI-A-1,highrr,-5120x0,1"] else ["DP-1,2560x1440@165,0x0,1," "HDMI-A-1,1920x1080@60,2560x0,1"]);
 
-        input = { kb_layout = "us,us";
+        input = {
+          kb_layout = "us,us";
           follow_mouse = 1;
-          touchpad = {
-            natural_scroll = "yes";
-          };
+          touchpad.natural_scroll = "yes";
         };
 
 	      cursor = {
@@ -156,11 +159,11 @@ in
           active_opacity = 0.85;
           inactive_opacity = 0.85;
           fullscreen_opacity = 1.0;
+          dim_special = 0.3;
 
           blur = {
             enabled = true;
             ignore_opacity = true;
-            popups = true;
             new_optimizations = true;
             size = 3;
             contrast = 0.8916;
@@ -168,6 +171,8 @@ in
             vibrancy = 0.2496;
             vibrancy_darkness = 0.15;
             passes = 4;
+            special = true;
+            popups = true;
           };
         };
 
@@ -218,38 +223,6 @@ in
 	      };
 
         plugin = {
-
-          /*hy3 = {
-            no_gaps_when_only = 1;
-            node_collapse_policy = 2;
-            group_inset = 0;
-            tab_first_window = false;
-            tabs = {
-              height = 7;
-              padding = 3;
-              from_top = false;
-              rounding = 3;
-              render_text = false;
-              text_center = true;
-              text_font = "${config.font}";
-              text_height = 11;
-              text_padding = 3;
-              # Tab Colours
-              "col.active" = "rgba(${config.colorScheme.palette.base0D}ff)";
-              "col.urgent" = "rgba(${config.colorScheme.palette.base0E}ff)";
-              "col.inactive" = "rgba(${config.colorScheme.palette.base03}ff)";
-              "col.text.active" = "rgba(${config.colorScheme.palette.base05}ff)";
-              "col.text.urgent" = "rgba(${config.colorScheme.palette.base06}ff)";
-              "col.text.inactive" = "rgba(${config.colorScheme.palette.base05}ff)";
-            };
-            autotile = {
-              enable = true;
-              ephemeral_groups = true;
-              trigger_width = 1080;
-              trigger_height = 550;
-            };
-          };*/
-
           hyprbars = {
             bar_height = 30;
             bar_color = "rgb(${config.colorScheme.palette.base00})";
@@ -291,8 +264,9 @@ in
   	      "$mainMod CTRL, right, layoutmsg, preselect r"
   	      "$mainMod CTRL, up, layoutmsg, preselect u"
           "$mainMod CTRL, down, layoutmsg, preselect d"
-
           "$mainMod CTRL, G, togglegroup"
+	        "$mainMod CTRL, S, layoutmsg, togglesplit"
+          "$mainMod CTRL, R, layoutmsg, swapsplit"
 
   	      # Resize windows with mainMod + SUPER + arrow keys
 	        "$mainMod ALT SHIFT, left, resizeactive, 75 0"
@@ -302,14 +276,11 @@ in
 
           # layout / window management
           "$mainMod SHIFT, Q, killactive,"
-
           "$mainMod SHIFT, L, lockactivegroup, toggle"
           "$mainMod SHIFT, F, togglefloating"
           "$mainMod SHIFT, T, settiled"
 	        "$mainMod SHIFT, P, pin"
           "$mainMod SHIFT, O, toggleopaque"
-
-
 
           # Media
 	        ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_SINK@ 5%+"
@@ -317,25 +288,19 @@ in
 	        ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_SINK@ toggle"
           ", XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_SOURCE@ toggle"
 
-          # Buggy with hy3
-          "$mainMod, grave, togglespecialworkspace, special:scratchpad"
-          "$mainMod Shift, grave, movetoworkspace, special:scratchpad"
-
+          "$mainMod, T, togglespecialworkspace, special:scratchpad"
+          "$mainMod Shift, T, movetoworkspace, special:scratchpad"
         ]
         # Check if Nix config has hardware.keyboard.zsa.enable true or false
-        # osConfig refers to Nix config in Home-Manager
-        # config refers to the config you are in Nix/Home
+        # osConfig refers to Nix config in Home-Manager -- config refers to the config you are in Nix/Home
         ++ (if osConfig.hardware.keyboard.zsa.enable then [
-	        "$mainMod CTRL, S, layoutmsg, togglesplit"
-          "$mainMod CTRL, R, layoutmsg, swapsplit"
-
           "$mainMod, Print, exec, ${pkgs.hyprshot}/bin/hyprshot -m region"
 
-          # Quick launch
+          # QuickLaunch with meh key
           "$meh, return, exec, ${terminal}"
           "$meh, T, exec, ${terminal}"
-          "$meh, space, exec, ags -t applauncher"
-          "$meh, O, exec, ags -t applauncher"
+          "$meh, space, exec, ags -t launcher"
+          "$meh, O, exec, ags -t launcher"
 	        "$meh, J, exec, [float; center] ${terminal} nvim -c 'Neorg journal today"
           "$meh, N, exec, [float; center] ${terminal} nvim -c 'Neorg index'"
 	        "$meh, escape, exec, [float; size 950 650; move onscreen 100%-0;] ${terminal} ${pkgs.bottom}/bin/btm"
@@ -343,14 +308,19 @@ in
 	        "$meh, W, exec, ${pkgs.firefox}/bin/firefox"
           "$meh, Q, exec, [group new;] ${pkgs.qutebrowser}/bin/qutebrowser"
           "$meh, slash, exec, ${terminal} nvim $(${pkgs.fzf}/bin/fzf))"
+
+          # Special Workspaces
+          "$mainMod, G, togglespecialworkspace, special:launchers"
+          "$mainMod SHIFT, G, movetoworkspace, special:launchers"
+          "$mainMod, M, togglespecialworkspace, special:music"
+          "$mainMod SHIFT, M, movetoworkspace, special:music"
         ] else [
           "$mainMod SHIFT, S, exec, ${pkgs.hyprshot}/bin/hyprshot -m region"
 
           # Quick launch
           "$mainMod, return, exec, ${terminal}"
-          "$mainMod, T, exec, ${terminal}"
-          "$mainMod, space, exec, ags -t applauncher"
-          "$mainMod, O, exec, ags -t applauncher"
+          "$mainMod, space, exec, ags -t launcher"
+          "$mainMod, O, exec, ags -t launcher"
 	        "$mainMod, J, exec, [float; center] ${terminal} nvim -c 'Neorg journal today"
           "$mainMod, N, exec, [float; center] ${terminal} nvim -c 'Neorg index'"
 	        "$mainMod, escape, exec, [float; size 950 650; move onscreen 100%-0;] ${terminal} ${pkgs.bottom}/bin/btm"
@@ -372,66 +342,62 @@ in
 		      "hypridle"
           "ags"
           "polkit-gnome-authentication-agent-1"
-          "[workspace 1 silent; group deny] firefox --new-window"
-          "[workspace 1 silent;] ${neorg}"
+        ] ++ (if osConfig.hardware.keyboard.zsa.enable then [
+          "[workspace 1 silent] firefox --new-window"
+          "[workspace 2 silent] bambu-studio"
+          "[workspace 3 silent] signal-desktop"
+          "[workspace 3 silent] firefox --new-window https://www.facebook.com/"
+          "[workspace 3 silent] discord"
+          "[workspace 4 silent] ${terminal}"
+          "[workspace 4 silent] qutebrowser --target window https://search.brave.com"
+          "[workspace 6 silent] qutebrowser --target window https://youtube.com"
+          "[workspace special:scratchpad; silent] ${neorg}"
+          "[workspace special:scratchpad; silent] ${terminal}"
+          "[workspace special:launcher; silent] steam"
+          "[workspace special:launcher; silent] heoric"
+          "[workspace special:music; silent] tidal-hifi"
 
-          "[workspace 2 silent; group deny] firefox --new-window"
-          "[workspace 2 silent;] bambu-studio"
+        ] else [
+          "firefox"
+          "steam"
+          "tidal-hifi"
+          "armcord"
+        ]);
 
-          "[workspace 3 silent; group new] ${terminal}"
-          "[workspace 3 silent; group new] qutebrowser --target window https://search.brave.com"
-          "[workspace 3 silent; group deny] ${terminal} ya"
-         	#
-
-          "[workspace 4 silent] signal-desktop"
-          "[workspace 4 silent] firefox --new-window https://www.facebook.com/"
-          #"[workspace 3 silent] firefox --new-window https://discord.com/"
-          "[workspace silent 4] discord"
-          "[workspace silent 6] steam"
-          "[workspace 6 silent] tidal-hifi"
-          "[workspace 6 silent] ${terminal} ncmcpp -s browse"
-          "[workspace 6 silent] ${terminal} cava"
-
-          "[workspace 7 silent; group deny] qutebrowser --target window https://youtube.com"
-	      ];
-  exec = [
-    "xrandr --output DP-1 --primary"
-  ];
-        workspace = [
-          "m[HDMI-A-1], gapsout:0, gapsin:0, border:false, rounding:false, decorate:false, shadow:false"
-
-          "1, monitor:DP-1, default:true"
-  	      "2, monitor:DP-1"
-  	      "3, monitor:DP-1, defaultName:Terminal, gapsin:0, gapsout:0, shadow:false, rounding:false"
-          "4, monitor:DP-1, defaultName:Social, bordersize:6, gapsin:15, gapsout:75"
-          "5, monitor:DP-1, defaultName:Games, border:false, decorate:false, shadow:false, rounding:false, gapsin:0, gapsout:0"
-          "6, monitor:DP-1, defaultName:Misc, bordersize:9, gapsin:30, gapsout:75"
-  	      "7, monitor:HDMI-A-1, default:true, defaultName:TV"
-
-	        # 5120x1440 Monitor on  DP-1 try to somewhat center windows based on
-          # Visible windows
-
-          "w[vt1] m[DP-1] r[1-4], gapsout:25 1000 25 1000"
-          "w[vt2-3] m[DP-1] r[1-4], gapsout:25 400 25 400"
-          "w[vt1] m[DP-1] r[5-5], gapsout:0 780 0 780, gapsin:0"
-
-
+        exec = [
+          "xrandr --output DP-1 --primary"
         ];
 
-        windowrulev2 = [
-          # Dont allow windows to maximize unless specified
-          "suppressevent maximize, class:^(.*)$"
-          # Flating windows should have a title bar
-          "plugin:hyprbars:nobar, floating:0"
+        workspace = [
+          "m[HDMI-A-1], gapsout:0, gapsin:0, border:false, rounding:false, decorate:false, shadow:false"
+          "1, monitor:DP-1, default:true"
+          "2, monitor:DP-1"
+          "3, monitor:DP-1, defaultName:Social, bordersize:5, gapsin:15, gapsout:60"
+  	      "4, monitor:DP-1, defaultName:Terminal, gapsin:0, gapsout:0, shadow:false, rounding:false"
+          "5, monitor:DP-1, defaultName:Games, border:false, decorate:false, shadow:false, rounding:false, gapsin:0, gapsout:0"
+          "6, monitor:HDMI-A-1, default:true"
+          "7, monitor:HDMI-A-1"
+          "8, monitor:HDMI-A-1"
+          "9, monitor:HDMI-A-1"
+          "0, monitor:HDMI-A-1"
+        ] ++ (if osConfig.hardware.keyboard.zsa.enable then [
+          "special:music, on-created-empty:tidal-hifi, gapsout:75 1200 75 1200"
+          "special:launcher, on-created-empty:steam, gapsout:75 1200 75 1200"
+          "special:scratchpad, on-created-empty:${terminal}, gapsout:60 900 60 900"
+          "w[vt1] m[DP-1] r[1-3], gapsout:25 1050 25 1050"
+          "w[vt2-3] m[DP-1] r[1-3], gapsout:25 400 25 400"
+          "w[vt1] m[DP-1] r[4-4], gapsout:0 1330 0 1330"
+          "w[vt2] m[DP-1] r[4-4], gapsout:0 625 0 625"
+          "w[vt1] m[DP-1] r[5-5], gapsout:0 830 0 830, gapsin:0"
+        ] else [ ]);
 
+        windowrulev2 = [
           #Tagging windows
           "tag +games, class:^(steam_app.*)$"
           "tag +games, class:(Waydroid)"
 	        "tag +games, class:(osu!)"
-
 	        "tag +music, class:^(tidal-hifi)$"
 	        "tag +music, title:^(ncmpcpp.*)$"
-
 	        "tag +media, tag:games"
           "tag media, title:^(.*WATCH ON BINGE —.*)$"
           "tag media, title:^(.*- YouTube.*)$"
@@ -440,19 +406,14 @@ in
           "tag media, title:^(.*- Twitch.*)$"
           "tag +media, title:^(Picture-in-Picture)$"
           "tag +media, class:(mpv)"
-
           "tag +pinnedMedia, title:(Picture-in-Picture)$"
           "tag +pinnedMedia, class:(mpv)"
-
 	        "tag +social, class:^(Signal)$"
 	        "tag +social, class:^(discord)$"
           "tag +social, title:^(https://www.facebook.com.*)$ class:^(org.qutebrowser.qutebrowser)$"
-
 	        "tag +browser, class:(org.qutebrowser.qutebrowser)"
 	        "tag +browser, class:(firefox)"
-
           "tag +term, class:(kitty)"
-
           "tag +launcher, class:(steam)"
 
           # Do not idle when Gaming / playing media
@@ -469,22 +430,10 @@ in
 
           # Match tags to certain workspaces
 	        "monitor DP-1, tag:games"
-	        "workspace 3, tag:social"
-          "workspace 5, tag:games"
-
-	        "workspace 5, fullscreen:1"
-          "workspace 6, tag:music"
-          #"group set, tag:browser"
-
-          # Disable potentially GPU intensive options
-          # Do not allow to be added to groups
-          # Fix xwayland displaing incorrect res
           "noblur, tag:games"
           "xray 1, tag:games"
 	        "group deny, tag:games"
-          #"nomaxsize, tag:games"
           "tile, tag:games"
-          #"suppressevent fullscreen, tag:games"
 
           # Pinned Media (mainly videos doing PnP)
           # Disable decorations and bar
@@ -501,7 +450,17 @@ in
 
           "float, title:^(Extension: (Bitwarden - Free Password Manager) - Bitwarden —.*)$"
           "size 550 750, title:^(Extension: (Bitwarden - Free Password Manager) - Bitwarden —.*)$"
-        ];
+        ] ++ (if osConfig.hardware.keyboard.zsa.enable then [
+          # Dont allow windows to maximize unless specified
+          "suppressevent maximize, class:^(.*)$"
+          # Flating windows should have a title bar
+          "plugin:hyprbars:nobar, floating:0"
+
+          "workspace 3, tag:social"
+          "workspace 5, class:^(steam_app.*)$"
+	        "workspace 5, fullscreen:1"
+          "workspace 6, tag:music"
+        ] else [ ]);
       };
 
       systemd = {

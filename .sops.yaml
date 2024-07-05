@@ -9,6 +9,7 @@ keys:
   - &emerald age1xasl8sn9dq3whnjd8qmzrv3rph45d47kfyj0fql52p87p7fesurqntay57
   - &emeraldGPG 6c480e7f1d8a45f3a54f0478ec9243c65e854f30
   - &dante age1w2rx4rmpeu56f5rwjpk53n5z4xcnqatfq937tcg5fzumdx3q935qh2xcnf
+  - &juicyDante age1mfqr44dd0pduvtfgh2rzne26s86hd0scur9gkrjg6l83ypzjvdjqx9xmf4
   - &danteGPG 6c480e7f1d8a45f3a54f0478ec9243c65e854f30
 creation_rules:
   - path_regex:  secrets/[^/]+\.(yaml|json|env|ini)$
@@ -23,11 +24,12 @@ creation_rules:
       - *leoGPG
       - *emeraldGPG
       - *danteGPG
-  - path_regex:  hosts/juicy/secrets/[^/]+\.(yaml|json|env|ini)$
+  - path_regex:  hosts/leo/secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - age:
       - *juicy
       - *leo
+      - *juicyDante
       gpg:
       - *leoGPG
   - path_regex:  hosts/emerald/secrets/[^/]+\.(yaml|json|env|ini)$

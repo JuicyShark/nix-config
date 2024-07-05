@@ -77,6 +77,7 @@
         experimental-features = [ "nix-command" "flakes" ];
         warn-dirty = false;
         substituters = ["https://nix-gaming.cachix.org"];
+        trusted-users = ["nix-ssh" "juicy" "jake" ];
         trusted-public-keys = ["nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="];
       };
     };

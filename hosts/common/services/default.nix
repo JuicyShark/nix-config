@@ -12,7 +12,6 @@ options = {
       #./media.nix
       #./gitea.nix
       #./redis.nix
-      ./pipewire.nix
       ./openssh.nix
       #./nfs.nix
       #./virtualisation.nix

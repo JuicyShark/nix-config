@@ -122,6 +122,62 @@ in
         };
       };
 
+      copilot-chat = {
+        enable = true;
+        settings = {
+          auto_insert_mode = true;
+          context = "buffers";
+
+          mappings = {
+            accept_diff = {
+              insert = "<C-y>";
+              normal = "<C-y>";
+            };
+            close = {
+              insert = "<C-c>";
+              normal = "q";
+            };
+            complete = {
+              detail = "Use @<Tab> or /<Tab> for options.";
+              insert = "<Tab>";
+            };
+            reset = {
+              insert = "<C-l>";
+              normal = "<C-l>";
+            };
+            show_diff = {
+              normal = "gd";
+            };
+            show_system_prompt = {
+              normal = "gp";
+            };
+            show_user_selection = {
+              normal = "gs";
+            };
+            submit_prompt = {
+              insert = "<C-m>";
+              normal = "<CR>";
+            };
+            yank_diff = {
+              normal = "gy";
+            };
+          };
+          };
+        };
+
+        # TODO setup FOLKE plugins
+        trouble = {
+          enable = true;
+        };
+        edgy = {
+          enable = true;
+        };
+        noice = {
+          enable = true;
+          cmdline.view = "cmdline";
+
+        };
+
    #   openscad.enable = true;
    #   godot.enable = true;
 

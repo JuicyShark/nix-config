@@ -2,10 +2,12 @@
 {
   imports = [
     inputs.hyprland.nixosModules.default
+    inputs.nix-gaming.nixosModules.pipewireLowLatency
   ];
 
   environment.systemPackages = with pkgs; [
     polkit_gnome
+    pwvucontrol
   ];
   environment.profileRelativeSessionVariables = {
     QT_PLUGIN_PATH = [ "/lib/qt-6/plugins" ];
@@ -15,32 +17,40 @@
     enable = true;
     package = inputs.hyprland.packages.${pkgs.system}.hyprland;
   };
-  # GTK portal not installed properly by hyprland
+# GTK portal not installed properly by hyprland
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
   };
 
   services = {
-     #TODO use ags to power login with greetd
-      greetd = {
-	  	  enable = (if config.services.xserver.enable then false else true); # login manager
-        settings = {
-          default_session = {
-            command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --greeting 'Welcome Juicy' --cmd Hyprland";
-            user = config.main-user;
-          };
+  #TODO use ags to power login with greetd
+    greetd = {
+	    enable = (if config.services.xserver.enable then false else true); # login manager
+      settings = {
+        default_session = {
+          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --greeting 'Welcome Juicy' --cmd Hyprland";
+          user = config.main-user;
         };
       };
+    };
+
+    pipewire = {
+      enable = (if config.services.xserver.enable then false else true);
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+      lowLatency.enable = true;
+    };
+
     gnome.gnome-keyring.enable = true;
     udisks2.enable = true;
     power-profiles-daemon.enable = true;
     gvfs.enable = true;
   };
 
-
-
   security.pam.services.hyprlock = {};
+  security.rtkit.enable = true;
 
   systemd = {
     user.services.polkit-gnome-autentication-agent-1 = {

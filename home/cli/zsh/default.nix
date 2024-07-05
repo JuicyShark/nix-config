@@ -8,7 +8,6 @@
     ./fastfetch.nix
     ./fzf.nix
     ./man.nix
-    ./yt-dlp.nix
     ./direnv.nix
   ];
   home.packages = with pkgs; [

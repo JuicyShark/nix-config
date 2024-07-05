@@ -61,16 +61,6 @@
         };
       };
       lsp-format.enable = true;
-      none-ls = {
-        enable = true;
-        enableLspFormat = true;
-        sources = {
-          formatting = {
-            nixpkgs_fmt.enable = false;
-            markdownlint.enable = true;
-          };
-        };
-      };
       lspkind = {
         enable = true;
         cmp = {
