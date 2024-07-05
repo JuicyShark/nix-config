@@ -62,7 +62,9 @@ in
       ] ++ (if osConfig.hardware.keyboard.zsa.enable then [
 
       ] else [
-       which
+        which
+        inputs.matugen.packages.${system}.default
+        bun
         dart-sass
         fd
         fzf

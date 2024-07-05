@@ -12,6 +12,7 @@
     sops-nix.url = "github:Mic92/sops-nix";
     raspberry-pi-nix.url = "github:tstat/raspberry-pi-nix";
     impermanence.url = "github:nix-community/impermanence";
+    matugen.url = "github:InioX/matugen?ref=v2.2.0";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -35,7 +36,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  outputs = { self, nixos, nixpkgs, nix-gaming, home-manager, hyprland, hypr-plugins, ags, nix-colors, nixvim, nix-software-center, sops-nix, raspberry-pi-nix, impermanence, disko, ... }@inputs:
+  outputs = { self, nixos, nixpkgs, nix-gaming, home-manager, hyprland, hypr-plugins, ags, nix-colors, nixvim, nix-software-center, sops-nix, raspberry-pi-nix, impermanence, disko, matugen, ... }@inputs:
   let
     system = "x86_64-linux";
   in
