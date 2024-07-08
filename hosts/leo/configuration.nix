@@ -40,8 +40,6 @@ in
       ];
     };
 
-    networking.hostName = "leo";
-
     # User Setup
     sops.secrets.password = {
       sopsFile = ./secrets/juicy.yaml;
@@ -71,4 +69,6 @@ in
       ];
       packages = [pkgs.home-manager];
     };
+
+    networking.hostName = "leo";
 }
