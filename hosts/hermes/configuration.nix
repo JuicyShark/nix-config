@@ -29,11 +29,6 @@ in
       };
     };
     security.polkit.enable = true;
-    networking = {
-      hostName = "hermes";
-      #networkmanager.enable = true;
-      interfaces = { wlan0.useDHCP = true; };
-    };
 
     sops.secrets.password = {
       sopsFile = ../leo/secrets/juicy.yaml;

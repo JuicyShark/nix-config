@@ -41,8 +41,6 @@ in
       udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
   };
 
-  networking.hostname = "emerald";
-  networking.networkmanager.enable = true;
 
     users.users.${config.main-user} = {
       isNormalUser = true;

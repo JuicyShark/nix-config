@@ -1,10 +1,11 @@
-{ pkgs, inputs, config, ... }:
+{ lib, pkgs, inputs, config, ... }:
 {
+
   imports = [
     inputs.hyprland.nixosModules.default
     inputs.nix-gaming.nixosModules.pipewireLowLatency
   ];
-
+  config = lib.mkIf config.programs.hyprland.enable {
   environment.systemPackages = with pkgs; [
     polkit_gnome
     pwvucontrol
@@ -14,7 +15,7 @@
   };
 
   programs.hyprland = {
-    enable = true;
+
     package = inputs.hyprland.packages.${pkgs.system}.hyprland;
   };
 # GTK portal not installed properly by hyprland
@@ -79,4 +80,5 @@
      };
     };
   };
+};
 }

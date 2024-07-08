@@ -22,9 +22,6 @@ in
       ];
     };
     security.polkit.enable = true;
-
-    networking.hostName = "dante";
-
     users.users.${config.main-user} = {
       isNormalUser = true;
       hashedPasswordFile = config.sops.secrets.password.path;

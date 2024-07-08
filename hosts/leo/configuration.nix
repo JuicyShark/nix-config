@@ -4,21 +4,14 @@ let
 in
 {
 
-  imports = [
-    ../common/shared-configuration.nix
-    ../common/nvidia.nix
-    ../common/gaming.nix
-    ../common/printer.nix
-    ../common/hyprland.nix
-    ./hardware-configuration.nix
-  ];
+
 
   boot.binfmt.emulatedSystems = [
     "aarch64-linux"
   ];
 
   nix.sshServe = {
-    enable = true;
+    enable = false;
     write = true;
   };
 
@@ -30,7 +23,9 @@ in
       rpi-imager  # Raspberry Pi Imaging Utility
     ];
 
-
+    programs = {
+      hyprland.enable = true;
+    };
 
     services.mopidy = {
       enable = true;
@@ -40,12 +35,11 @@ in
       ];
     };
 
-    # User Setup
-    sops.secrets.password = {
-      sopsFile = ./secrets/juicy.yaml;
-      neededForUsers = true;
-    };
-
+  hardware = {
+    keyboard.zsa.enable = true;
+    logitech.wireless.enable = true;
+  };
+     # nvidia.enable = true;
     users.users.${config.main-user} = {
       isNormalUser = true;
       hashedPasswordFile = config.sops.secrets.password.path;
@@ -69,6 +63,10 @@ in
       ];
       packages = [pkgs.home-manager];
     };
-
-    networking.hostName = "leo";
+  imports = [
+    ./hardware-configuration.nix
+    ../common/gaming.nix
+    ../common/nvidia.nix
+    ../common/shared-configuration.nix
+  ];
 }

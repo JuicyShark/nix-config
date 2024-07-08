@@ -2,6 +2,7 @@
   description = "Juicy's messy WIP config";
 
   nixConfig = {
+    trusted-users = ["nix-ssh" "juicy" "jake" ];
     extra-substituters = [
       "https://raspberry-pi-nix.cachix.org"
       "https://hyprland.cachix.org"

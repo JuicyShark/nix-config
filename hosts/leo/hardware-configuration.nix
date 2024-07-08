@@ -2,10 +2,6 @@
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  hardware = {
-    keyboard.zsa.enable = true;
-    logitech.wireless.enable = true;
-  };
 
   boot = {
     kernelModules = [ "kvm-intel" ];
@@ -77,41 +73,29 @@
   };
   swapDevices = [ { device = "/dev/disk/by-uuid/cb625649-165e-4b56-8fc3-681e34e58c16"; } ];
 
-  sops.secrets.wireguardKey = {
-    sopsFile = ./secrets/juicy.yaml;
-    neededForUsers = true;
-  };
-  networking = {
-    useDHCP = lib.mkDefault true;
-      defaultGateway = "192.168.54.99";
-      nameservers = ["8.8.8.8"];
-      networkmanager.enable = true;
-     wireguard.interfaces.wg0 = {
-      ips = [ "10.100.0.2/24" ];
-      listenPort = 51820;
-      privateKeyFile = config.sops.secrets.wireguardKey.path;
 
+  networking = {
+    hostName = "leo";
+    wireguard.interfaces.wg0 = {
+      ips = [ "10.100.0.2/24" ];
       peers = [
-        {
-          publicKey = "L4msD0mEG2ctKDtaMJW2y3cs1fT2LBRVV7iVlWZ2nZc=";
-          allowedIPs = [ "10.100.0.0/24" ];
-          endpoint = "192.168.54.98:51820";
-          persistentKeepalive = 25;
-        }
-      ];
-  };
-     interfaces."enp5s0".ipv4 = {
-      addresses = [
-        {
-          address = "192.168.53.54";
-          prefixLength = 24;
-        }
-      ];
+          /*{ example of forwdinv everbthing to peer endpoint
+            publicKey = "oPUTwZApzM5gFsV4+i2HwP6gESWS+9/9497jo2JjflM=";
+            allowedIPs = [ "0.0.0.0/0" ];
+            endpoint = "192.168.54.99:51820";
+            persistentKeepalive = 25;
+          }*/
+        ];
+      };
+      interfaces."enp5s0".ipv4 = {
+        addresses = [
+          {
+            address = "192.168.54.54";
+            prefixLength = 24;
+          }
+        ];
+      };
     };
-    firewall = {
-      allowedUDPPorts = [ 51820 ];
-    };
-  };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
