@@ -5,7 +5,12 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
     boot = {
-      kernelpackages = pkgs.linuxkernel.packages.linux_zen;
+      kernelPackages = pkgs.linuxkernel.packages.linux_zen;
+      kernelParams = [
+        # Activate Performance state
+        "intel_pstate=active"
+        "i915.fastboot=1"
+      ];
       kernelModules = [ "kvm-intel" ];
       extraModulePackages = [ ];
 

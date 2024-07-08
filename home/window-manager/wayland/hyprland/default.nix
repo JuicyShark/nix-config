@@ -117,8 +117,7 @@ in
         "$mainMod" = "SUPER";
         "$meh" = "ALT SHIFT CTRL";
         "$hyper" = "ALT SHIFT CTRL SUPER";
-        monitor = ( if osConfig.hardware.keyboard.zsa.enable then [ "DP-1,highrr,0x0,1,""HDMI-A-1,highrr,-5120x0,1"] else ["DP-1,2560x1440@165,0x0,1," "HDMI-A-1,1920x1080@60,2560x0,1"]);
-
+        monitor = ( if config.home.username == "jake" then [",highrr,0x0,1," "HDMI-A-1,1920x1080@60,auto-right,1"] else if osConfig.homelab.enable then  [ "HEADLESS-1,1920x1080@120,0x0,1"] else ["DP-1,highrr,0x0,1," "HDMI-A-1,highrr,-5120x0,1"] );
         input = {
           kb_layout = "us,us";
           follow_mouse = 1;
@@ -288,46 +287,42 @@ in
 	        ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_SINK@ toggle"
           ", XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_SOURCE@ toggle"
 
-          "$mainMod, T, togglespecialworkspace, special:scratchpad"
-          "$mainMod Shift, T, movetoworkspace, special:scratchpad"
-        ]
-        # Check if Nix config has hardware.keyboard.zsa.enable true or false
-        # osConfig refers to Nix config in Home-Manager -- config refers to the config you are in Nix/Home
-        ++ (if osConfig.hardware.keyboard.zsa.enable then [
-          "$mainMod, Print, exec, ${pkgs.hyprshot}/bin/hyprshot -m region"
+        ] ++ (if config.home.username == "juicy" then [
 
-          # QuickLaunch with meh key
+          "$mainMod, Print, exec, ${pkgs.hyprshot}/bin/hyprshot -m region"
           "$meh, return, exec, ${terminal}"
           "$meh, T, exec, ${terminal}"
           "$meh, space, exec, ags -t launcher"
           "$meh, O, exec, ags -t launcher"
-	        "$meh, J, exec, [float; center] ${terminal} nvim -c 'Neorg journal today"
+          "$meh, D, exec, ${pkgs.discord}/bin/discord"
+          "$meh, M, exec, ${pkgs.tidal-hifi}/bin/tidal-hifi"
+          "$meh, B, exec, ${pkgs.bambu-studio}/bin/bambu-studio"
+          "$meh, J, exec, [float; center] ${terminal} nvim -c 'Neorg journal today"
+          "$meh, C, exec, [float; center] ${terminal} nvim"
           "$meh, N, exec, [float; center] ${terminal} nvim -c 'Neorg index'"
 	        "$meh, escape, exec, [float; size 950 650; move onscreen 100%-0;] ${terminal} ${pkgs.bottom}/bin/btm"
 	        "$meh, F, exec, [float; size 1650 850; center;] ${terminal} ${pkgs.yazi}/bin/yazi"
 	        "$meh, W, exec, ${pkgs.firefox}/bin/firefox"
-          "$meh, Q, exec, [group new;] ${pkgs.qutebrowser}/bin/qutebrowser"
-          "$meh, slash, exec, ${terminal} nvim $(${pkgs.fzf}/bin/fzf))"
-
-          # Special Workspaces
-          "$mainMod, G, togglespecialworkspace, special:launchers"
-          "$mainMod SHIFT, G, movetoworkspace, special:launchers"
-          "$mainMod, M, togglespecialworkspace, special:music"
-          "$mainMod SHIFT, M, movetoworkspace, special:music"
+          #"$meh, Q, exec, [group new;] ${pkgs.qutebrowser}/bin/qutebrowser"
+          "$meh, period, exec, [float; size 1650 850; center;] ${terminal} ${pkgs.yazi}/bin/yazi"
+          "$meh, slash, exec, ${terminal} nvim -c ${pkgs.fzf}/bin/fzf"
         ] else [
           "$mainMod SHIFT, S, exec, ${pkgs.hyprshot}/bin/hyprshot -m region"
 
           # Quick launch
           "$mainMod, return, exec, ${terminal}"
           "$mainMod, space, exec, ags -t launcher"
-          "$mainMod, O, exec, ags -t launcher"
+          "$mainMod, O, exec, ${pkgs.obsidian}/bin/obsidian"
+          "$mainMod, D, exec, ${pkgs.discord}/bin/discord"
+          "$mainMod, M, exec, ${pkgs.tidal-hifi}/bin/tidal-hifi"
 	        "$mainMod, J, exec, [float; center] ${terminal} nvim -c 'Neorg journal today"
           "$mainMod, N, exec, [float; center] ${terminal} nvim -c 'Neorg index'"
 	        "$mainMod, escape, exec, [float; size 950 650; move onscreen 100%-0;] ${terminal} ${pkgs.bottom}/bin/btm"
 	        "$mainMod, F, exec, [float; size 1650 850; center;] ${terminal} ${pkgs.yazi}/bin/yazi"
 	        "$mainMod, W, exec, ${pkgs.firefox}/bin/firefox"
           "$mainMod, Q, exec, [group new;] ${pkgs.qutebrowser}/bin/qutebrowser"
-          "$mainMod, slash, exec, ${terminal} nvim $(${pkgs.fzf}/bin/fzf))"
+          "$meh, period, exec, [float; size 1650 850; center;] ${terminal} ${pkgs.yazi}/bin/yazi"
+          "$meh, slash, exec, ${terminal} nvim -c ${pkgs.fzf}/bin/fzf"
         ]) ++ workspaces;
 
 		    # Move/resize windows with mainMod + LMB/RMB and dragging
@@ -337,12 +332,12 @@ in
 		  	  "$mainMod SHIFT, mouse:272, resizewindow"
         ];
 
- exec-once = [
-        	"hyprpaper"
+        exec-once = [
 		      "hypridle"
           "ags"
-          "polkit-gnome-authentication-agent-1"
         ] ++ (if osConfig.hardware.keyboard.zsa.enable then [
+          "hyprpaper"
+          "polkit-gnome-authentication-agent-1"
           "[workspace 1 silent] firefox --new-window"
           "[workspace 2 silent] bambu-studio"
           "[workspace 3 silent] signal-desktop"
@@ -351,17 +346,15 @@ in
           "[workspace 4 silent] ${terminal}"
           "[workspace 4 silent] qutebrowser --target window https://search.brave.com"
           "[workspace 6 silent] qutebrowser --target window https://youtube.com"
-          "[workspace special:scratchpad; silent] ${neorg}"
-          "[workspace special:scratchpad; silent] ${terminal}"
-          "[workspace special:launcher; silent] steam"
-          "[workspace special:launcher; silent] heoric"
-          "[workspace special:music; silent] tidal-hifi"
-
-        ] else [
+        ] else if config.home.username == "jake" then [
+          "polkit-gnome-authentication-agent-1"
           "firefox"
           "steam"
           "tidal-hifi"
           "armcord"
+        ] else [
+          "${terminal}"
+        "${neorg}"
         ]);
 
         exec = [
@@ -381,9 +374,6 @@ in
           "9, monitor:HDMI-A-1"
           "0, monitor:HDMI-A-1"
         ] ++ (if osConfig.hardware.keyboard.zsa.enable then [
-          "special:music, on-created-empty:tidal-hifi, gapsout:75 1200 75 1200"
-          "special:launcher, on-created-empty:steam, gapsout:75 1200 75 1200"
-          "special:scratchpad, on-created-empty:${terminal}, gapsout:60 900 60 900"
           "w[vt1] m[DP-1] r[1-3], gapsout:25 1050 25 1050"
           "w[vt2-3] m[DP-1] r[1-3], gapsout:25 400 25 400"
           "w[vt1] m[DP-1] r[4-4], gapsout:0 1330 0 1330"

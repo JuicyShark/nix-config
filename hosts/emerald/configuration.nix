@@ -5,13 +5,12 @@ let
 in
 {
   imports = [
-    ../common/shared-configuration.nix           # Global options between machines
+    ../common/shared-configuration.nix    # Global options between machines
     ../common/nvidia.nix                  # Nvidia compatibilty
     ../common/gaming.nix                  # Add Steam
     ../common/printer.nix                 # will i ever print?
-    ../common/hyprland.nix                # The Dark Side Calls
-    ./hardware-configuration.nix          # Options specifc to pc hardware unique to you only
-    inputs.nix-software-center.packages.${pkgs.system}.nix-software-center # Graphical software installer for Nix
+    inputs.nix-software-center.packages.${pkgs.system}.nix-software-center
+    ./hardware-configuration.nix
   ];
 
   config = {
@@ -32,12 +31,15 @@ in
       };
     };
 
-    services = {
-      gvfs.enable = true;                   # required; gnome virtual file system
-      udisks2.enable = true;                # optional; auto mounts usb filesystems
-      sysprof.enable = true;                # optional; monitor system
-      blueman.enable = true;                # optional; gui for managing bluetooth devices
+    programs = {
+      hyprland.enable = true;
+    };
 
+    services = {
+      gvfs.enable = true;       # required; gnome virtual file system
+      udisks2.enable = true;    # optional; auto mounts usb filesystems
+      sysprof.enable = true;    # optional; monitor system
+      blueman.enable = true;    # optional; gui for bluetooth
       udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
   };
 

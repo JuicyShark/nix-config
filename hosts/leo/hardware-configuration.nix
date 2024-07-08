@@ -6,6 +6,11 @@
   boot = {
     kernelModules = [ "kvm-intel" ];
     kernelPackages = pkgs.linuxKernel.packages.linux_zen;
+      kernelParams = [
+        # Activate Performance state
+        "intel_pstate=active"
+        "i915.fastboot=1"
+      ];
     supportedFilesystems = [ "ntfs" ];
     loader = {
       systemd-boot.enable = true;
@@ -60,7 +65,7 @@
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/7985db3f-8429-4051-a25a-0f5ebdcf45c5";
     fsType = "btrfs";
-    options = [ "subvol=@" ];
+    options = [ "subvol=@" "discard" "noatime" "compress=zstd"];
   };
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/EE13-42AC";
@@ -69,7 +74,7 @@
   fileSystems."/games" = {
     device = "/dev/disk/by-uuid/BAEC3099EC3051BD";
     fsType = "lowntfs-3g";
-    options = [ "uid=1000" "gid=100" "exec" "rw" "permissions" "juicy" "auto" "ignore_case" ];
+    options = [ "uid=1000" "gid=100" "exec" "rw" "permissions" "juicy" "auto" "ignore_case" "defaults" "noatime" "async" "big_writes" "windows_names"];
   };
   swapDevices = [ { device = "/dev/disk/by-uuid/cb625649-165e-4b56-8fc3-681e34e58c16"; } ];
 

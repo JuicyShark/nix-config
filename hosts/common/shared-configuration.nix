@@ -70,6 +70,7 @@ options = {
     i18n.defaultLocale = "en_AU.UTF-8";
 
     nixpkgs.config = {
+
       allowUnfree = true;
       allowUnfreePredicate = true;
     };
