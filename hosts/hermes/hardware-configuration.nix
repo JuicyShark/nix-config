@@ -43,12 +43,12 @@
     defaultGateway = "192.168.54.99";
     nameservers = [ "8.8.8.8" "8.8.4.4" "192.168.54.99" ];
     interfaces = {
-      enp3s0 = {
+      enp5s0 = {
         useDHCP = lib.mkDefault false;
         ipv4 = {
           addresses = [
             {
-              address = "192.168.54.60";
+              address = "192.168.54.56";
               prefixLength = 24;
             }
           ];

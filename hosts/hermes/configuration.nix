@@ -11,7 +11,7 @@ in
 
   ];
 
-  environment.systemPackages = with pkgs; [ bluez bluez-tools ];
+  environment.systemPackages = with pkgs; [  bluez bluez-tools ];
 
   hardware = {
     bluetooth.enable = true;
@@ -31,15 +31,18 @@ in
     security.polkit.enable = true;
     networking = {
       hostName = "hermes";
-      useDHCP = false;
+      #networkmanager.enable = true;
       interfaces = { wlan0.useDHCP = true; };
     };
 
-
+    sops.secrets.password = {
+      sopsFile = ../leo/secrets/juicy.yaml;
+      neededForUsers = true;
+    };
     users.users.root.initialPassword = "root";
     users.users.${config.main-user} = {
       isNormalUser = true;
-      #hashedPasswordFile = config.sops.secrets.password.path;
+      hashedPasswordFile = config.sops.secrets.password.path;
       shell = pkgs.zsh;
       description = config.main-user;
       extraGroups = [ "wheel" ]
@@ -53,6 +56,7 @@ in
       ];
 
       openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOYz1y5xwfb+fRix3pbGJzqJGwBJVgNjv5bHS2owvtYP"
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJaHQ2CZkI0ApcMHZzqNcU7fiTl/prML3ONJ3KrSmy4I"
       ];
 

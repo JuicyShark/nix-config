@@ -77,21 +77,39 @@
   };
   swapDevices = [ { device = "/dev/disk/by-uuid/cb625649-165e-4b56-8fc3-681e34e58c16"; } ];
 
+  sops.secrets.wireguardKey = {
+    sopsFile = ./secrets/juicy.yaml;
+    neededForUsers = true;
+  };
   networking = {
-    useDHCP = lib.mkDefault false;
-    defaultGateway = "192.168.54.99";
-    nameservers = ["192.168.54.99"];
-    networkmanager = {
-      enable = true;
+    useDHCP = lib.mkDefault true;
+      defaultGateway = "192.168.54.99";
+      nameservers = ["8.8.8.8"];
+      networkmanager.enable = true;
+     wireguard.interfaces.wg0 = {
+      ips = [ "10.100.0.2/24" ];
+      listenPort = 51820;
+      privateKeyFile = config.sops.secrets.wireguardKey.path;
 
-    };
-    interfaces."enp5s0".ipv4 = {
+      peers = [
+        {
+          publicKey = "L4msD0mEG2ctKDtaMJW2y3cs1fT2LBRVV7iVlWZ2nZc=";
+          allowedIPs = [ "10.100.0.0/24" ];
+          endpoint = "192.168.54.98:51820";
+          persistentKeepalive = 25;
+        }
+      ];
+  };
+     interfaces."enp5s0".ipv4 = {
       addresses = [
         {
-          address = "192.168.54.54";
+          address = "192.168.53.54";
           prefixLength = 24;
         }
       ];
+    };
+    firewall = {
+      allowedUDPPorts = [ 51820 ];
     };
   };
 

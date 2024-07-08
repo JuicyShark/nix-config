@@ -14,6 +14,8 @@
       default = "juicy";
     };
 
+    raspberryDev.enable = lib.mkEnableOption "Enable Rapberry Pi Dev Packages";
+
     font = lib.mkOption {
       default = "Hack Nerd Font";
       type = lib.types.str;
@@ -62,7 +64,11 @@
       git.enable = true;
       dconf.enable = true;
     };
+              nixpkgs.config.permittedInsecurePackages = [
+                "segger-jlink-qt4-796b"
+              ];
 
+         nixpkgs.config.segger-jlink.acceptLicense = true;
     nix = {
       gc = {
         automatic = true;
@@ -74,6 +80,7 @@
         dates = [ "daily" ];
       };
       settings = {
+
         experimental-features = [ "nix-command" "flakes" ];
         warn-dirty = false;
         substituters = ["https://nix-gaming.cachix.org"];

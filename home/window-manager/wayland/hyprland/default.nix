@@ -117,9 +117,7 @@ in
         "$mainMod" = "SUPER";
         "$meh" = "ALT SHIFT CTRL";
         "$hyper" = "ALT SHIFT CTRL SUPER";
-
-
-        monitor = ( if osConfig.hardware.keyboard.zsa.enable then [ ",5120x1440,0x0,1,""HDMI-A-1,highrr,-5120x0,1"] else ["DP-1,2560x1440@165,0x0,1," "HDMI-A-1,1920x1080@60,2560x0,1"]);
+        monitor = ( if osConfig.hardware.keyboard.zsa.enable then [ "DP-1,highrr,0x0,1,""HDMI-A-1,highrr,-5120x0,1"] else ["DP-1,2560x1440@165,0x0,1," "HDMI-A-1,1920x1080@60,2560x0,1"]);
 
         input = {
           kb_layout = "us,us";

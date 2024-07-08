@@ -29,7 +29,7 @@
 	    enable = (if config.services.xserver.enable then false else true); # login manager
       settings = {
         default_session = {
-          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --greeting 'Welcome ${config.main-user}' --cmd Hyprland";
+          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --greeting 'Welcome ${config.main-user}' --cmd Hyprland";
           user = config.main-user;
         };
       };
@@ -49,10 +49,21 @@
     gvfs.enable = true;
   };
 
+  security.pam.services.greetd.enableGnomeKeyring = (if config.services.greetd.enable then true else false);
   security.pam.services.hyprlock = {};
   security.rtkit.enable = true;
 
   systemd = {
+    services.greetd.serviceConfig = {
+      Type = "idle";
+      StandardInput = "tty";
+      StandardOutput = "tty";
+      StandardError = "journal"; # Without this errors will spam on screen
+      # Without these bootlogs will spam on screen
+      TTYReset = true;
+      TTYVHangup = true;
+      TTYVTDisallocate = true;
+    };
     user.services.polkit-gnome-autentication-agent-1 = {
       description = "polkit-gnome-authentication-agent-1";
       wantedBy = ["graphical-session.target"];

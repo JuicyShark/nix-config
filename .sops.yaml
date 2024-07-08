@@ -9,34 +9,31 @@ keys:
   - &dante age1w2rx4rmpeu56f5rwjpk53n5z4xcnqatfq937tcg5fzumdx3q935qh2xcnf
   - &zues age1wqu4prctlyflc775hd46202dfg70y43q8x9u6md0cyqqem2cpaqq2lhc3v
 creation_rules:
-  - path_regex:  secrets/[^/]+\.(yaml|json|env|ini)$
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - age:
       - *juicy
       - *leo
       - *jake
       - *emerald
-      - *dante
-      - *zues
-  - path_regex:  hosts/leo/secrets/[^/]+\.(yaml|json|env|ini)$
+  - path_regex: hosts/leo/secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - age:
       - *juicy
       - *leo
       - *dante
-      - *zues
-  - path_regex:  hosts/emerald/secrets/[^/]+\.(yaml|json|env|ini)$
+  - path_regex: hosts/emerald/secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - age:
       - *jake
       - *emerald
-  - path_regex:  hosts/dante/secrets/[^/]+\.(yaml|json|env|ini)$
+  - path_regex: hosts/dante/secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - age:
       - *juicy
       - *jake
       - *dante
-  - path_regex:  hosts/zues/secrets/[^/]+\.(yaml|json|env|ini)$
+  - path_regex: hosts/zues/secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - age:
       - *juicy
