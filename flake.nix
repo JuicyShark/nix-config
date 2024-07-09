@@ -53,7 +53,6 @@
   outputs = { self, nixos, nixpkgs, nix-gaming, home-manager, hyprland, hypr-plugins, ags, nix-colors, nixvim, nix-software-center, sops-nix, raspberry-pi-nix, impermanence, disko, matugen, ... }@inputs:
   let
     system = "x86_64-linux";
-    nixpkgConfig = import ./nixpkgs/config.nix;
   in
   {
     nixosConfigurations = {

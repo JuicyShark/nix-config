@@ -6,19 +6,20 @@
     ./programs
   ];
 
-  # TODO Merge into firefox file, only enable for Jake
-  #programs.firefox.enableGnomeExtensions = true;
+
+  # Jakey needs access to a normal editor
   programs.vscode = {
-  enable = true;
-  extensions = with pkgs.vscode-extensions; [
-    catppuccin.catppuccin-vsc-icons
-    catppuccin.catppuccin-vsc
-    vscodevim.vim
-  ];
-};
+    enable = true;
+    extensions = with pkgs.vscode-extensions; [
+      catppuccin.catppuccin-vsc-icons
+      catppuccin.catppuccin-vsc
+      vscodevim.vim
+    ];
+  };
   programs.gnome-shell.enable = true;
 
   home.packages = with pkgs; [
+      ranger
       obsidian
       discord
       gnome.gnome-characters

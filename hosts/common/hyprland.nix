@@ -15,7 +15,6 @@
   };
 
   programs.hyprland = {
-
     package = inputs.hyprland.packages.${pkgs.system}.hyprland;
   };
 # GTK portal not installed properly by hyprland
@@ -50,9 +49,18 @@
     gvfs.enable = true;
   };
 
-  security.pam.services.greetd.enableGnomeKeyring = (if config.services.greetd.enable then true else false);
-  security.pam.services.hyprlock = {};
-  security.rtkit.enable = true;
+    security.rtkit.enable = true;
+
+    security.pam.services.greetd.gnome-keyring.enable = true;
+    security.pam.services.greetd.sshAgentAuth.enable = true;
+    security.pam.services.greetd.gnupg.enable = true;
+    security.pam.services.greetd.enable = true;
+
+    security.pam.services.hyprlock = {};
+    security.pam.services.hyprlock.gnupg.enable = true;
+    security.pam.services.hyprlock.sshAgentAuth.enable = true;
+    security.pam.services.hyprlock.gnome-keyring.enable = true;
+
 
   systemd = {
     services.greetd.serviceConfig = {
@@ -65,20 +73,6 @@
       TTYVHangup = true;
       TTYVTDisallocate = true;
     };
-    user.services.polkit-gnome-autentication-agent-1 = {
-      description = "polkit-gnome-authentication-agent-1";
-      wantedBy = ["graphical-session.target"];
-      wants = ["graphical-session.target"];
-      after = ["graphical-session.target"];
-
-      serviceConfig = {
-        Type = "simple";
-        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-        Restart = "on-failure";
-        RestartSec = 1;
-        TimeoutStopSec = 10;
-     };
-    };
   };
-};
+  };
 }

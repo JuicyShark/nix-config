@@ -58,7 +58,7 @@ nixpkgs.config = {
     users.users.${config.main-user} = {
       isNormalUser = true;
       hashedPasswordFile = config.sops.secrets.password.path;
-      shell = pkgs.zsh;
+      shell = pkgs.nushell;
       description = config.main-user;
       extraGroups = [ "wheel" "juicy" ]
       ++ ifTheyExist [

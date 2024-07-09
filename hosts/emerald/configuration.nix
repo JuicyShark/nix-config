@@ -33,6 +33,10 @@ in
 
     programs = {
       hyprland.enable = true;
+      thunar = {
+        enable = true;
+        plugins = with pkgs.xfce; [thunar-volman];
+      };
     };
 
     services = {
@@ -40,6 +44,7 @@ in
       udisks2.enable = true;    # optional; auto mounts usb filesystems
       sysprof.enable = true;    # optional; monitor system
       blueman.enable = true;    # optional; gui for bluetooth
+      gnome.gnome-settings-daemon
       udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
   };
 

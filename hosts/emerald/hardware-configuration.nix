@@ -21,7 +21,7 @@
 
       loader = {
         systemd-boot.enable = true;
-        efi.cantouchefivariables = true;
+        efi.cantouchEfiVariables = true;
       };
     };
 

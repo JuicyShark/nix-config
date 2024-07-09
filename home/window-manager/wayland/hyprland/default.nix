@@ -365,7 +365,7 @@ in
           "m[HDMI-A-1], gapsout:0, gapsin:0, border:false, rounding:false, decorate:false, shadow:false"
           "1, monitor:DP-1, default:true"
           "2, monitor:DP-1"
-          "3, monitor:DP-1, defaultName:Social, bordersize:5, gapsin:15, gapsout:60"
+          "3, monitor:DP-1, defaultName:Social, bordersize:5, gapsin:15, gapsout:30"
   	      "4, monitor:DP-1, defaultName:Terminal, gapsin:0, gapsout:0, shadow:false, rounding:false"
           "5, monitor:DP-1, defaultName:Games, border:false, decorate:false, shadow:false, rounding:false, gapsin:0, gapsout:0"
           "6, monitor:HDMI-A-1, default:true"
