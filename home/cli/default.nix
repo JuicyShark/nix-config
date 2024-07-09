@@ -20,11 +20,6 @@
     programs.nushell = {
       enable = true;
       shellAliases = {
-        rebuild = "sudo nixos-rebuild switch --flake ${config.xdg.userDirs.documents}/nixos-config#'${pkgs.hostname}/bin/hostname -s' --log-format internal-json -v |& sudo ${pkgs.nix-output-monitor}/bin/nom --json";
-        test = "sudo nixos-rebuild test --flake ${config.xdg.userDirs.documents}/nixos-config#'${pkgs.hostname}/bin/hostname -s ' --log-format internal-json -v |& sudo ${pkgs.nix-output-monitor}/bin/nom --json";
-        ff = "$EDITOR $(${pkgs.fzf}/bin/fzf --preview '${pkgs.bat}/bin/bat {}')";
-        rebuildclean = "sudo nixos-rebuild switch --flake ${config.xdg.userDirs.documents}/nixos-config#'${pkgs.hostname}/bin/hostname -s' --upgrade --log-format internal-json -v |& sudo ${pkgs.nix-output-monitor}/bin/nom --json && nix-collect-garbage -d && sudo nix-collect-garbage -d && sudo nix-store --optimise";
-        upgrade = "sudo nix flake update ${config.xdg.userDirs.documents}/nixos-config && nixos-rebuild switch --flake ${config.xdg.userDirs.documents}/nixos-config --log-format internal-json -v |& sudo ${pkgs.nix-output-monitor}/bin/nom --json";
         cd = "z";
         ls = "${pkgs.eza}/bin/eza --group-directories-first -a --colour=always --icons=always";
         tree = "${pkgs.eza}/bin/eza --tree --icons=always --colour=always";

@@ -51,16 +51,11 @@
 
     security.rtkit.enable = true;
 
-    security.pam.services.greetd.gnome-keyring.enable = true;
     security.pam.services.greetd.sshAgentAuth.enable = true;
     security.pam.services.greetd.gnupg.enable = true;
-    security.pam.services.greetd.enable = true;
-
     security.pam.services.hyprlock = {};
     security.pam.services.hyprlock.gnupg.enable = true;
     security.pam.services.hyprlock.sshAgentAuth.enable = true;
-    security.pam.services.hyprlock.gnome-keyring.enable = true;
-
 
   systemd = {
     services.greetd.serviceConfig = {
