@@ -52,24 +52,25 @@
   };
   outputs = { self, nixos, nixpkgs, nix-gaming, home-manager, hyprland, hypr-plugins, ags, nix-colors, nixvim, nix-software-center, sops-nix, raspberry-pi-nix, impermanence, disko, matugen, ... }@inputs:
   let
-    system = "x86_64-linux";
+    hostPlatform = "x86_64-linux";
   in
   {
+    # Define NixOS system configs
     nixosConfigurations = {
       leo = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit self inputs system; };
+        specialArgs = { inherit self inputs hostPlatform; };
         modules = [
           ./hosts/leo/configuration.nix
         ];
       };
       emerald = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit self inputs system; };
+        specialArgs = { inherit self inputs hostPlatform; };
         modules = [
           ./hosts/emerald/configuration.nix
         ];
       };
       dante = nixos.lib.nixosSystem {
-        specialArgs = { inherit self inputs system; };
+        specialArgs = { inherit self inputs hostPlatform; };
         modules = [
           ./hosts/dante/configuration.nix
         ];
@@ -86,14 +87,14 @@
 
       # TODO setup a host file that reinstalls each boot.
       anon = nixos.lib.nixosSystem {
-        specialArgs = { inherit self inputs system; };
+        specialArgs = { inherit self inputs hostPlatform; };
         modules = [
           ./hosts/anon/configuration.nix
         ];
       };
       # TODO Setup to use Nix on Windows for Jake potentially using
       nix-wsl = nixos.lib.nixosSystem {
-        specialArgs = { inherit self inputs system; };
+        specialArgs = { inherit self inputs hostPlatform; };
         modules = [
           ./hosts/nix-wsl/configuration.nix
         ];

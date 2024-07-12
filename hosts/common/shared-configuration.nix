@@ -42,7 +42,7 @@ options = {
     };
 
     programs = {
-      zsh.enable = true;
+      zsh.enable = false;
       git.enable = true;
       dconf.enable = true;
     };
@@ -63,20 +63,19 @@ options = {
         substituters = ["https://nix-gaming.cachix.org"];
         trusted-users = ["nix-ssh" "juicy" "jake" ];
         trusted-public-keys = ["nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="];
-      };
+        };
     };
 
     time.timeZone = "Australia/Brisbane";
     i18n.defaultLocale = "en_AU.UTF-8";
 
     nixpkgs.config = {
-
       allowUnfree = true;
       allowUnfreePredicate = true;
     };
 
 
-    security.polkit.enable = true;
+    #security.polkit.enable = true;
     security.pam.loginLimits = [
         { domain = "@users"; item = "rtprio"; type = "-"; value = 1; }
       ];
@@ -87,15 +86,12 @@ options = {
       packages = with pkgs; [
         material-icons
         material-design-icons
-        roboto
-        dejavu_fonts
         iosevka-bin
         hack-font
         noto-fonts
         noto-fonts-cjk
         noto-fonts-emoji
-        jetbrains-mono
-        (nerdfonts.override {fonts = ["Iosevka" "JetBrainsMono" "Hack"];})
+        (nerdfonts.override {fonts = ["Iosevka" "Hack"];})
       ];
       enableDefaultPackages = false;
       # this fixes emoji stuff
@@ -129,7 +125,7 @@ options = {
       defaultSopsFile = ../${config.networking.hostName}/secrets/secrets.yaml;
       defaultSopsFormat = "yaml";
       age.sshKeyPaths = [ "/etc/keys/ssh/ssh_host_ed25519_key" ];
-      age.keyFile = "/etc/keys/age/host_key";# ];
+      age.keyFile = "/etc/keys/age/age_host.txt";# ];
       age.generateKey = true;
     };
     # Default network setting
@@ -138,7 +134,7 @@ options = {
       hostName = lib.mkDefault "anon";
       defaultGateway = lib.mkDefault "192.168.54.99";
       nameservers = lib.mkDefault ["192.168.54.99" ];
-      networkmanager.enable = lib.mkDefault true;
+      networkmanager.enable = lib.mkDefault false;
       wireguard.enable = true;
       firewall.allowedUDPPorts = [ 51820 ];
       wireguard.interfaces.wg0  = {
@@ -146,6 +142,12 @@ options = {
         privateKeyFile = config.sops.secrets.wireguardKey.path;
 
       };
+    };
+    users.defaultUserShell = pkgs.nushell;
+    users.users.root = {
+      shell = config.users.users."${config.main-user}".shell;
+      isSystemUser = true;
+
     };
     system.stateVersion = "24.05";
   };

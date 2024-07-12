@@ -32,26 +32,7 @@ in
 
   xdg.mimeApps.enable = true;
 
-  home = {
-		sessionVariables = {
-			MOZ_ENABLE_WAYLAND = "1";
-      WLR_NO_HARDWARE_CURSORS = "1";
-      NIXOS_OZONE_WL = "1";
-
-      GDK_BACKEND = "wayland,x11,*";
-      SDL_VIDEODRIVER = "wayland";
-      CLUTTER_BACKEND = "wayland";
-      XDG_CURRENT_DESKTOP = "Hyprland";
-      XDG_SESSION_TYPE  = "wayland";
-      XDG_SESSION_DESKTOP = "Hyprland";
-
-      #QT_AUTO_SCREEN_SCALE_FACTOR = "1";
-      QT_QPA_PLATFORM = "wayland;xcb";
-      QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-      QT_QPA_PLATFORMTHEME = "qt5ct";
-		};
-
-    packages = with pkgs;[
+  home.packages = with pkgs; [
         wl-clipboard
         wl-mirror
         wlr-randr
@@ -78,12 +59,6 @@ in
         networkmanager
         gtk3
       ]);
-    };
-
-    xdg.configFile."xsettingsd/xsettingsd.conf".text = ''
-      Gdk/UnscaledDPI 98304
-      Gdk/WindowScalingFactor 2
-    '';
 
     programs.ags = {
       enable = true;
@@ -95,10 +70,6 @@ in
     };
 
     services = {
-      kdeconnect = {
-        enable = true;
-      };
-
       udiskie = {
         enable = true;
         automount = true;
@@ -292,8 +263,7 @@ in
           "$mainMod, Print, exec, ${pkgs.hyprshot}/bin/hyprshot -m region"
           "$meh, return, exec, ${terminal}"
           "$meh, T, exec, ${terminal}"
-          "$meh, space, exec, ags -t launcher"
-          "$meh, O, exec, ags -t launcher"
+          "$meh, space, exec, ${pkgs.sysmenu}/bin/sysmenu -f -p 8 -i 32"
           "$meh, D, exec, ${pkgs.discord}/bin/discord"
           "$meh, M, exec, ${pkgs.tidal-hifi}/bin/tidal-hifi"
           "$meh, B, exec, ${pkgs.bambu-studio}/bin/bambu-studio"
@@ -335,9 +305,11 @@ in
         exec-once = [
 		      "hypridle"
           "ags"
+          "atuin daemon"
+          "atuin server start"
         ] ++ (if osConfig.hardware.keyboard.zsa.enable then [
           "hyprpaper"
-          "polkit-gnome-authentication-agent-1"
+          #"polkit-gnome-authentication-agent-1"
           "[workspace 1 silent] firefox --new-window"
           "[workspace 2 silent] bambu-studio"
           "[workspace 3 silent] signal-desktop"
@@ -461,7 +433,6 @@ in
       extraCommands = [
         "systemctl --user stop graphical-session.target"
         "systemctl --user start hyprland-session.target"
-        "systemctl --user start xsettingsd.service && echo 'Xft.dpi: 192' | xrdb -merge && xprop -root -format _XWAYLAND_GLOBAL_OUTPUT_SCALE 32c -set _XWAYLAND_GLOBAL_OUTPUT_SCALE 2"
         ];
       };
     };

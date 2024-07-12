@@ -16,6 +16,8 @@ creation_rules:
       - *leo
       - *jake
       - *emerald
+      - *dante
+      - *zues
   - path_regex: hosts/leo/secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - age:

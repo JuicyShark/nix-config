@@ -4,14 +4,17 @@
 
 
   boot = {
+    kernel.sysctl."vm.swappiness" = 10;
     kernelModules = [ "kvm-intel" ];
     kernelPackages = pkgs.linuxKernel.packages.linux_zen;
       kernelParams = [
-        # Activate Performance state
         "intel_pstate=active"
-        "i915.fastboot=1"
+        "module_blacklist=i915"
+        "intel_iommu=on"
+        "nouveau.modeset=0"
+        "processor.max_cstate=1"
       ];
-    supportedFilesystems = [ "ntfs" ];
+    supportedFilesystems = [ "ntfs" "btrfs"];
     loader = {
       systemd-boot.enable = true;
 	    efi.canTouchEfiVariables = true;
@@ -103,5 +106,5 @@
     };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.intel.updateMicrocode = true;
 }

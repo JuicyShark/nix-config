@@ -16,9 +16,8 @@
 	hardware = {
     nvidia = {
       # Explicit Sync is here
-      package = (if config.nvidiaLegacy.enable then config.boot.kernelPackages.nvidiaPackages.legacy_470 else config.boot.kernelPackages.nvidia_x11);
+      package = (if config.nvidiaLegacy.enable then config.boot.kernelPackages.nvidiaPackages.legacy_470 else config.boot.kernelPackages.nvidiaPackages.beta);
       modesetting.enable = true;
-      #dynamicBoost = ;
       nvidiaPersistenced = (if config.homelab.enable then true else false);
     	powerManagement.enable = true;
     	powerManagement.finegrained = false;
@@ -34,7 +33,7 @@
 
   services.xserver.videoDrivers = ["nvidia"];
 
-  boot.extraModulePackages = [ (if config.nvidiaLegacy.enable then config.boot.kernelPackages.nvidia_x11_legacy470 else config.boot.kernelPackages.nvidia_x11) ];
+  boot.extraModulePackages = [ (if config.nvidiaLegacy.enable then config.boot.kernelPackages.nvidia_x11_legacy470 else config.boot.kernelPackages.nvidiaPackages.beta) ];
   environment.sessionVariables = {
 		LIBVA_DRIVER_NAME = "nvidia";
 	  GBM_BACKEND = "nvidia-drm";

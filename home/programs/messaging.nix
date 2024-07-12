@@ -7,7 +7,7 @@
 
     signal-desktop
   ];
-  
+
   xdg.configFile."discordo/config.toml".text = ''
     mouse = true
 

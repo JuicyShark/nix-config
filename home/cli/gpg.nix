@@ -24,8 +24,7 @@
       enable = true;
       enableSshSupport = true;
       enableNushellIntegration = true;
-     # enableSSHSupport = true;
-     # enableExtraSocket = true;
+      enableExtraSocket = true;
      # enableBrowserSocket = true;
       #pinentryPackage = pkgs.pinentry-curses;
     };

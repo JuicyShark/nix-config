@@ -19,7 +19,7 @@
 
       # TODO Define primary monitor per host or known as headless
       gamescopeSession = {
-        enable = true;
+        enable = false;
         args = [
          # "--output-width ${toString config.hardware.display.monitors[0].width}"
          # "--output-height 1440"
