@@ -37,6 +37,7 @@ creation_rules:
       - *juicy
       - *jake
       - *dante
+      - *dante_host
   - path_regex: hosts/zues/secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - age:
