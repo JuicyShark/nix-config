@@ -48,8 +48,10 @@
     };
 
     sops = {
-      age.sshKeyPaths = "${config.home.homeDirectory}/.ssh/id_ed25519";
-      defaultSopsFile = ../../secrets.yaml;
+      age.sshKeyPaths = "${config.home.homeDirectory}/.keys/ssh/id_ed25519";
+      age.keyFile = "${config.home.homeDirectory}/.keys/age/age.txt";
+
+      defaultSopsFile = ../../hosts/${osConfig.networking.hostName}/secrets.yaml;
     };
 
     colorScheme = inputs.nix-colors.colorSchemes.catppuccin-mocha;

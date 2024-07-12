@@ -1,6 +1,20 @@
 {
   description = "Juicy's messy WIP config";
 
+  nixConfig = {
+    trusted-users = ["nix-ssh" "juicy" "jake" ];
+    extra-substituters = [
+      "https://raspberry-pi-nix.cachix.org"
+      "https://hyprland.cachix.org"
+      "https://nix-gaming.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "raspberry-pi-nix.cachix.org-1:WmV2rdSangxW0rZjY/tBvBDSaNFQ3DyEQsVw8EvHn9o="
+      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+      "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
+    ];
+  };
+
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixos.url = "nixpkgs/nixos-unstable";
@@ -45,7 +59,6 @@
       leo = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit self inputs system; };
         modules = [
-          #{nixpkgs.crossSystem.system = "aarch64-linux";}
           ./hosts/leo/configuration.nix
         ];
       };

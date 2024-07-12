@@ -46,9 +46,20 @@
     useDHCP = lib.mkDefault false;
     defaultGateway = "192.168.54.99";
     nameservers = [ "192.168.54.99" ];
+    hostName = "dante";
+    wireguard.interfaces.wg0 = {
+      ips = [ "10.100.0.4/24" ];
+      peers = [
+          /*{ example of forwdinv everbthing to peer endpoint
+            publicKey = "oPUTwZApzM5gFsV4+i2HwP6gESWS+9/9497jo2JjflM=";
+            allowedIPs = [ "0.0.0.0/0" ];
+            endpoint = "192.168.54.99:51820";
+            persistentKeepalive = 25;
+          }*/
+      ];
+    };
     interfaces = {
       enp3s0 = {
-        useDHCP = lib.mkDefault false;
         ipv4 = {
           addresses = [
             {

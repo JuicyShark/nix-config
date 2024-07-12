@@ -2,7 +2,7 @@
 {
   programs = {
     fzf = {
-      enable = true;
+      enable = false;
       enableZshIntegration = true;
       defaultOptions = [
         "--height 40%"
@@ -26,7 +26,7 @@
       };
     };
     fd = {
-      enable = true; 
+      enable = true;
       hidden = true;
       ignores = [
         ".git/"

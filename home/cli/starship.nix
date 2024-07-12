@@ -3,7 +3,7 @@
 {
 	programs.starship = {
     enable = true;
-    enableZshIntegration = true;
+    enableNushellIntegration = true;
 
 		settings = {
       time = {
@@ -16,12 +16,12 @@
         palette = "catppuccin-mocha";
         palettes = {
           catppuccin-mocha = {
-            red = "${config.colorScheme.palette.base08}"; 
-            green = "${config.colorScheme.palette.base0B}"; 
-            yellow = "${config.colorScheme.palette.base0A}"; 
+            red = "${config.colorScheme.palette.base08}";
+            green = "${config.colorScheme.palette.base0B}";
+            yellow = "${config.colorScheme.palette.base0A}";
             blue = "${config.colorScheme.palette.base0D}";
-            pink = "${config.colorScheme.palette.base0F}"; 
-            teal = "${config.colorScheme.palette.base0C}";    
+            pink = "${config.colorScheme.palette.base0F}";
+            teal = "${config.colorScheme.palette.base0C}";
           };
         };
       }; */

@@ -5,45 +5,37 @@ keys:
   - &jake age104uhq6v95vethuvqqrctzn6f9lr2xx4hr4evrw35qcwdse34v3mq5gdmhn
   # Host Keys Based on /etc/ssh/ssh_host_[rsa/ed25519]_key
   - &leo age1mp04ph9th74krnc6te2uty542zkrlzd6ftke7u9nvz4j7a6w83aqeyqn62
-  - &leoGPG 6c480e7f1d8a45f3a54f0478ec9243c65e854f30
   - &emerald age1xasl8sn9dq3whnjd8qmzrv3rph45d47kfyj0fql52p87p7fesurqntay57
-  - &emeraldGPG 6c480e7f1d8a45f3a54f0478ec9243c65e854f30
   - &dante age1w2rx4rmpeu56f5rwjpk53n5z4xcnqatfq937tcg5fzumdx3q935qh2xcnf
-  - &juicyDante age1mfqr44dd0pduvtfgh2rzne26s86hd0scur9gkrjg6l83ypzjvdjqx9xmf4
-  - &danteGPG 6c480e7f1d8a45f3a54f0478ec9243c65e854f30
+  - &zues age1wqu4prctlyflc775hd46202dfg70y43q8x9u6md0cyqqem2cpaqq2lhc3v
 creation_rules:
-  - path_regex:  secrets/[^/]+\.(yaml|json|env|ini)$
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - age:
       - *juicy
       - *leo
       - *jake
       - *emerald
-      - *dante
-      gpg:
-      - *leoGPG
-      - *emeraldGPG
-      - *danteGPG
-  - path_regex:  hosts/leo/secrets/[^/]+\.(yaml|json|env|ini)$
+  - path_regex: hosts/leo/secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - age:
       - *juicy
       - *leo
-      - *juicyDante
-      gpg:
-      - *leoGPG
-  - path_regex:  hosts/emerald/secrets/[^/]+\.(yaml|json|env|ini)$
+      - *dante
+  - path_regex: hosts/emerald/secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - age:
       - *jake
       - *emerald
-      gpg:
-      - *emeraldGPG
-  - path_regex:  hosts/dante/secrets/[^/]+\.(yaml|json|env|ini)$
+  - path_regex: hosts/dante/secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - age:
       - *juicy
       - *jake
       - *dante
-      gpg:
-      - *danteGPG
+  - path_regex: hosts/zues/secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+    - age:
+      - *juicy
+      - *jake
+      - *zues

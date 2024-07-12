@@ -2,7 +2,7 @@
 {
   programs.yazi = {
     enable = true;
-    enableZshIntegration = true;
+    enableNushellIntegration = true;
 
 
 
@@ -68,7 +68,7 @@
         title   = {};
         hovered = { underline = true; };
       };
-      which = { 
+      which = {
         mask            = { bg = "#${config.colorScheme.palette.base02}"; };
         cand            = { fg = "#${config.colorScheme.palette.base0C}"; };
         rest            = { fg = "#${config.colorScheme.palette.base0E}"; };

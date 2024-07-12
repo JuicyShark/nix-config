@@ -3,19 +3,25 @@
 {
   imports = [
     ./common
-    ./common/theme.nix
     ./programs
-    ./window-manager/wayland/hyprland
   ];
 
 
-
-  # TODO Merge into firefox file, only enable for Jake
-  #programs.firefox.enableGnomeExtensions = true;
+  # Jakey needs access to a normal editor
+  programs.vscode = {
+    enable = true;
+    extensions = with pkgs.vscode-extensions; [
+      catppuccin.catppuccin-vsc-icons
+      catppuccin.catppuccin-vsc
+      vscodevim.vim
+    ];
+  };
   programs.gnome-shell.enable = true;
 
   home.packages = with pkgs; [
-      armcord      #protonplus       Delete if only wanting latest GE Proton
+      ranger
+      obsidian
+      discord
       gnome.gnome-characters
       gnome.gnome-shell-extensions
   ];

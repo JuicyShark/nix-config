@@ -1,10 +1,11 @@
-{ pkgs, inputs, config, ... }:
+{ lib, pkgs, inputs, config, ... }:
 {
+
   imports = [
     inputs.hyprland.nixosModules.default
     inputs.nix-gaming.nixosModules.pipewireLowLatency
   ];
-
+  config = lib.mkIf config.programs.hyprland.enable {
   environment.systemPackages = with pkgs; [
     polkit_gnome
     pwvucontrol
@@ -14,7 +15,6 @@
   };
 
   programs.hyprland = {
-    enable = true;
     package = inputs.hyprland.packages.${pkgs.system}.hyprland;
   };
 # GTK portal not installed properly by hyprland
@@ -29,7 +29,7 @@
 	    enable = (if config.services.xserver.enable then false else true); # login manager
       settings = {
         default_session = {
-          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --greeting 'Welcome ${config.main-user}' --cmd Hyprland";
+          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --greeting 'Welcome ${config.main-user}' --cmd Hyprland";
           user = config.main-user;
         };
       };
@@ -49,23 +49,25 @@
     gvfs.enable = true;
   };
 
-  security.pam.services.hyprlock = {};
-  security.rtkit.enable = true;
+    security.rtkit.enable = true;
+
+    security.pam.services.greetd.sshAgentAuth.enable = true;
+    security.pam.services.greetd.gnupg.enable = true;
+    security.pam.services.hyprlock = {};
+    security.pam.services.hyprlock.gnupg.enable = true;
+    security.pam.services.hyprlock.sshAgentAuth.enable = true;
 
   systemd = {
-    user.services.polkit-gnome-autentication-agent-1 = {
-      description = "polkit-gnome-authentication-agent-1";
-      wantedBy = ["graphical-session.target"];
-      wants = ["graphical-session.target"];
-      after = ["graphical-session.target"];
-
-      serviceConfig = {
-        Type = "simple";
-        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-        Restart = "on-failure";
-        RestartSec = 1;
-        TimeoutStopSec = 10;
-     };
+    services.greetd.serviceConfig = {
+      Type = "idle";
+      StandardInput = "tty";
+      StandardOutput = "tty";
+      StandardError = "journal"; # Without this errors will spam on screen
+      # Without these bootlogs will spam on screen
+      TTYReset = true;
+      TTYVHangup = true;
+      TTYVTDisallocate = true;
     };
+  };
   };
 }

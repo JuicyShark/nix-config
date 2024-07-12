@@ -1,19 +1,15 @@
 { config, inputs, pkgs, lib, ... }:
 {
-
-  imports = [
-    inputs.home-manager.nixosModules.home-manager
-    inputs.sops-nix.nixosModules.sops
-    #./common/monitor.nix
-    ./services
-  ];
-
-  options = {
+options = {
+    cybersecurity.enable = lib.mkEnableOption "Pentesting tools";
+    raspberryDev.enable = lib.mkEnableOption "Raspberry Pi Dev Packages";
+    desktop.enable = lib.mkEnableOption "Desktop and programs Packages";
+    homelab.enable = lib.mkEnableOption "Server Packages";
     main-user = lib.mkOption {
       type = lib.types.str;
       default = "juicy";
+      description = "main user on host";
     };
-
     font = lib.mkOption {
       default = "Hack Nerd Font";
       type = lib.types.str;
@@ -24,29 +20,17 @@
       type = lib.types.float;
       description = "Scaling; Higher on higher res and lower on lower res";
     };
-
-/*    hardware.display = {
-  monitors = lib.mkOption {
-    type = lib.types.listOf (lib.types.attrsOf {
-      name = lib.types.str;
-      alias = lib.types.str;
-      width = lib.types.int;
-      height = lib.types.int;
-      refreshRate = lib.types.int;
-      primary = lib.types.bool;
-      headless = lib.types.bool;
-    });
-    description = "List of monitor configurations.";
-    default = [];
-  };
-}; */
-
   };
 
+  imports = [
+    inputs.home-manager.nixosModules.home-manager
+    inputs.sops-nix.nixosModules.sops
+    ./services
+    ./hyprland.nix
+  ];
 
   config = {
     environment.defaultPackages = lib.mkForce [ ];
-
     nixpkgs.overlays = [
       inputs.neorg-overlay.overlays.default
     ];
@@ -86,9 +70,11 @@
     i18n.defaultLocale = "en_AU.UTF-8";
 
     nixpkgs.config = {
+
       allowUnfree = true;
       allowUnfreePredicate = true;
     };
+
 
     security.polkit.enable = true;
     security.pam.loginLimits = [
@@ -132,6 +118,35 @@
       };
     };
 
+    # Setup Systems secrets
+    # Run in host folder:  nix-shell -p sops --run "sops secrets/secrets.yaml"
+    sops = {
+      secrets = {
+        wireguardKey.neededForUsers = true;
+        sshKey.neededForUsers = true;
+        password.neededForUsers = true;
+      };
+      defaultSopsFile = ../${config.networking.hostName}/secrets/secrets.yaml;
+      defaultSopsFormat = "yaml";
+      age.sshKeyPaths = [ "/etc/keys/ssh/ssh_host_ed25519_key" ];
+      age.keyFile = "/etc/keys/age/host_key";# ];
+      age.generateKey = true;
+    };
+    # Default network setting
+    networking = {
+      useDHCP = lib.mkDefault false;
+      hostName = lib.mkDefault "anon";
+      defaultGateway = lib.mkDefault "192.168.54.99";
+      nameservers = lib.mkDefault ["192.168.54.99" ];
+      networkmanager.enable = lib.mkDefault true;
+      wireguard.enable = true;
+      firewall.allowedUDPPorts = [ 51820 ];
+      wireguard.interfaces.wg0  = {
+        listenPort = 51820;
+        privateKeyFile = config.sops.secrets.wireguardKey.path;
+
+      };
+    };
     system.stateVersion = "24.05";
   };
 }

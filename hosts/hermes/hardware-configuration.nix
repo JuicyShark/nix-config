@@ -34,29 +34,24 @@
 
   swapDevices = [ ];
 
-  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
-  # (the default) this is the recommended approach. When using systemd-networkd it's
-  # still possible to use this option, but it's recommended to use it in conjunction
-  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking = {
-    useDHCP = lib.mkDefault false;
-    defaultGateway = "192.168.54.99";
-    nameservers = [ "8.8.8.8" "8.8.4.4" "192.168.54.99" ];
+    hostName = "hermes";
     interfaces = {
-      enp3s0 = {
+      enp5s0 = {
         useDHCP = lib.mkDefault false;
         ipv4 = {
           addresses = [
             {
-              address = "192.168.54.60";
+              address = "192.168.54.55";
               prefixLength = 24;
             }
           ];
         };
       };
+      wlan0.useDHCP = true;
     };
   };
-  # networking.interfaces.enp3s0.useDHCP = lib.mkDefault true;
+
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;

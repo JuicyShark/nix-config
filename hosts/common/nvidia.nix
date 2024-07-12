@@ -18,7 +18,9 @@
       # Explicit Sync is here
       package = (if config.nvidiaLegacy.enable then config.boot.kernelPackages.nvidiaPackages.legacy_470 else config.boot.kernelPackages.nvidia_x11);
       modesetting.enable = true;
-    	powerManagement.enable = false;
+      #dynamicBoost = ;
+      nvidiaPersistenced = (if config.homelab.enable then true else false);
+    	powerManagement.enable = true;
     	powerManagement.finegrained = false;
   		open = false;
   		nvidiaSettings = false;
@@ -32,11 +34,11 @@
 
   services.xserver.videoDrivers = ["nvidia"];
 
- boot.extraModulePackages = [ (if config.nvidiaLegacy.enable then config.boot.kernelPackages.nvidia_x11_legacy470 else config.boot.kernelPackages.nvidia_x11) ];
+  boot.extraModulePackages = [ (if config.nvidiaLegacy.enable then config.boot.kernelPackages.nvidia_x11_legacy470 else config.boot.kernelPackages.nvidia_x11) ];
   environment.sessionVariables = {
 		LIBVA_DRIVER_NAME = "nvidia";
 	  GBM_BACKEND = "nvidia-drm";
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
   };
-};
+  };
 }
