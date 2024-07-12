@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, lib, ... }:
 let
   ifTheyExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
 in
@@ -6,7 +6,8 @@ in
 	imports = [
     ../common/shared-configuration.nix
     ../common/nvidia.nix
-		./hardware-configuration.nix
+    ./hardware-configuration.nix
+    inputs.impermanence.nixosModule
   ];
 
   config = {
@@ -24,6 +25,11 @@ in
     security.polkit.enable = true;
 
     networking.hostName = "dante";
+   # User Setup
+    sops.secrets.password = {
+      sopsFile = ../leo/secrets/juicy.yaml;
+      neededForUsers = true;
+    };
 
     users.users.${config.main-user} = {
       isNormalUser = true;
@@ -62,17 +68,21 @@ in
       ];
       openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBMsJd6JmEQtQ1er5vuTA3Frz2JBcgndpPcQlhjK7xcY" ];
     };
-
+  fileSystems."/etc/ssh" = {
+    depends = ["/persist"];
+    neededForBoot = true;
+  };
     fileSystems."/persist".neededForBoot = true;
     environment.persistence."/persist/system" = {
     hideMounts = true;
     directories = [
       "/var/log"
+      "/var/db/sudo"
       "/var/lib/bluetooth"
       "/var/lib/nixos"
       "/var/lib/systemd/coredump"
       { directory = "/var/lib/colord"; user = "colord"; group = "colord"; mode = "u=rwx,g=rx,o="; }
-    ];
+    ]  ++ lib.forEach ["nixos" "NetworkManager" "nix" "ssh" "secureboot"] (x: "/etc/${x}");
     files = [
       "/etc/machine-id"
       { file = "/var/keys/secret_file"; parentDirectory = { mode = "u=rwx,g=,o="; }; }

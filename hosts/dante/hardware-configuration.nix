@@ -41,10 +41,11 @@
     '';
   };
 
+
   networking = {
     useDHCP = lib.mkDefault false;
     defaultGateway = "192.168.54.99";
-    nameservers = [ "8.8.8.8" "8.8.4.4" "192.168.54.99" ];
+    nameservers = [ "192.168.54.99" ];
     interfaces = {
       enp3s0 = {
         useDHCP = lib.mkDefault false;
