@@ -9,12 +9,13 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
   boot.loader = {
-    systemd-boot.enable = true;
+    grub.enable = true;
     efi.canTouchEfiVariables = true;
   };
   boot.initrd = {
     availableKernelModules = [ "xhci_pci" "ehci_pci" "ata_piix" "usb_storage" "usbhid" "sd_mod" ];
     kernelModules = [ ];
+
     postDeviceCommands = lib.mkAfter ''
       mkdir /btrfs_tmp
       mount /dev/root_vg/root /btrfs_tmp

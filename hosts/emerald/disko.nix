@@ -2,12 +2,19 @@
 {
   disko.devices = {
     # Boot Drive
-    disk.boot = {
+    disk.main = {
       device = "/dev/sdb";
       type = "disk";
       content = {
         type = "gpt";
         partitions = {
+          swap = {
+            size = "4G";
+            content = {
+              type = "swap";
+              resumeDevice = true;
+            };
+          };
           boot = {
             name = "boot";
             size = "1M";
@@ -34,26 +41,10 @@
         };
       };
     };
-    #Tmp Disk
-    disk.extra = {
-      device = "/dev/sdc";
-      type = "disk";
-      content = {
-        type = "gpt";
-        partitions = {
-          root = {
-            name = "root";
-            size = "100%";
-            content = {
-              type = "lvm_pv";
-              vg = "root_vg";
-            };
-          };
-        };
-      };
-    };
+
 
     lvm_vg = {
+      # boot group
       root_vg = {
         type = "lvm_vg";
         lvs = {
@@ -69,12 +60,12 @@
                 };
 
                 "/persist" = {
-                  mountOptions = ["subvol=persist" "noatime" "discard" "compress=zstd"];
+                  mountOptions = ["subvol=persist" "noatime"];
                   mountpoint = "/persist";
                 };
 
                 "/nix" = {
-                  mountOptions = ["subvol=nix" "noatime" "compress=zstd"];
+                  mountOptions = ["subvol=nix" "noatime"];
                   mountpoint = "/nix";
                 };
               };

@@ -3,11 +3,18 @@
   disko.devices = {
     # Boot Drive
     disk.main = {
-      device = "/dev/sda";
+      device = "/dev/sdb";
       type = "disk";
       content = {
         type = "gpt";
         partitions = {
+          swap = {
+            size = "4G";
+            content = {
+              type = "swap";
+              resumeDevice = true;
+            };
+          };
           boot = {
             name = "boot";
             size = "1M";
@@ -23,13 +30,6 @@
               mountpoint = "/boot";
             };
           };
-          swap = {
-            size = "4G";
-            content = {
-              type = "swap";
-              resumeDevice = true;
-            };
-          };
           root = {
             name = "root";
             size = "100%";
@@ -43,7 +43,7 @@
     };
     #Tmp Disk
     disk.tmp = {
-      device = "/dev/sdb";
+      device = "/dev/sdc";
       type = "disk";
       content = {
         type = "gpt";
@@ -53,15 +53,13 @@
             size = "100%";
             content = {
               type = "lvm_pv";
-              vg = "root_vg";
+              vg = "storage_vg";
             };
           };
-        };
-      };
     };
     #Storage Disk
     disk.storage = {
-      device = "/dev/sdc";
+      device = "/dev/sda";
       type = "disk";
       content = {
         type = "gpt";
@@ -120,7 +118,7 @@
 
               subvolumes = {
                 "/chonk" = {
-                  mountpoint = "/persist/chomp";
+                  mountpoint = "/persist/chonk";
                   mountOptions = ["subvol=storage" "noatime"];
                 };
               };

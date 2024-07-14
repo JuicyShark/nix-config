@@ -35,7 +35,11 @@
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
     };
-
+  #fileSystems."/games" = {
+  #  device = "/dev/disk/by-uuid/BAEC3099EC3051BD";
+  #  fsType = "lowntfs-3g";
+  #  options = [ "uid=1000" "gid=100" "exec" "rw" "permissions" "jake" "auto" "ignore_case" "defaults" "noatime" "async" "big_writes" "windows_names"];
+ # };
   swapDevices = [ ];
 
   hardware.xpadneo.enable = true;         # optional; xbox gamepad firmware

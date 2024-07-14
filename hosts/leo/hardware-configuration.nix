@@ -1,6 +1,10 @@
-{ config, lib, pkgs, modulesPath, ... }:
+{ inputs, lib, pkgs, modulesPath, ... }:
 {
-  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
+  imports = [
+    (modulesPath + "/installer/scan/not-detected.nix")
+    inputs.disko.nixosModules.default
+    ./disko.nix
+  ];
 
 
   boot = {
@@ -48,39 +52,6 @@
       ''; */
     };
   };
-
-  /*
-  fileSystems."/persistent" = {
-    device = "/dev/root_vg/root";
-    neededForBoot = true;
-    fsType = "btrfs";
-    options = [ "subvol=persistent" ];
-  };
-
-  fileSystems."/nix" = {
-    device = "/dev/root_vg/root";
-    fsType = "btrfs";
-    options = [ "subvol=nix" ];
-  };
-  */
-
-  ##old
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/7985db3f-8429-4051-a25a-0f5ebdcf45c5";
-    fsType = "btrfs";
-    options = [ "subvol=@" "discard" "noatime" "compress=zstd"];
-  };
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/EE13-42AC";
-    fsType = "vfat";
-  };
-  fileSystems."/games" = {
-    device = "/dev/disk/by-uuid/BAEC3099EC3051BD";
-    fsType = "lowntfs-3g";
-    options = [ "uid=1000" "gid=100" "exec" "rw" "permissions" "juicy" "auto" "ignore_case" "defaults" "noatime" "async" "big_writes" "windows_names"];
-  };
-  swapDevices = [ { device = "/dev/disk/by-uuid/cb625649-165e-4b56-8fc3-681e34e58c16"; } ];
-
 
   networking = {
     hostName = "leo";

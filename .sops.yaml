@@ -26,6 +26,12 @@ creation_rules:
       - *juicy
       - *leo
       - *dante
+  - path_regex: hosts/users/juicy/secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+    - age:
+      - *juicy
+      - *leo
+      
   - path_regex: hosts/emerald/secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - age:
