@@ -14,9 +14,8 @@
   ];
 
 	systemd.tmpfiles.rules = [
-      			"d /srv/media 0770 - media"
-      			"d /srv/media/downloading 0770 - media"
-      			"d /torrent 0770 - media"
+    "d /persist/chonk/media 0770 - media"
+    "d /persist/chonk/torrent 0770 - media"
   ];
 
   systemd.tmpfiles.settings = {
@@ -66,17 +65,17 @@
 
 			deluge = {
 				enable = true;
-        declarative = true;
+        declarative = false;
 	      openFirewall = false;
 	      group = "media";
-	      authFile = config.sops.secrets.deluge.path;
+        #authFile = config.sops.secrets.deluge.path;
         config = {
           copy_torrent_file = true;
           move_completed = true;
 	        group = "media";
-	        torrentfiles_location = "/torrent/files";
-          download_location = "/torrent/downloading";
-          move_completed_path = "/torrent/completed";
+	        torrentfiles_location = "/persist/chonk/torrent/files";
+          download_location = "/persist/chonk/torrent";
+          move_completed_path = "/persist/chonk/torrent";
           dont_count_slow_torrents = true;
           max_active_seeding = 6;
           max_active_limit = 12;

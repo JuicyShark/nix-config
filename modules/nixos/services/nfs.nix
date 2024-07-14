@@ -7,7 +7,7 @@
       mountdPort = 4002;
       statdPort = 4000;
       exports = ''
-        /srv/git 192.168.54.54(rw,fsid=0,no_subtree_check)
+        /persist/chonk 192.168.54.54(rw,fsid=0,no_subtree_check)
       '';
     };
     networking.firewall = {

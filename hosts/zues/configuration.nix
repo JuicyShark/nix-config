@@ -2,14 +2,11 @@
 
 {
   imports = [
-	  ../common/shared-configuration.nix
+	  ../shared-system-configuration.nix
 	  ./hardware-configuration.nix
-	  ../common/hyprland.nix
   ];
 
-  sops.secrets = {
-    defaultSopsFile = ./secrets/secrets.yaml;
-  };
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;

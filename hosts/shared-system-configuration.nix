@@ -151,11 +151,6 @@ options = {
       hashedPasswordFile = config.sops.secrets.rootPassword.path;
     };
 
- fileSystems."/etc/keys" = {
-      depends = ["/persist"];
-      neededForBoot = true;
-    };
-
     fileSystems."/persist".neededForBoot = true;
     environment.persistence."/persist/system" = {
       hideMounts = true;
@@ -166,17 +161,14 @@ options = {
         "/var/lib/nixos"
         "/var/lib/systemd/coredump"
 
+        "/etc/keys"
         "/etc/NetworkManager"
         "/etc/nix"
         { directory = "/var/lib/colord"; user = "colord"; group = "colord"; mode = "u=rwx,g=rx,o="; }
       ];
       files = [
-        "/etc/machine-id"
-        {
-          file = "/var/keys/secret_file"; parentDirectory = {
-            mode = "u=rwx,g=,o=";
-          };
-        }
+       # "/etc/machine-id"
+      #  { file = "/var/keys/secret_file"; parentDirectory = { mode = "u=rwx,g=,o="; };}
       ];
     };
 

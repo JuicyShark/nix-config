@@ -3,7 +3,7 @@
   config = lib.mkIf config.services.gitea.enable {
     users.groups.git = { };
     services.gitea = {
-			customDir =  "/persist/chomp/git";
+			customDir =  "/persist/chonk/git";
 			group = "git";
       user = "gitea";
 

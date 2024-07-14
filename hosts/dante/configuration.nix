@@ -1,36 +1,33 @@
-{ config, pkgs, inputs, lib, ... }:
-let
-  ifTheyExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
-in
+{ pkgs, inputs, ... }:
 {
-	imports = [
-    ../common/shared-configuration.nix
-    ../common/nvidia.nix
+  imports = [
+    ../../users/juicy/juicy.nix
+    #../../users/jake/jake.nix
+    ../shared-configuration.nix
+    ../nvidia.nix
     ./hardware-configuration.nix
-   # inputs.impermanence.nixosModule
+    inputs.impermanence.nixosModule
   ];
 
   config = {
 	  nvidiaLegacy.enable = true;
 
-    programs = {
-
-    };
     services = {
       openssh.enable = true;
+      gitea.enable = true;
+      jellyfin.enable = true;
+      nfs.server.enable = true;
+      mopidy = {
+        enable = true;
+        extensionPackages = with pkgs; [
+          mopidy-tidal
+          mopidy-mpd
+        ];
+      };
     };
-    hardware = {
 
-    };
-    services.mopidy = {
-      enable = true;
-      extensionPackages = with pkgs; [
-        mopidy-tidal
-        mopidy-mpd
-      ];
-    };
-    security.polkit.enable = true;
 
+  security.polkit.enable = true;
   networking.hostName = "dante";
 
 

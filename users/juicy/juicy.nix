@@ -41,14 +41,18 @@ in
       imports = [
         ../shared-home-configuration.nix
       ];
-
+      gtk.enable = true;
+      programs = {
+        gpg.enable = true;
+      };
       # Daemon to manage secret (private) keys independently from any protocol
-      programs.gpg.enable = true;
-      services.gpg-agent = {
-        enable = true;
-        enableSshSupport = true;
-        enableZshIntegration = true;
-        pinentryPackage = pkgs.pinentry-gtk2;
+      services = {
+        gpg-agent = {
+          enable = true;
+          enableSshSupport = true;
+          enableZshIntegration = true;
+          pinentryPackage = pkgs.pinentry-gtk2;
+        };
       };
     };
   };
