@@ -20,13 +20,18 @@
       ];
     supportedFilesystems = [ "ntfs" "btrfs"];
     loader = {
-      systemd-boot.enable = true;
+      systemd-boot = {
+        enable = true;
+        editor = false;
+        consoleMode = "max";
+        configurationLimit = 75;
+      };
 	    efi.canTouchEfiVariables = true;
     };
 
     initrd = {
       availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" "sr_mod" "rtsx_pci_sdmmc" ];
-      /*boot.initrd.postDeviceCommands = lib.mkAfter ''
+      postDeviceCommands = lib.mkAfter ''
         mkdir /btrfs_tmp
         mount /dev/root_vg/root /btrfs_tmp
         if [[ -e /btrfs_tmp/root ]]; then
@@ -49,7 +54,7 @@
 
         btrfs subvolume create /btrfs_tmp/root
         umount /btrfs_tmp
-      ''; */
+      '';
     };
   };
 

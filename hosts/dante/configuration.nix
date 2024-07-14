@@ -12,6 +12,10 @@
   config = {
 	  nvidiaLegacy.enable = true;
 
+    programs = {
+      fuse.userAllowOther = true;
+    };
+
     services = {
       openssh.enable = true;
       gitea.enable = true;
@@ -27,10 +31,7 @@
     };
 
 
-  security.polkit.enable = true;
-  networking.hostName = "dante";
-
-
-  programs.fuse.userAllowOther = true;
+    security.polkit.enable = true;
+    networking.hostName = "dante";
   };
 }

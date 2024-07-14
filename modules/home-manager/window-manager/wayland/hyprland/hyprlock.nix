@@ -32,7 +32,7 @@
         settings = {
           background = {
     	      monitor = "DP-1";
-    	      path = "${config.home.homeDirectory}/nixos/modules/home-manager/window-manager/wayland/hyprland/backgrounds/arcade-background.png";
+    	      path = "${config.home.homeDirectory}/documents/nixos-config/modules/home-manager/window-manager/wayland/hyprland/backgrounds/arcade-background.png";
             blur_passes = 2;
             contrast = 1;
             brightness = 0;

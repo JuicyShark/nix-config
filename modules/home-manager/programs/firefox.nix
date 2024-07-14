@@ -1,12 +1,25 @@
 { pkgs, config, ... }:
 {
+  home = {
+    persistence = {
+      # Not persisting is safer
+       "/persist${config.home.homeDirectory}".directories = [ ".mozilla/firefox" ];
+    };
+  };
+
+  xdg.mimeApps.defaultApplications = {
+    "text/html" = ["firefox.desktop"];
+    "text/xml" = ["firefox.desktop"];
+    "x-scheme-handler/http" = ["firefox.desktop"];
+    "x-scheme-handler/https" = ["firefox.desktop"];
+  };
   programs.firefox = {
     enable = true;
 
     profiles.default = {
       isDefault = true;
       name = "default";
-      
+
       search = {
         engines = {
           "Nix Packages" = {

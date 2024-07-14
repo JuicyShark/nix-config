@@ -1,6 +1,15 @@
 {pkgs, config, ...}:
 {
   programs = {
+    gh = {
+      enable = true;
+      extensions = with pkgs; [gh-markdown-preview];
+      settings = {
+        version = "1";
+        git_protocol = "ssh";
+        prompt = "enabled";
+      };
+    };
     keychain = {
       enable = true;
       enableNushellIntegration = true;
@@ -20,13 +29,23 @@
     ssh-agent = {
       enable = true;
     };
+    # TODO setup gpg keys and gbg agent
     gpg-agent = {
-      enable = true;
+      enable = false;
       enableSshSupport = true;
       enableNushellIntegration = true;
       enableExtraSocket = true;
      # enableBrowserSocket = true;
       #pinentryPackage = pkgs.pinentry-curses;
     };
+  };
+
+  home.persistence = {
+    "/persist${config.home.homeDirectory}".files = [
+      ".keys/ssh/known_hosts"
+      ".config/gh/hosts.yml"
+
+
+    ];
   };
 }

@@ -31,7 +31,22 @@ in
   ];
 
   xdg.mimeApps.enable = true;
-
+    home.persistence = {
+      "/persist${config.home.homeDirectory}" = {
+        allowOther = true;
+        directories = [
+          "games"
+          ".factorio"
+          ".config/unity3d/Berserk Games/Tabletop Simulator"
+          ".config/unity3d/IronGate/Valheim"
+          ".local/share/Tabletop Simulator"
+          ".local/share/Paradox Interactive"
+          ".paradoxlauncher"
+          ".local/share/Steam"
+          ".local/share/osu"
+        ];
+      };
+    };
   home.packages = with pkgs; [
         wl-clipboard
         wl-mirror

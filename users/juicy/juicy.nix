@@ -8,7 +8,7 @@ in
   ];
 
   sops.secrets.password = {
-    sopsFile = ./secrets/secrets.yaml;
+    sopsFile = ./secrets.yaml;
     neededForUsers = true;
   };
 
@@ -44,15 +44,6 @@ in
       gtk.enable = true;
       programs = {
         gpg.enable = true;
-      };
-      # Daemon to manage secret (private) keys independently from any protocol
-      services = {
-        gpg-agent = {
-          enable = true;
-          enableSshSupport = true;
-          enableZshIntegration = true;
-          pinentryPackage = pkgs.pinentry-gtk2;
-        };
       };
     };
   };

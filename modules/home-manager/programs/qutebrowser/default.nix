@@ -8,6 +8,22 @@ in
   imports = [
 
   ];
+    home.persistence = {
+    "/persist${config.home.homeDirectory}".directories = [
+      ".config/qutebrowser/bookmarks"
+      ".config/qutebrowser/greasemonkey"
+      ".local/share/qutebrowser"
+    ];
+  };
+
+  xdg.mimeApps.defaultApplications = {
+    "text/html" = ["org.qutebrowser.qutebrowser.desktop"];
+    "text/xml" = ["org.qutebrowser.qutebrowser.desktop"];
+    "x-scheme-handler/http" = ["org.qutebrowser.qutebrowser.desktop"];
+    "x-scheme-handler/https" = ["org.qutebrowser.qutebrowser.desktop"];
+    "x-scheme-handler/qute" = ["org.qutebrowser.qutebrowser.desktop"];
+  };
+
   programs.qutebrowser = {
     enable = true;
     loadAutoconfig = false;
@@ -99,7 +115,7 @@ in
         multiple_files.command = [ "kitty" "-e" "yazi" "--chooser-file" "{}" ];
         single_file.command = [ "kitty" "-e" "yazi" "--chooser-file" "{}" ];
       };
-      
+
       editor.command = [ "kitty" "-e" "nvim" "{}" ];
 
       content = {

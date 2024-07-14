@@ -25,6 +25,8 @@
 
   programs = {
     hyprland.enable = true;
+    fuse.userAllowOther = true;
+
   };
 
   hardware = {

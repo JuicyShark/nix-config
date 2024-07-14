@@ -28,14 +28,19 @@
       enable = true;
       createDirectories = true;
       documents = "${config.home.homeDirectory}/documents";
+      videos =  "${config.home.homeDirectory}/videos";
+      pictures =  "${config.home.homeDirectory}/pictures";
+      music =  "${config.home.homeDirectory}/music";
       desktop = "${config.home.homeDirectory}/.local/desktop";
       download = "${config.home.homeDirectory}/tmp";
       templates = "${config.xdg.userDirs.documents}/templates";
       publicShare =  "${config.xdg.userDirs.documents}/share";
-      videos =  "${config.xdg.userDirs.documents}/videos";
-      pictures =  "${config.xdg.userDirs.documents}/pictures";
-      music =  "${config.xdg.userDirs.documents}/music";
 
+      /* config = {
+        backgrounds = "${config.xdg.userDirs.pictures}/backgrounds";
+        screenshots = "${config.xdg.userDirs.pictures}/screenshots";
+        notes = "${config.xdg.userDirs.documents}/notes";
+      }; */
     };
 
     home = {
@@ -44,23 +49,31 @@
       stateVersion = lib.mkDefault "24.05";
       sessionPath = [ "$HOME/.local/bin" ];
       sessionVariables = {
-        FLAKE = "$HOME/documents/nixos-config";
+        FLAKE = "${config.xdg.userDirs.documents}/nixos-config";
+      };
+
+    persistence = {
+      "/persist${config.home.homeDirectory}" = {
+        #defaultDirectoryMethod = "symlink";
+        directories = [
+          "documents"
+          "pictures"
+          "videos"
+          "music"
+          ".keys"
+          "tmp"
+          ".local/bin"
+          ".local/share/nix" # trusted settings and repl history
+        ];
+        allowOther = true;
       };
     };
-
-    /* home.persistence."/persist/home" = {
-      directories = [
-        "tmp"
-        "documents"
-        ".keys"
-      ];
-      allowOther = true;
-    }; */
-
+  };
     sops = {
       age.sshKeyPaths = "${config.home.homeDirectory}/.keys/ssh/id_ed25519";
       age.keyFile = "${config.home.homeDirectory}/.keys/age/age.txt";
-      defaultSopsFile = ./${config.home.username}/secrets/secrets.yaml;
+      age.generateKey = true;
+      defaultSopsFile = ../hosts/secrets.yaml;
     };
 
     colorScheme = inputs.nix-colors.colorSchemes.catppuccin-mocha;

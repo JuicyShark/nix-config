@@ -1,7 +1,26 @@
 { pkgs, config, lib, ...}:
+/*let
+  # Define the source directory path
+  sourceDir = /path/to/my-dir;
+
+  # Function to recursively define files
+  recursiveFileContent = path:
+    if builtins.pathExists path && builtins.isDirectory path then
+      builtins.listToAttrs
+        (map (name: {
+          inherit name;
+          value = recursiveFileContent "${path}/${name}";
+        }) (builtins.attrNames (builtins.readDir path)))
+    else
+      { text = builtins.readFile path; };
+in*/
 {
   config = lib.mkIf (config.gtk.enable) {
-
+# TODO link backgrounds to home
+/*home.file."pictures/backgrounds" = {
+	recursive = true;
+	text = recursiveFileContent sourceDir;
+};*/
     home.sessionVariables.GTK_THEME = config.gtk.theme.name;
 
     gtk = {
@@ -59,6 +78,25 @@
       package = config.gtk.cursorTheme.package;
       name = config.gtk.cursorTheme.name;
       size = config.gtk.cursorTheme.size;
+    };
+
+    qt = {
+      enable = true;
+      platformTheme = {
+        name = "gtk3";
+        package = pkgs.qt6.qtbase.override {
+          # https://codereview.qt-project.org/c/qt/qtbase/+/547252
+          patches = [./qtbase-gtk3-xdp.patch];
+          qttranslations = null;
+        };
+      };
+    };
+    services.xsettingsd = {
+      enable = true;
+      settings = {
+        "Net/ThemeName" = "${config.gtk.theme.name}";
+        "Net/IconThemeName" = "${config.gtk.iconTheme.name}";
+      };
     };
   };
 }

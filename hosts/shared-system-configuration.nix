@@ -113,11 +113,15 @@ options = {
     # Run in host folder:  nix-shell -p sops --run "sops secrets/secrets.yaml"
     sops = {
       secrets = {
+        rootPassword = {
+          sopsFile = ./secrets.yaml;
+          neededForUsers = true;
+        };
        #wireguardKey.neededForUsers = true;
         sshKey.neededForUsers = true;
       };
 
-      defaultSopsFile = ./${config.networking.hostName}/secrets/secrets.yaml;
+      defaultSopsFile = ./${config.networking.hostName}/secrets.yaml;
       defaultSopsFormat = "yaml";
       age.sshKeyPaths = [ "/etc/keys/ssh/ssh_host_ed25519_key" ];
       age.keyFile = "/etc/keys/age/age_host.txt";# ];
@@ -137,11 +141,6 @@ options = {
         listenPort = 51820;
         #privateKeyFile = config.sops.secrets.wireguardKey.path;
       };
-    };
-
-    sops.secrets.rootPassword = {
-      sopsFile = ../secrets/secrets.yaml;
-      neededForUsers = true;
     };
 
     users.defaultUserShell = pkgs.nushell;
