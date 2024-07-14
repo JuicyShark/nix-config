@@ -3,7 +3,7 @@
   disko.devices = {
     # Boot Drive
     disk.boot = {
-      device = "/dev/sdb";
+      device = "/dev/nvme0n1";
       type = "disk";
       content = {
         type = "gpt";
@@ -36,7 +36,7 @@
     };
     #Tmp Disk
     disk.extra = {
-      device = "/dev/sdc";
+      device = "/dev/nvme1n1";
       type = "disk";
       content = {
         type = "gpt";
