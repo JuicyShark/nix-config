@@ -28,6 +28,7 @@ in
     inputs.ags.homeManagerModules.default
     ./hyprlock.nix
     ./hyprpaper.nix
+    ../waybar.nix
   ];
 
   xdg.mimeApps.enable = true;
@@ -319,11 +320,12 @@ in
 
         exec-once = [
 		      "hypridle"
-          "ags"
+
           "atuin daemon"
           "atuin server start"
         ] ++ (if osConfig.hardware.keyboard.zsa.enable then [
           "hyprpaper"
+          "waybar"
           "gnome-keyring-daemon --start --components=secrets"
           #"polkit-gnome-authentication-agent-1"
           "[workspace 1 silent] firefox --new-window"
@@ -335,6 +337,7 @@ in
           "[workspace 4 silent] qutebrowser --target window https://search.brave.com"
           "[workspace 6 silent] qutebrowser --target window https://youtube.com"
         ] else if config.home.username == "jake" then [
+          "ags"
           "polkit-gnome-authentication-agent-1"
           "firefox"
           "steam"

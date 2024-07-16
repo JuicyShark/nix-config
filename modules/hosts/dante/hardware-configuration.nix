@@ -16,7 +16,7 @@
     availableKernelModules = [ "xhci_pci" "ehci_pci" "ata_piix" "usb_storage" "usbhid" "sd_mod" ];
     kernelModules = [ ];
 
-    postDeviceCommands = lib.mkAfter ''
+/*    postDeviceCommands = lib.mkAfter ''
       mkdir /btrfs_tmp
       mount /dev/root_vg/root /btrfs_tmp
       if [[ -e /btrfs_tmp/root ]]; then
@@ -39,7 +39,7 @@
 
       btrfs subvolume create /btrfs_tmp/root
       umount /btrfs_tmp
-    '';
+    '';*/
   };
 
 

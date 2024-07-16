@@ -66,7 +66,15 @@ in
         src = vimHyprNav;
       })
     ];
+      extraConfigVim= ''
 
+        let g:loaded_netrw = 1
+        let g:loaded_netrwPlugin = 1
+
+
+        command! -nargs=* Yazi :silent !yazi <args>
+        nnoremap <leader>e :Yazi<CR>
+              '';
 
 
     plugins = {

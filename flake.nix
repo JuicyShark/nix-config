@@ -52,13 +52,14 @@
   };
   outputs = { self, nixos, nixpkgs, nix-gaming, home-manager, hyprland, hypr-plugins, ags, nix-colors, nixvim, nix-software-center, sops-nix, raspberry-pi-nix, impermanence, disko, matugen, ... }@inputs:
   let
+    inherit (self) outputs;
     hostPlatform = "x86_64-linux";
   in
   {
     # Define NixOS system configs
     nixosConfigurations = {
       leo = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit self inputs hostPlatform; };
+        specialArgs = { inherit self inputs outputs hostPlatform; };
         modules = [
           ./hosts/leo/configuration.nix
         ];

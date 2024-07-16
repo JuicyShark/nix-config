@@ -1,10 +1,10 @@
-{ inputs, config, osConfig, lib, ... }:
+{ inputs, config, osConfig, pkgs, lib, ... }:
 {
 
 
   imports = [
     inputs.nix-colors.homeManagerModules.default
-    inputs.sops-nix.homeManagerModules.sops
+    #inputs.sops-nix.homeManagerModules.sops
     inputs.impermanence.nixosModules.home-manager.impermanence
     ../modules/home-manager
   ];
@@ -23,7 +23,18 @@
   };
 
   config = {
-	  programs.home-manager.enable = true;
+    home.packages = with pkgs; [
+      #sops
+    ];
+    programs.home-manager.enable = true;
+
+    /*sops = {
+      age.sshKeyPaths = ["/persist/home/${config.main-user}/.keys/ssh/id_ed25519"];
+      age.keyFile = "/persist${config.home.homeDirectory}/.keys/age/age.txt";
+      age.generateKey = true;
+      defaultSopsFile = ../users/${config.home.username}/secrets.yaml;
+    };*/
+
     xdg.userDirs = {
       enable = true;
       createDirectories = true;
@@ -61,6 +72,9 @@
           "videos"
           "music"
           ".keys"
+          ".keys/age"
+          ".keys/ssh"
+          ".keys/gnupg"
           "tmp"
           ".local/bin"
           ".local/share/nix" # trusted settings and repl history
@@ -69,12 +83,7 @@
       };
     };
   };
-    sops = {
-      age.sshKeyPaths = "${config.home.homeDirectory}/.keys/ssh/id_ed25519";
-      age.keyFile = "${config.home.homeDirectory}/.keys/age/age.txt";
-      age.generateKey = true;
-      defaultSopsFile = ../hosts/secrets.yaml;
-    };
+
 
     colorScheme = inputs.nix-colors.colorSchemes.catppuccin-mocha;
   };

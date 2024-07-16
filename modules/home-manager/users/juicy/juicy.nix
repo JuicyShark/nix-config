@@ -14,7 +14,8 @@ in
 
   users.users.juicy = {
     isNormalUser = true;
-    hashedPasswordFile = config.sops.secrets.password.path;
+#	password = "test";
+ hashedPasswordFile = config.sops.secrets.password.path;
     shell = pkgs.nushell;
     description = config.main-user;
     extraGroups = [ "wheel" "juicy" ]

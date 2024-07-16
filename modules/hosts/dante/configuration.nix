@@ -3,10 +3,11 @@
   imports = [
     ../../users/juicy/juicy.nix
     #../../users/jake/jake.nix
-    ../shared-configuration.nix
-    ../nvidia.nix
+    	../../modules/nix/optin-persistence.nix
+	../shared-configuration.nix
+    ../../modules/nvidia.nix
     ./hardware-configuration.nix
-    inputs.impermanence.nixosModule
+    
   ];
 
   config = {

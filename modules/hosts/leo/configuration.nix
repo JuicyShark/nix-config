@@ -3,6 +3,7 @@
 {
   imports = [
     ../../modules/nixos/nvidia.nix
+    ../../modules/nixos/optin-persistence.nix
     ../../users/juicy/juicy.nix
     ../shared-system-configuration.nix
     ./hardware-configuration.nix
@@ -15,7 +16,8 @@
     pkgs.rpi-imager  # Raspberry Pi Imaging
     pkgs.bambu-studio
     pkgs.moonlight-qt
-    inputs.nix-gaming.packages.${pkgs.system}.osu-stable
+    pkgs.warp-terminal
+	inputs.nix-gaming.packages.${pkgs.system}.osu-stable
     inputs.nix-gaming.packages.${pkgs.system}.rocket-league
     inputs.nix-gaming.packages.${pkgs.system}.technic-launcher
   ];

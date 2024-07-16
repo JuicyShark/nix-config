@@ -1,4 +1,9 @@
 { config, inputs, pkgs, lib, ... }:
+let
+  isEd25519 = k: k.type == "ed25519";
+  getKeyPath = k: k.path;
+  keys = builtins.filter isEd25519 config.services.openssh.hostKeys;
+in
 {
 options = {
     cybersecurity.enable = lib.mkEnableOption "Pentesting tools";
@@ -24,16 +29,18 @@ options = {
 
   imports = [
     inputs.sops-nix.nixosModules.sops
-    inputs.impermanence.nixosModules.impermanence
     ../modules/nixos
   ];
+
 
   config = {
     environment.defaultPackages = lib.mkForce [ ];
     nixpkgs.overlays = [
       inputs.neorg-overlay.overlays.default
     ];
-
+  environment.systemPackages = with pkgs; [
+    sops
+  ];
     programs = {
       git.enable = true;
       dconf.enable = true;
@@ -117,16 +124,26 @@ options = {
           sopsFile = ./secrets.yaml;
           neededForUsers = true;
         };
-       #wireguardKey.neededForUsers = true;
-        sshKey.neededForUsers = true;
+        #wireguardKey.neededForUsers = true;
+        #sshKey.neededForUsers = true;
       };
 
       defaultSopsFile = ./${config.networking.hostName}/secrets.yaml;
       defaultSopsFormat = "yaml";
-      age.sshKeyPaths = [ "/etc/keys/ssh/ssh_host_ed25519_key" ];
-      age.keyFile = "/etc/keys/age/age_host.txt";# ];
+      age.sshKeyPaths = map getKeyPath keys;
+      age.keyFile = "/home/${config.main-user}/.config/sops/age/keys.txt";
       age.generateKey = true;
     };
+
+	programs.neovim = {
+		enable = true;
+		defaultEditor = true;
+		withRuby = false;
+		withPython3 = true;
+		withNodeJs = false;
+		vimAlias = true;
+		viAlias = true;
+	};
 
     # Default network setting
     networking = {
@@ -144,32 +161,15 @@ options = {
     };
 
     users.defaultUserShell = pkgs.nushell;
+    users.mutableUsers = false;
     users.users.root = {
       shell = pkgs.nushell;
       isSystemUser = true;
+
       hashedPasswordFile = config.sops.secrets.rootPassword.path;
     };
 
-    fileSystems."/persist".neededForBoot = true;
-    environment.persistence."/persist/system" = {
-      hideMounts = true;
-      directories = [
-        "/var/log"
-        "/var/db/sudo"
-        "/var/lib/bluetooth"
-        "/var/lib/nixos"
-        "/var/lib/systemd/coredump"
 
-        "/etc/keys"
-        "/etc/NetworkManager"
-        "/etc/nix"
-        { directory = "/var/lib/colord"; user = "colord"; group = "colord"; mode = "u=rwx,g=rx,o="; }
-      ];
-      files = [
-       # "/etc/machine-id"
-      #  { file = "/var/keys/secret_file"; parentDirectory = { mode = "u=rwx,g=,o="; };}
-      ];
-    };
 
     system.stateVersion = "24.05";
   };
