@@ -12,7 +12,7 @@
     };
     keychain = {
       enable = true;
-      enableNushellIntegration = true;
+      enableZshIntegration = true;
       enableXsessionIntegration = false;
 
     };
@@ -33,7 +33,7 @@
     gpg-agent = {
       enable = false;
       enableSshSupport = true;
-      enableNushellIntegration = true;
+      enableZshIntegration = true;
       enableExtraSocket = true;
      # enableBrowserSocket = true;
       #pinentryPackage = pkgs.pinentry-curses;

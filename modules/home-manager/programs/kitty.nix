@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 let
   shaders_dir = "${pkgs.mpv-shim-default-shaders}/share/mpv-shim-default-shaders/shaders";
+  colour = config.colorScheme.palette;
 in
 {
   home.packages = with pkgs; [
@@ -16,13 +17,81 @@ in
     kitty = {
 		enable = true;
 		settings = {
-			confirm_os_window_close = 0;
-			font_size = 13;
-			background = "#${config.colorScheme.palette.base00}";
-			foreground = "#${config.colorScheme.palette.base05}";
+      confirm_os_window_close = 0;
+      hide_window_decorations = "yes";
+      notify_on_cmd_finish = "always 30.0 command notify-send 'job finished with status: %s' %c";
+
+      shell = ".";
+      editor = "VISUAL";
+      allow_remote_control = "yes";
+      linux_display_server = "wayland";
+      font_size = 13;
+      term = "xterm-kitty";
+      window_alert_on_bell = "yes";
+      enable_audio_bell = "no";
+      scrollback_pager = "nvim";
+      #Symbols from font Patches
+      /* symbol_map = [
+        "U+E5FA-U+E62B Symbols Nerd Font Mono"
+        "U+e700-U+e7c5 Symbols Nerd Font Mono"
+        "U+f000-U+f2e0 Symbols Nerd Font Mono"
+        "U+e200-U+e2a9 Symbols Nerd Font Mono"
+        "U+f1af0 Symbols Nerd Font Mono"
+        "U+e300-U+e3e3 Symbols Nerd Font Mono"
+        "U+f400-U+f532 Symbols Nerd Font Mono"
+        "U+2665 Symbols Nerd Font Mono"
+        "U+26A1 Symbols Nerd Font Mono"
+        "U+e0a0-U+e0a2 Symbols Nerd Font Mono"
+        "U+e0b0-U+e0b3 Symbols Nerd Font Mono"
+        "U+e0b4-U+e0c8 Symbols Nerd Font Mono"
+        "U+e0cc-U+e0d4 Symbols Nerd Font Mono"
+        "U+e0a3 Symbols Nerd Font Mono"
+        "U+e0ca Symbols Nerd Font Mono"
+        "U+23fb-U+23fe Symbols Nerd Font Mono"
+        "U+2b58 Symbols Nerd Font Mono"
+        "U+f300-U+f32f Symbols Nerd Font Mono"
+        "U+e000-U+e00a Symbols Nerd Font Mono"
+        "U+ea60-U+ebeb Symbols Nerd Font Mono"
+        "U+e276c-U+2771 Symbols Nerd Font Mono"
+        "U+2500-U+259f Symbols Nerd Font Mono"
+      ]; */
+
+      # Performance
+      input_delay = 0;
+      rpaint_delay = 2;
+      sync_to_monitor = "no";
+      wayland_enable_ime = "no";
+
+      # URL's
+      open_url_with = "default";
+      url_style = "curly";
+      url_prefixes = "file ftp ftps gemini git gopher http https irc ircs kitty mailto news sftp ssh";
+      underline_hyperlinks = "always";
+
+      # Layout
+      remember_window_size = "no";
+      enabled_layouts = "Tall, Fat, Splits";
+      window_resize_step_cells = "3";
+      window_resize_step_lines = "3";
+      window_border_width = "0.5pt";
+      window_margin_width = "-1";
+      window_padding_width = "-1";
+      single_window_margin_width = "-1";
+      draw_minimal_borders = "yes";
+
+      placement_strategy = "bottom-left";
+      tab_bar_edge = "bottom";
+      tab_bar_style = "powerline";
+
+      # Colours
+			background = "#${colour.base00}";
+			foreground = "#${colour.base05}";
 			selection_background = "#${config.colorScheme.palette.base0D}";
 			selection_foreground = "#${config.colorScheme.palette.base00}";
-			url_color = "#${config.colorScheme.palette.base04}";
+      active_border_color = "#${colour.base0D}";
+      inactive_border_color = "#${colour.base02}";
+      bell_border_color = "#${colour.base06}";
+      url_color = "#${config.colorScheme.palette.base04}";
 			cursor = "#${config.colorScheme.palette.base05}";
 			color0 = "#${config.colorScheme.palette.base03}";
 			color1 = "#${config.colorScheme.palette.base08}";
@@ -148,7 +217,7 @@ cava = {
   };
 yt-dlp = {
     enable = true;
-    extraConfig = ''
+extraConfig = ''
       -o ${config.xdg.userDirs.videos}/youtube/%(title)s.%(ext)s
     '';
   };

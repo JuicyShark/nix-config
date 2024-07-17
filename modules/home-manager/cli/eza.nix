@@ -2,7 +2,7 @@
 {
   programs.eza = {
     enable = true;
-    enableNushellIntegration = true;
+    enableZshIntegration = true;
     icons = true;
 
   };

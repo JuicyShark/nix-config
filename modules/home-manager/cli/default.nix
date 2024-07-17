@@ -2,7 +2,7 @@
 {
 
   imports = [
-    #./zsh
+    ./zsh
     ./nvim
     ./yazi.nix
     ./git.nix
@@ -13,12 +13,13 @@
     ./direnv.nix
     ./git.nix
     ./gpg.nix
+    ./man.nix
   ];
 
   config = {
 
     programs.nushell = {
-      enable = true;
+      enable = false;
       shellAliases = {
         cd = "z";
         ls = "${pkgs.eza}/bin/eza --group-directories-first -a --colour=always --icons=always";
@@ -164,7 +165,7 @@ let config = {
   programs = {
     atuin = {
       enable = true;
-      enableNushellIntegration = true;
+      enableZshIntegration = true;
       settings = {
         dialect = "uk";
         update_check = false;
@@ -172,7 +173,7 @@ let config = {
         sync_frequency = "15m";
         sync.records = true;
         filter_mode_shell_up_key_binding = "directory";
-        style = "full";
+        style = "compact";
         inline_height = 50;
        # daemon = {
         #  enable = true;
@@ -182,12 +183,9 @@ let config = {
     };
     carapace = {
       enable = true;
-      enableNushellIntegration = true;
+      enableZshIntegration = true;
     };
-    zoxide = {
-      enable = true;
-      enableNushellIntegration = true;
-    };
+
   };
 
 

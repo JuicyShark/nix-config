@@ -16,7 +16,7 @@ in
     isNormalUser = true;
 #	password = "test";
  hashedPasswordFile = config.sops.secrets.password.path;
-    shell = pkgs.nushell;
+    shell = pkgs.zsh;
     description = config.main-user;
     extraGroups = [ "wheel" "juicy" ]
       ++ ifTheyExist [
@@ -36,13 +36,11 @@ in
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     useGlobalPkgs = true;
-
     users.juicy = { pkgs, inputs, ... }:  {
       # Import files specific to Juicy User Config
       imports = [
         ../shared-home-configuration.nix
       ];
-      gtk.enable = true;
       programs = {
         gpg.enable = true;
       };

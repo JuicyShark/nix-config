@@ -36,7 +36,7 @@ in
       ssh = {
         startAgent = true;
         knownHosts = lib.genAttrs hosts (hostname: {
-          publicKeyFile = ../../../hosts/${hostname}/ssh_host_ed25519_key.pub;
+          publicKeyFile = ../../hosts/${hostname}/ssh_host_ed25519_key.pub;
           extraHostNames = [
             "${hostname}"
           ] ++  (lib.optional (hostname == config.networking.hostName) "localhost");

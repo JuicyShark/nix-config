@@ -3,16 +3,16 @@
 {
 	programs.starship = {
     enable = true;
-    enableNushellIntegration = true;
+    enableZshIntegration = true;
 
     settings = {
       add_newline = false;
       scan_timeout = 10;
       command_timeout = 1000;
 
-      prompt = {
+     /* prompt = {
         right_format = "[$sudo $fill $cmd_duration $jobs]";
-      };
+      };*/
       fill = {
         symbol = " ";
         style = "bold purple";
@@ -29,13 +29,13 @@
         disabled = true;
       };
       character = {
-        success_symbol = "[󰜃 ](green) ";
-        error_symbol = "[ ](red)";
+        success_symbol = "[󰜃  ](green) ";
+        error_symbol = "[  ](red)";
       };
       cmd_duration = {
         min_time = 5;
-        show_milliseconds = true;
-        format = "[󰔟 ](yellow) [$duration](green italic)";
+        show_milliseconds = false;
+        format = "[󰔟](yellow)-[$duration](green italic)";
       };
       username = {
         style_user = "bright-blue";

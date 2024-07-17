@@ -1,17 +1,18 @@
 { pkgs, inputs, ... }:
 {
   imports = [
-    ../../users/juicy/juicy.nix
-    #../../users/jake/jake.nix
-    	../../modules/nix/optin-persistence.nix
-	../shared-configuration.nix
-    ../../modules/nvidia.nix
+    ../../home-manager/users/juicy/juicy.nix
+    #../../home-manager/users/jake/jake.nix
+    ../../nixos/optin-persistence.nix
+	  ../shared-configuration.nix
+    ../../nixos/nvidia.nix
     ./hardware-configuration.nix
-    
+
   ];
 
   config = {
 	  nvidiaLegacy.enable = true;
+    desktop.enable = false;
 
     programs = {
       fuse.userAllowOther = true;

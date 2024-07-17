@@ -1,22 +1,28 @@
 keys:
   - &host_leo: age1t2j48qvgu3xp5snjzhrdh6hhp0we0lp6sylc0nk7zel2l938mgeq4xrcqe
   - &user_juicy: age1m0u3sfwx9wel38553jlxzhndn5apz55vr9hvequhul8mky5nvdms63376n
+  - &host_dante: age1fg0ng6a8sm67m8tzljwm62j49pc74k7wlu28utmgp5wvjk0x5guqa285hq
 creation_rules:
-  - path_regex: hosts/secrets.yaml
+  - path_regex: modules/hosts/secrets.yaml
     key_groups:
     - age:
       - *host_leo
       - *user_juicy
-  - path_regex: hosts/leo/secrets.yaml
+      - *host_dante
+  - path_regex: modules/hosts/leo/secrets.yaml
     key_groups:
     - age:
       - *host_leo
-  - path_regex: users/secrets.yaml
+  - path_regex: modules/hosts/dante/secrets.yaml
+    key_groups:
+    - age:
+      - *host_dante
+  - path_regex: modules/home-manager/users/secrets.yaml
     key_groups:
     - age:
       - *host_leo
       - *user_juicy
-  - path_regex: users/juicy/secrets.yaml
+  - path_regex: modules/home-manager/users/juicy/secrets.yaml
     key_groups:
     - age:
       - *host_leo

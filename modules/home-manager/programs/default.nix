@@ -1,19 +1,19 @@
 {pkgs, ... }:
 
+
 {
   imports = [
     ./firefox.nix
     ./obs.nix
 	#./neo4j.nix
     #./cyberSec-packages.nix
-    #./qutebrowser
+    ./qutebrowser
     ./music.nix
     ./messaging.nix
-    ./kitty.nix
+    #./kitty.nix replaced with more minimal foot
     ./foot.nix
   ];
 	home.packages = with pkgs; [
-		zed-editor	
 		rustc
 		rustycli
 		zig

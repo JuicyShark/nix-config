@@ -6,7 +6,7 @@
     inputs.nix-colors.homeManagerModules.default
     #inputs.sops-nix.homeManagerModules.sops
     inputs.impermanence.nixosModules.home-manager.impermanence
-    ../modules/home-manager
+    ../../home-manager
   ];
   # Match font options from nix config
  options = {

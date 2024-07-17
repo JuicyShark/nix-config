@@ -30,15 +30,26 @@
         enable = true;
 
         settings = {
-          background = {
-    	      monitor = "DP-1";
-    	      path = "${config.home.homeDirectory}/documents/nixos-config/modules/home-manager/window-manager/wayland/hyprland/backgrounds/arcade-background.png";
-            blur_passes = 2;
-            contrast = 1;
-            brightness = 0;
-            vibrancy = 1;
-            vibrancy_darkness = 0;
-	        };
+          background = [
+            {
+    	        monitor = "DP-1";
+    	        path = "${config.xdg.userDirs.pictures}/wallpapers/arcade-background.png";
+              blur_passes = 2;
+              contrast = 1;
+              brightness = 0;
+              vibrancy = 1;
+              vibrancy_darkness = 0;
+            }
+            {
+    	        monitor = "HDNI-A-1";
+    	        path = "${config.xdg.userDirs.pictures}/wallpapers/arcade-background.png";
+              blur_passes = 2;
+              contrast = 1;
+              brightness = 0;
+              vibrancy = 1;
+              vibrancy_darkness = 0;
+            }
+          ];
 
           general = {
 	          no_fade_in = false;

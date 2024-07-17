@@ -1,29 +1,13 @@
 { pkgs, config, lib, ...}:
-/*let
-  # Define the source directory path
-  sourceDir = /path/to/my-dir;
-
-  # Function to recursively define files
-  recursiveFileContent = path:
-    if builtins.pathExists path && builtins.isDirectory path then
-      builtins.listToAttrs
-        (map (name: {
-          inherit name;
-          value = recursiveFileContent "${path}/${name}";
-        }) (builtins.attrNames (builtins.readDir path)))
-    else
-      { text = builtins.readFile path; };
-in*/
 {
-  config = lib.mkIf (config.gtk.enable) {
-# TODO link backgrounds to home
-/*home.file."pictures/backgrounds" = {
-	recursive = true;
-	text = recursiveFileContent sourceDir;
-};*/
-    home.sessionVariables.GTK_THEME = config.gtk.theme.name;
+  home.sessionVariables.GTK_THEME = config.gtk.theme.name;
+  home.file."pictures/wallpapers" = {
+    source = ./backgrounds;
+    recursive = true;
+  };
 
     gtk = {
+      enable = true;
       gtk4.extraConfig = {
         gtk-application-prefer-dark-theme = 1;
         gtk-xft-antialias = 1;
@@ -98,5 +82,4 @@ in*/
         "Net/IconThemeName" = "${config.gtk.iconTheme.name}";
       };
     };
-  };
 }

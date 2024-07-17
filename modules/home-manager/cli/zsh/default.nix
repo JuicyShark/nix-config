@@ -1,15 +1,5 @@
 { pkgs, config, osConfig, ... }:
 {
-  imports = [
-    ./bat.nix
-    ./eza.nix
-    ./bottom.nix
-    ./starship.nix
-    ./fastfetch.nix
-    ./fzf.nix
-    ./man.nix
-    ./direnv.nix
-  ];
   home.packages = with pkgs; [
     nix-output-monitor
     manix
@@ -19,7 +9,7 @@
   programs = {
     zoxide = {
       enable = true;
-      enableNushellIntegration = true;
+      enableZshIntegration = true;
     };
     zsh = {
       enable = true;
@@ -46,10 +36,11 @@
         tree = "${pkgs.eza}/bin/eza --tree --icons=always --colour=always";
         cat = "${pkgs.bat}/bin/bat";
         btop = "${pkgs.bottom}/bin/btm";
-        nixconfig = "nvim ${config.xdg.userDirs.documents}/nixos-config";
         notes = "nvim -c 'Neorg index'";
         journal = "nvim -c 'Neorg journal today'";
         grep = "${pkgs.ripgrep}/bin/rg";
+
+        # SSH Other Nix Machines
         dante = "ssh ${osConfig.main-user}@192.168.54.60 -p 2033";
         jake = "ssh ${osConfig.main-user}@192.168.54.59 -p 2033";
         juicy = "ssh ${osConfig.main-user}@192.168.54.54 -p 2033";

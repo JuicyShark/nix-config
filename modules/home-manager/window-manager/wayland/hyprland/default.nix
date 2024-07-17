@@ -19,19 +19,21 @@ let
     inherit (pkgs) stdenv fetchFromGitHub installShellFiles;
   };
 
-  terminal = "${pkgs.kitty}/bin/kitty";
-  neorg = "${pkgs.kitty}/bin/kitty nvim -c 'Neorg index'";
+  terminal = "${pkgs.foot}/bin/foot";
+  neorg = "${pkgs.foot}/bin/foot nvim -c 'Neorg index'";
 in
 {
   imports = [
     inputs.hyprland.homeManagerModules.default
-    inputs.ags.homeManagerModules.default
+
     ./hyprlock.nix
     ./hyprpaper.nix
-    ../waybar.nix
+    ../ags-test
+    #../waybar.nix
   ];
 
   xdg.mimeApps.enable = true;
+
     home.persistence = {
       "/persist${config.home.homeDirectory}" = {
         allowOther = true;
@@ -56,11 +58,12 @@ in
         ddcutil
         xsettingsd
         xorg.xprop
+        networkmanager
+
       ] ++ (if osConfig.hardware.keyboard.zsa.enable then [
 
       ] else [
         which
-        inputs.matugen.packages.${system}.default
         bun
         dart-sass
         fd
@@ -72,18 +75,8 @@ in
         swappy
         hyprpicker
         pavucontrol
-        networkmanager
         gtk3
       ]);
-
-    programs.ags = {
-      enable = true;
-      configDir = (if osConfig.hardware.keyboard.zsa.enable then ../ags-juicy else ../ags-jake);
-      extraPackages = with pkgs; [
-        accountsservice
-        gnome.gnome-bluetooth
-      ];
-    };
 
     services = {
       udiskie = {
@@ -96,10 +89,12 @@ in
 
     wayland.windowManager.hyprland = {
       enable = true;
+
       plugins = [
         #inputs.hy3.packages.x86_64-linux.hy3
         inputs.hypr-plugins.packages.x86_64-linux.hyprbars
       ];
+
       settings = {
         "$mainMod" = "SUPER";
         "$meh" = "ALT SHIFT CTRL";
@@ -117,8 +112,8 @@ in
 	      };
 
         general = {
-          gaps_in = 10;
-          gaps_out = 25;
+          gaps_in = (if config.home.username == "juicy" then "6, 12, 6, 12" else 8);
+          gaps_out = (if config.home.username == "juicy" then "10, 70, 35, 70" else 12);
           border_size = 3;
           no_border_on_floating = false;
           resize_corner = 4;
@@ -195,7 +190,7 @@ in
 
         misc = {
           enable_swallow = "true";
-          swallow_regex = "^(kitty)$";
+          swallow_regex = "^(terminal)$";
           new_window_takes_over_fullscreen = 2;
           disable_hyprland_logo = true;
           vrr = 2;
@@ -279,7 +274,8 @@ in
           "$mainMod, Print, exec, ${pkgs.hyprshot}/bin/hyprshot -m region"
           "$meh, return, exec, ${terminal}"
           "$meh, T, exec, ${terminal}"
-          "$meh, space, exec, ${pkgs.sysmenu}/bin/sysmenu -f -p 8 -i 32"
+          "$meh, space, exec, ${pkgs.tofi}/bin/tofi-drun"
+          "$meh, R, exec, ${pkgs.tofi}/bin/tofi-run"
           "$meh, D, exec, ${pkgs.discord}/bin/discord"
           "$meh, M, exec, ${pkgs.tidal-hifi}/bin/tidal-hifi"
           "$meh, B, exec, ${pkgs.bambu-studio}/bin/bambu-studio"
@@ -320,12 +316,11 @@ in
 
         exec-once = [
 		      "hypridle"
-
+          "ags"
           "atuin daemon"
           "atuin server start"
         ] ++ (if osConfig.hardware.keyboard.zsa.enable then [
           "hyprpaper"
-          "waybar"
           "gnome-keyring-daemon --start --components=secrets"
           #"polkit-gnome-authentication-agent-1"
           "[workspace 1 silent] firefox --new-window"
@@ -337,7 +332,6 @@ in
           "[workspace 4 silent] qutebrowser --target window https://search.brave.com"
           "[workspace 6 silent] qutebrowser --target window https://youtube.com"
         ] else if config.home.username == "jake" then [
-          "ags"
           "polkit-gnome-authentication-agent-1"
           "firefox"
           "steam"
@@ -356,7 +350,7 @@ in
           "m[HDMI-A-1], gapsout:0, gapsin:0, border:false, rounding:false, decorate:false, shadow:false"
           "1, monitor:DP-1, default:true"
           "2, monitor:DP-1"
-          "3, monitor:DP-1, defaultName:Social, bordersize:5, gapsin:15, gapsout:30"
+          "3, monitor:DP-1, defaultName:Social, bordersize:5, gapsin:15, gapsout:33"
   	      "4, monitor:DP-1, defaultName:Terminal, gapsin:0, gapsout:0, shadow:false, rounding:false"
           "5, monitor:DP-1, defaultName:Games, border:false, decorate:false, shadow:false, rounding:false, gapsin:0, gapsout:0"
           "6, monitor:HDMI-A-1, default:true"
@@ -365,8 +359,8 @@ in
           "9, monitor:HDMI-A-1"
           "0, monitor:HDMI-A-1"
         ] ++ (if osConfig.hardware.keyboard.zsa.enable then [
-          "w[vt1] m[DP-1] r[1-3], gapsout:25 1050 25 1050"
-          "w[vt2-3] m[DP-1] r[1-3], gapsout:25 400 25 400"
+          "w[vt1] m[DP-1] r[1-3], gapsout:13 1050 33 1050"
+          "w[vt2-3] m[DP-1] r[1-3], gapsout:13 400 33 400"
           "w[vt1] m[DP-1] r[4-4], gapsout:0 1330 0 1330"
           "w[vt2] m[DP-1] r[4-4], gapsout:0 625 0 625"
           "w[vt1] m[DP-1] r[5-5], gapsout:0 830 0 830, gapsin:0"

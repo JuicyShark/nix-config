@@ -29,19 +29,28 @@ options = {
 
   imports = [
     inputs.sops-nix.nixosModules.sops
-    ../modules/nixos
+    ../nixos
   ];
 
 
   config = {
-    environment.defaultPackages = lib.mkForce [ ];
+    environment = {
+      defaultPackages = lib.mkForce [ ];
+      variables = {
+        EDITOR = "nvim";
+        VISUAL = "nvim";
+        PAGER = "nvim";
+
+      };
+    };
     nixpkgs.overlays = [
       inputs.neorg-overlay.overlays.default
     ];
   environment.systemPackages = with pkgs; [
     sops
   ];
-    programs = {
+  programs = {
+      zsh.enable = true;
       git.enable = true;
       dconf.enable = true;
     };
@@ -90,10 +99,11 @@ options = {
         material-design-icons
         iosevka-bin
         hack-font
+        jetbrains-mono
         noto-fonts
         noto-fonts-cjk
         noto-fonts-emoji
-        (nerdfonts.override {fonts = ["Iosevka" "Hack"];})
+        (nerdfonts.override {fonts = ["Iosevka" "Hack" "JetBrainsMono"];})
       ];
       enableDefaultPackages = false;
       # this fixes emoji stuff
@@ -103,9 +113,8 @@ options = {
         cache32Bit = true;
         defaultFonts = {
           monospace = [
-            "Iosevka Term"
             "Iosevka Term Nerd Font Complete Mono"
-            "Iosevka Nerd Font"
+            "JetBrainsMono Nerd Font"
             "Noto Color Emoji"
             "Hack Nerd Font"
           ];
@@ -160,12 +169,11 @@ options = {
       };
     };
 
-    users.defaultUserShell = pkgs.nushell;
+    users.defaultUserShell = pkgs.zsh;
     users.mutableUsers = false;
     users.users.root = {
-      shell = pkgs.nushell;
+      shell = pkgs.zsh;
       isSystemUser = true;
-
       hashedPasswordFile = config.sops.secrets.rootPassword.path;
     };
 

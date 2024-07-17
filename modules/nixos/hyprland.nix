@@ -4,9 +4,11 @@
     inputs.hyprland.nixosModules.default
     inputs.nix-gaming.nixosModules.pipewireLowLatency
   ];
-  config = lib.mkIf config.programs.hyprland.enable {
+  config = lib.mkIf config.desktop.enable {
+
 
     programs.hyprland = {
+      enable = true;
       package = inputs.hyprland.packages.${pkgs.system}.hyprland;
     };
 
@@ -75,7 +77,7 @@ security.pam.services.greetd.enableGnomeKeyring = true;
       GDK_BACKEND = "wayland,x11,*";
       ANKI_WAYLAND = "1";
       QT_AUTO_SCREEN_SCALE_FACTOR = "1";
-      QT_QPA_PLATFORM = "qt6ct";
+      QT_QPA_PLATFORM = "wayland";
       DISABLE_QT_COMPAT = "0";
       QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
       MOZ_ENABLE_WAYLAND = "1";
@@ -85,7 +87,7 @@ security.pam.services.greetd.enableGnomeKeyring = true;
       XDG_CURRENT_DESKTOP = "Hyprland";
       SDL_VIDEODRIVER = "wayland";
       CLUTTER_BACKEND = "wayland";
-      QT_PLUGIN_PATH = [ "/lib/qt-6/plugins" ];
+      QT_PLUGIN_PATH = "${pkgs.qt6.qtbase}/lib/qt6/plugins";
     };
     loginShellInit = ''
       eval $(ssh-agent)
@@ -93,8 +95,11 @@ security.pam.services.greetd.enableGnomeKeyring = true;
     '';
     systemPackages = with pkgs; [
       pwvucontrol
-      libsForQt5.qt5.qtwayland
+      #libsForQt5.qt5.qtwayland
       qt6.qtwayland
+      qt6.qtbase
+      qt6.qtwayland
+      qt6ct
       wsdd
     ];
   };

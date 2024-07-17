@@ -8,13 +8,13 @@ in
   imports = [
 
   ];
-    home.persistence = {
+    /*home.persistence = {
     "/persist${config.home.homeDirectory}".directories = [
       ".config/qutebrowser/bookmarks"
       ".config/qutebrowser/greasemonkey"
       ".local/share/qutebrowser"
     ];
-  };
+  };*/
 
   xdg.mimeApps.defaultApplications = {
     "text/html" = ["org.qutebrowser.qutebrowser.desktop"];
@@ -73,8 +73,6 @@ in
 
     settings = {
       new_instance_open_target = "window";
-
-
 
       window = {
         transparent = true;

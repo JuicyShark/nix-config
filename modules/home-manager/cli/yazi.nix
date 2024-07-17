@@ -2,8 +2,72 @@
 {
   programs.yazi = {
     enable = true;
-    enableNushellIntegration = true;
+    enableZshIntegration = true;
 
+    initLua =
+      # Lua
+      ''
+      function Status:render() return {} end
+
+      local old_manager_render = Manager.render
+      function Manager:render(area)
+	      return old_manager_render(self, ui.Rect { x = area.x, y = area.y, w = area.w, h = area.h + 1 })
+      end
+    '';
+
+    settings = {
+      manager = {
+        ratio = [ 1 3 5 ];
+        show_hidden = true;
+        show_symlink = true;
+        sort_dir_first = true;
+        scrolloff = 4;
+      };
+
+
+      # Define rules on how to open files
+      /*opener = {
+        edit = [
+          {run = "nvim '$@'", desc = 'nvim', block = true, for = 'unix'}
+
+        ];
+        reveal = [
+          "{ run = '''exiftool '$1'; echo 'Press enter to exit'; read _''', block = true, desc = 'Show EXIF', for = 'unix' }
+        ];
+        play = [
+	        "{ run = `mpv '$@'`, orphan = true, for = 'unix' }"
+        ];
+        # TODO add wine execution
+        windows_open = [
+          "{ run = }"
+        ];
+        open = [
+	        "{ run = `xdg-open '$@'`, desc = 'Open' }"
+        ];
+      };
+      # Define what files open with defined rules
+      open = {
+        prepend_rules = [
+          "{ mome = 'text/*', use = 'edit' }"	        "{ name = '*.json', use = 'edit' }"
+	        "{ name = 'video/*', use = [ 'open', 'edit' ] }"
+        ];
+        append_rules = [
+	        "{ name = '*', use = 'my-fallback' }"
+        ];
+      }; */
+
+      preview = {
+        max_width = 1280;
+        max_height = 1280;
+        image_filter = "triangle";
+        image_quality = 90;
+        sixel_fraction = 10;
+      };
+
+      tasks = {
+        #image_bound = [ 1280 720 ];
+      };
+    };
 
 
     theme = {
@@ -31,11 +95,11 @@
         border_symbol = "│";
         border_style  = { fg = "#${config.colorScheme.palette.base0E}"; };
         # Highlighting
-        syntect_theme = "~/nixos/modules/home-manager/cli/Catppuccin-mocha.tmTheme";
+        syntect_theme = "~/documents/nixos-config/modules/home-manager/cli/Catppuccin-mocha.tmTheme";
       };
       status = {
-        separator_open  = "";
-        separator_close = "";
+        separator_open  = "";
+        separator_close = "";
         separator_style = { fg = "#${config.colorScheme.palette.base03}"; bg = "#${config.colorScheme.palette.base03}"; };
         # Mode
         mode_normal = { fg = "#${config.colorScheme.palette.base00}"; bg = "#${config.colorScheme.palette.base0D}"; bold = true; };

@@ -22,11 +22,9 @@
     nix-gaming.url = "github:fufexan/nix-gaming";
     ags.url = "github:Aylur/ags";
     nix-colors.url = "github:misterio77/nix-colors";
-    nix-software-center.url = "github:snowfallorg/nix-software-center";
     sops-nix.url = "github:Mic92/sops-nix";
     raspberry-pi-nix.url = "github:tstat/raspberry-pi-nix";
     impermanence.url = "github:nix-community/impermanence";
-    matugen.url = "github:InioX/matugen?ref=v2.2.0";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -50,7 +48,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  outputs = { self, nixos, nixpkgs, nix-gaming, home-manager, hyprland, hypr-plugins, ags, nix-colors, nixvim, nix-software-center, sops-nix, raspberry-pi-nix, impermanence, disko, matugen, ... }@inputs:
+  outputs = { self, nixos, nixpkgs, nix-gaming, home-manager, hyprland, hypr-plugins, ags, nix-colors, nixvim, sops-nix, raspberry-pi-nix, impermanence, disko, ... }@inputs:
   let
     inherit (self) outputs;
     hostPlatform = "x86_64-linux";
@@ -61,17 +59,17 @@
       leo = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit self inputs outputs hostPlatform; };
         modules = [
-          ./hosts/leo/configuration.nix
+          ./modules/hosts/leo/configuration.nix
         ];
       };
       emerald = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit self inputs hostPlatform; };
+        specialArgs = { inherit self inputs outputs hostPlatform; };
         modules = [
           ./hosts/emerald/configuration.nix
         ];
       };
       dante = nixos.lib.nixosSystem {
-        specialArgs = { inherit self inputs hostPlatform; };
+        specialArgs = { inherit self inputs outputs hostPlatform; };
         modules = [
           ./hosts/dante/configuration.nix
         ];
@@ -79,7 +77,7 @@
       # FIXME get Raspberry 5 setup and acting as thread border router
       hermes = nixos.lib.nixosSystem {
         system = "aarch64-linux";
-        specialArgs = { inherit self inputs; };
+        specialArgs = { inherit self inputs outputs; };
         modules = [
           raspberry-pi-nix.nixosModules.raspberry-pi
           ./hosts/hermes/configuration.nix
@@ -88,14 +86,14 @@
 
       # TODO setup a host file that reinstalls each boot.
       anon = nixos.lib.nixosSystem {
-        specialArgs = { inherit self inputs hostPlatform; };
+        specialArgs = { inherit self inputs outputs hostPlatform; };
         modules = [
           ./hosts/anon/configuration.nix
         ];
       };
       # TODO Setup to use Nix on Windows for Jake potentially using
       nix-wsl = nixos.lib.nixosSystem {
-        specialArgs = { inherit self inputs hostPlatform; };
+        specialArgs = { inherit self inputs outputs hostPlatform; };
         modules = [
           ./hosts/nix-wsl/configuration.nix
         ];
