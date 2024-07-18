@@ -315,31 +315,31 @@ in
         ];
 
         exec-once = [
+          "hyprpaper"
 		      "hypridle"
           "ags"
+          "steam"
           "atuin daemon"
           "atuin server start"
+          "[workspace 7 silent] tidal-hifi"
         ] ++ (if osConfig.hardware.keyboard.zsa.enable then [
-          "hyprpaper"
+
           "gnome-keyring-daemon --start --components=secrets"
           #"polkit-gnome-authentication-agent-1"
-          "[workspace 1 silent] firefox --new-window"
-          "[workspace 2 silent] bambu-studio"
+
+          "[workspace 2 silent] ${neorg}"
+          "[workspace 2 silent] ${terminal}"
           "[workspace 3 silent] signal-desktop"
-          "[workspace 3 silent] firefox --new-window https://www.facebook.com/"
           "[workspace 3 silent] discord"
-          "[workspace 4 silent] ${terminal}"
-          "[workspace 4 silent] qutebrowser --target window https://search.brave.com"
+          "[workspace 3 silent] firefox --new-window https://www.facebook.com/"
           "[workspace 6 silent] qutebrowser --target window https://youtube.com"
-        ] else if config.home.username == "jake" then [
+          "[workspace 1 silent] firefox --new-window https://reddit.com"
+        ] else  [
           "polkit-gnome-authentication-agent-1"
-          "firefox"
-          "steam"
-          "tidal-hifi"
+          "[workspace 2 silent] obsidian"
           "armcord"
-        ] else [
-          "${terminal}"
-        "${neorg}"
+          "[workspace 1 silent]firefox --new-window https://www.reddit.com"
+          "[workspace 1 silent]firefox --new-window https://www.youtube.com"
         ]);
 
         exec = [
@@ -388,7 +388,7 @@ in
           "tag +social, title:^(https://www.facebook.com.*)$ class:^(org.qutebrowser.qutebrowser)$"
 	        "tag +browser, class:(org.qutebrowser.qutebrowser)"
 	        "tag +browser, class:(firefox)"
-          "tag +term, class:(kitty)"
+          "tag +term, class:(terminal)"
           "tag +launcher, class:(steam)"
 
           # Do not idle when Gaming / playing media
@@ -397,10 +397,10 @@ in
 	        "idleinhibit focus, tag:media"
 
           # Transparency
-  	      "opacity 0.85 override, tag:term"
-	        "opacity 0.90, tag:social"
-	        "opacity 0.90, tag:music"
-	        "opacity 0.93 override 0.90 override 1.0 override, tag:browser"
+          #"opacity 0.65 override, tag:term"
+	        "opacity 0.80, tag:social"
+	        "opacity 0.85, tag:music"
+	        "opacity 0.85 override 0.85 override 1.0 override, tag:browser"
 	        "opacity 1.00 override 1.00 override 1.0 override, tag:media"
 
           # Match tags to certain workspaces
