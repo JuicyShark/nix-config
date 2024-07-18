@@ -177,8 +177,6 @@ options = {
       hashedPasswordFile = config.sops.secrets.rootPassword.path;
     };
 
-
-
     system.stateVersion = "24.05";
   };
 }

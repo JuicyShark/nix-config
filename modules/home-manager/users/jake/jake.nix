@@ -1,18 +1,18 @@
-{ pkgs, config, ... }:
+{ pkgs, config, inputs, ... }:
 let
   ifTheyExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
 in
 {
 
   sops.secrets.jakePassword = {
-    sopsFile = ../../../secrets/secrets.yaml;
+    sopsFile = ./secrets.yaml;
     neededForUsers = true;
   };
 
   users.users.jake = {
     isNormalUser = true;
     hashedPasswordFile = config.sops.secrets.jakePassword.path;
-    shell = pkgs.nushell;
+    shell = pkgs.zsh;
     description = config.main-user;
     extraGroups = [ "wheel" "jake" ]
       ++ ifTheyExist [
@@ -27,5 +27,17 @@ in
       "nextcloud"
       "networkmanager"
     ];
+  };
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    useGlobalPkgs = true;
+    users.jake = { pkgs, inputs, ... }:  {
+      imports = [
+        ../shared-home-configuration.nix
+      ];
+      programs = {
+        gpg.enable = true;
+      };
+    };
   };
 }

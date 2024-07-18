@@ -26,9 +26,7 @@
   gamingPC.enable = true;
 
   programs = {
-    hyprland.enable = true;
     fuse.userAllowOther = true;
-
   };
 
   hardware = {

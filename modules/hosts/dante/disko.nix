@@ -56,6 +56,8 @@
               vg = "storage_vg";
             };
           };
+        };
+      };
     };
     #Storage Disk
     disk.storage = {

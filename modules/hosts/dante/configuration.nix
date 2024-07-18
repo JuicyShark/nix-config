@@ -4,8 +4,8 @@
     ../../home-manager/users/juicy/juicy.nix
     #../../home-manager/users/jake/jake.nix
     ../../nixos/optin-persistence.nix
-	  ../shared-configuration.nix
     ../../nixos/nvidia.nix
+	  ../shared-configuration.nix
     ./hardware-configuration.nix
 
   ];
@@ -30,8 +30,9 @@
           mopidy-mpd
         ];
       };
-    };
 
+
+    };
 
     security.polkit.enable = true;
     networking.hostName = "dante";
