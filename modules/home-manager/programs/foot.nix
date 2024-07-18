@@ -66,6 +66,7 @@ in
         uri-characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.,~:;/?#@!$&%*+=\"'()[]";
       };
       colors = {
+        alpha =  "0.69"; # Nice
         foreground = "${colour.base05}"; # Text
         background = "${colour.base00}"; # Base
         regular0 = "${colour.base03}"; # Surface 1

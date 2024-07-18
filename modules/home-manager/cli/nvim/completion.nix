@@ -1,5 +1,16 @@
+{pkgs, ...}:
 {
   programs.nixvim = {
+    extraPackages = with pkgs; [
+      lua-language-server
+      nil
+      rust-analyzer
+      vscode-langservers-extracted
+
+      prettierd
+      alejandra
+      stylua
+    ];
     opts.completeopt = [ "menu" "menuone" "noselect" ];
 
     plugins = {
@@ -22,7 +33,20 @@
             "<S-Tab>" = "cmp.mapping(cmp.mapping.select_prev_item(), {'i', 's'})";
             "<CR>" = "cmp.mapping.confirm({ select = true })";
           };
-
+          sources =  [
+            {
+              name = "nvim_lsp";
+            }
+            {
+              name = "path";
+            }
+            {
+              name = "buffer";
+            }
+            {
+              name =  "neorg";
+            }
+          ];
         };
       };
       cmp-rg.enable = true;
@@ -50,7 +74,13 @@
           };
         };
         servers = {
-          nil-ls.enable = true;
+          nil-ls =
+          {
+            enable = true;
+            settings = {
+              formatting.command = ["alejandra"];
+            };
+          };
           lua-ls.enable = true;
           rust-analyzer = {
             enable = false;

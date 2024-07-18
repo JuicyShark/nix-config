@@ -109,12 +109,12 @@ in
 
       fileselect = {
         handler = "external";
-        folder.command = [ "kitty" "-e" "yazi" "--cwd-file" "{}" ];
-        multiple_files.command = [ "kitty" "-e" "yazi" "--chooser-file" "{}" ];
-        single_file.command = [ "kitty" "-e" "yazi" "--chooser-file" "{}" ];
+        folder.command = [ "foot" "-e" "yazi" "--cwd-file" "{}" ];
+        multiple_files.command = [ "foot" "-e" "yazi" "--chooser-file" "{}" ];
+        single_file.command = [ "foot" "-e" "yazi" "--chooser-file" "{}" ];
       };
 
-      editor.command = [ "kitty" "-e" "nvim" "{}" ];
+      editor.command = [ "foot" "-e" "nvim" "{}" ];
 
       content = {
         fullscreen.window = true;

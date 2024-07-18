@@ -1,9 +1,5 @@
-{ pkgs, config, ... }:
+{ pkgs, config, lib, osConfig, ... }:
 {
-  home.packages = with pkgs; [
-    obsidian
-  ];
-  
   programs.nixvim.plugins.obsidian = {
     enable = true;
     settings = {
@@ -61,8 +57,6 @@ for _ = 1, 4 do
           new_notes_location = "current_dir";
           daily_notes.folder = "journal";
           picker.name = "telescope.nvim";
-
-
     };
   };
 }

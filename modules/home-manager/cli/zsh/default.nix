@@ -16,8 +16,8 @@
       enableCompletion = true;
       dotDir = ".config/zsh";
       history = {
-        size = 100000;
-        save = 100000;
+        size = 10000;
+        save = 50000;
         share = true;
         extended = true;
         ignoreDups = true;
