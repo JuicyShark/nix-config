@@ -1,15 +1,19 @@
-{ inputs, config, osConfig, pkgs, lib, ... }:
 {
-
-
+  inputs,
+  config,
+  osConfig,
+  pkgs,
+  lib,
+  ...
+}: {
   imports = [
     inputs.nix-colors.homeManagerModules.default
-    #inputs.sops-nix.homeManagerModules.sops
+    inputs.sops-nix.homeManagerModules.sops
     inputs.impermanence.nixosModules.home-manager.impermanence
     ../../home-manager
   ];
   # Match font options from nix config
- options = {
+  options = {
     font = lib.mkOption {
       default = osConfig.font;
       type = lib.types.str;
@@ -24,66 +28,66 @@
 
   config = {
     home.packages = with pkgs; [
-      #sops
+      sops
     ];
     programs.home-manager.enable = true;
 
-    /*sops = {
-      age.sshKeyPaths = ["/persist/home/${config.main-user}/.keys/ssh/id_ed25519"];
+    sops = {
+      age.sshKeyPaths = ["/persist/home/${config.home.username}/.keys/ssh/id_ed25519"];
       age.keyFile = "/persist${config.home.homeDirectory}/.keys/age/age.txt";
       age.generateKey = true;
       defaultSopsFile = ../users/${config.home.username}/secrets.yaml;
-    };*/
+    };
 
     xdg.userDirs = {
       enable = true;
       createDirectories = true;
       documents = "${config.home.homeDirectory}/documents";
-      videos =  "${config.home.homeDirectory}/videos";
-      pictures =  "${config.home.homeDirectory}/pictures";
-      music =  "${config.home.homeDirectory}/music";
+      videos = "${config.home.homeDirectory}/videos";
+      pictures = "${config.home.homeDirectory}/pictures";
+      music = "${config.home.homeDirectory}/music";
       desktop = "${config.home.homeDirectory}/.local/desktop";
       download = "${config.home.homeDirectory}/tmp";
       templates = "${config.xdg.userDirs.documents}/templates";
-      publicShare =  "${config.xdg.userDirs.documents}/share";
+      publicShare = "${config.xdg.userDirs.documents}/share";
 
-      /* config = {
+      /*
+         config = {
         backgrounds = "${config.xdg.userDirs.pictures}/backgrounds";
         screenshots = "${config.xdg.userDirs.pictures}/screenshots";
         notes = "${config.xdg.userDirs.documents}/notes";
-      }; */
+      };
+      */
     };
 
     home = {
       username = lib.mkDefault "juicy";
       homeDirectory = lib.mkDefault "/home/${config.home.username}";
       stateVersion = lib.mkDefault "24.05";
-      sessionPath = [ "$HOME/.local/bin" ];
+      sessionPath = ["$HOME/.local/bin"];
       sessionVariables = {
         FLAKE = "${config.xdg.userDirs.documents}/nixos-config";
       };
 
-    persistence = {
-      "/persist${config.home.homeDirectory}" = {
-        #defaultDirectoryMethod = "symlink";
-        directories = [
-          "documents"
-          "pictures"
-          "videos"
-          "music"
-          ".keys"
-          ".keys/age"
-          ".keys/ssh"
-          ".keys/gnupg"
-          "tmp"
-          ".local/bin"
-          ".local/share/nix" # trusted settings and repl history
-        ];
-        allowOther = true;
+      persistence = {
+        "/persist${config.home.homeDirectory}" = {
+          # defaultDirectoryMethod = "symlink";
+          directories = [
+            "documents"
+            "pictures"
+            "videos"
+            "music"
+            ".keys"
+            ".config/sops/age"
+            ".ssh"
+            ".gnupg"
+            ".local/bin"
+            ".local/share/nix" # trusted settings and repl history
+          ];
+          allowOther = true;
+        };
       };
     };
-  };
-
 
     colorScheme = inputs.nix-colors.colorSchemes.catppuccin-mocha;
   };

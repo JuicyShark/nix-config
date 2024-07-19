@@ -1,6 +1,5 @@
 {
   inputs,
-  config,
   osConfig,
   pkgs,
   ...
@@ -83,10 +82,10 @@ in {
       mapleader = " ";
       maplocalleader = "<C-Space>";
 
-      loaded_ruby_provider = 0; # Ruby
-      loaded_perl_provider = 0; # Perl
-      loaded_python_provider = 0; # Python 2
-      loaded_npm_provider = 0; # Node Package Manager / Javascript
+      loaded_ruby_provider = 0;
+      loaded_perl_provider = 0;
+      loaded_python_provider = 0;
+      loaded_npm_provider = 0;
     };
 
     opts = {
@@ -131,9 +130,6 @@ in {
 
     plugins = {
       rustaceanvim.enable = true;
-      /*
-      Telescope
-      */
       telescope = {
         enable = true;
 
@@ -235,11 +231,11 @@ in {
           posistion = "bottom";
         };
       };
-      # bufferline.enable = true;
+      # File Explorer
       nvim-tree = {
         enable = true;
         autoReloadOnWrite = true;
-        autoClose = false;
+        autoClose = true;
         disableNetrw = true;
         hijackCursor = true;
         hijackUnnamedBufferWhenOpening = true;
@@ -274,15 +270,10 @@ in {
         cmdline.view = "cmdline";
       };
 
-      #   openscad.enable = true;
-      #   godot.enable = true;
-
-      /*
-      Pretty
-      */
+      # Pretty
       # TODO Breaks Neorg Concealer
       headlines = {
-        enable = false;
+        enable = true;
         settings.norg = {
           headline_highlights = ["Headline"];
           bullet_highlights = [
@@ -388,31 +379,15 @@ in {
         enable = true;
         theme = "dashboard";
       };
-      #neogit.enable = true;
       surround.enable = true;
-      #indent-blankline.enable = true;
       todo-comments.enable = true;
-      #conform-nvim.enable = true;
       lualine.enable = true;
       auto-save.enable = true;
       auto-save.settings.debounce_delay = 100000;
-      #neogen.enable = true;
       nvim-colorizer.enable = true;
 
-      /*
-      Dependencies
-      */
       dap.enable = true;
     };
-    /*
-     filetype = {
-      extension = [
-        {
-          ".norg" = "norg";
-        }
-      ];
-    };
-    */
     autoCmd = [
       {
         event = "BufWrite";

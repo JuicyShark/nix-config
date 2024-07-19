@@ -1,0 +1,75 @@
+@document.meta
+title: README
+description: Juicy's House Nixos Setup
+authors: juicy
+categories:
+created: 2024-07-18T16:58:32+1000
+updated: 2024-07-19T03:30:57+1000
+version: 1.1.1
+@end
+
+
+* Juicy's WIP NixOS Configuration
+  > Juicy's journey into Linux and NixOS
+  > fear those that look here for help
+  > for they seek knowledge from a madman nobody
+
+* Overview
+** First Time Setup
+
+   @code zsh
+   # Clone to xdg Documents location and enter git repo
+
+   git clone https://github.com/JuicyShark/nix-config.git ~/documents/ninixos-config/
+   cd ~/documents/nixos-config/
+
+   # Find Hostname of Personal PC
+   hostname
+   sudo nixos-rebuild --extra-experimental-features 'flakes' switch --flake .      #$YOUR_HOSTNAME
+   @end
+
+** Systems / Hosts
+*** 1.  Leo :juicy:host:main
+    - *Specs:* For Juicy's Main Desktop
+    -- ^RAM:^ 64
+    -- ^CPU:^ Intel i7 12th Gen
+    -- ^GPU^ -Nvidia- 3070  /Next time there will be no Nvidia >:(/
+    - *Roles:* {*** Gaming} {*** Hyprland} {*** Cyber-Security} {*** Nvidia}
+
+*** {:./modules/hosts/emerald/emerald:}[Emerald] :jake:host:main:
+    {*** Jake}[Jake's Home-Manager Configuration]
+    - Enabled Roles: {*** Gaming} {*** Hyprland} {*** Nvidia}
+    - Spec's:
+
+*** Dante :host:homelab:
+*** Hermes :host:rasberry-pi:homelab:
+*** Zues :host:router:
+
+     TOC
+
+** User Configs
+
+*** Juicy
+*** Jake
+
+** Roles
+*** Why Use Roles?
+
+*** Options to enable roles
+- Desktop
+
+
+*** Desktop
+
+*** Hyprland
+    /Requires a flag to be enabled:/
+    - {*** Desktop}
+
+*** Gaming
+
+*** Cyber-Security
+
+*** Nvidia
+
+*** Homelab
+

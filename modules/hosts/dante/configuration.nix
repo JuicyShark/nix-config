@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ../../home-manager/users/juicy/juicy.nix
     #../../home-manager/users/jake/jake.nix
@@ -26,6 +23,10 @@
           mopidy-tidal
           mopidy-mpd
         ];
+      };
+      # TODO setup nginx
+      vaultwarden = {
+        enable = true;
       };
     };
 

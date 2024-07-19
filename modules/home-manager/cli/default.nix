@@ -2,17 +2,26 @@
   config,
   osConfig,
   pkgs,
+  lib,
   ...
-}: {
-  imports = [
-    ./nvim
-    ./yazi.nix
-    ./bottom.nix
-    ./fastfetch.nix
+}: let
+  nonTTY = lib.optionals osConfig.desktop.enable [
+    ./cava.nix
+    ./mpv.nix
+    ./bat.nix
     ./starship.nix
-    ./developer.nix
-    ./man.nix
   ];
+in {
+  imports =
+    [
+      ./nvim
+      ./yazi.nix
+      ./bottom.nix
+      ./fastfetch.nix
+      ./developer.nix
+      ./man.nix
+    ]
+    ++ nonTTY;
 
   config = {
     home.packages = with pkgs;
@@ -21,7 +30,7 @@
         manix
         nix-index
         nix-tree
-        #Utilities
+        
         glfw
         speedtest-cli
         trippy # Network diagnostics
@@ -33,12 +42,6 @@
         rustscan
         ffsend
         gitui
-
-        gcc # C compiler
-        /*
-        nix tools
-        */
-        manix # Nix pkg and options search
       ]
       ++ (
         if osConfig.raspberryDev.enable
@@ -71,6 +74,7 @@
       );
 
     programs = {
+      imv.enable = true;
       fzf = {
         enable = false;
         enableZshIntegration = true;
