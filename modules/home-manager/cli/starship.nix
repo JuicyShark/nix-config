@@ -1,7 +1,5 @@
-{ config, ... }:
-
-{
-	programs.starship = {
+{config, ...}: {
+  programs.starship = {
     enable = true;
     enableZshIntegration = true;
 
@@ -10,9 +8,11 @@
       scan_timeout = 10;
       command_timeout = 1000;
 
-     /* prompt = {
+      /*
+        prompt = {
         right_format = "[$sudo $fill $cmd_duration $jobs]";
-      };*/
+      };
+      */
       fill = {
         symbol = " ";
         style = "bold purple";
@@ -78,6 +78,6 @@
         renamed = "襁 ";
         deleted = "[ ](bright-red)";
       };
-		};
-	};
+    };
+  };
 }

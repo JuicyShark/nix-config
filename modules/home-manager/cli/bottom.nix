@@ -1,5 +1,4 @@
-{ ... }: 
-{
+{...}: {
   programs.bottom = {
     enable = true;
     settings = {
@@ -8,7 +7,7 @@
         enable_gpu = true;
       };
       processes = {
-        columns = [ "Name" "CPU%" "Mem%" "User" "State" ]; 
+        columns = ["Name" "CPU%" "Mem%" "User" "State"];
       };
       cpu = {
         default = "average";

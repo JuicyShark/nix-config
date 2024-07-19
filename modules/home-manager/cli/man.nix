@@ -1,8 +1,6 @@
-{ config, ... }:
-let
+{config, ...}: let
   colour = config.colorScheme.palette;
-in
-{
+in {
   programs = {
     man = {
       enable = true;
