@@ -1,5 +1,6 @@
 {
   inputs,
+  config,
   osConfig,
   pkgs,
   ...
@@ -28,6 +29,7 @@ in {
   home.packages = [
     vimHyprNav
     pkgs.jq
+    pkgs.fd
   ];
 
   programs.nixvim = {
@@ -41,7 +43,38 @@ in {
     colorschemes.catppuccin = {
       enable = true;
       settings = {
+        integrations = {
+          cmp = true;
+          gitsigns = true;
+          notify = true;
+          nvimtree = true;
+          treesitter = true;
+        };
+        styles = {
+          booleans = [
+            "bold"
+            "italic"
+          ];
+          comments = [
+            "italic"
+          ];
+          conditionals = [
+            "bold"
+          ];
+          types = [
+            "bold"
+            "underline"
+          ];
+          variables = [
+            "italic"
+          ];
+          strings = [
+            "italic"
+          ];
+        };
         flavour = "mocha";
+        background.dark = "mocha";
+        background.light = "mocha";
         transparent_background = true;
         term_colors = true;
       };
@@ -94,11 +127,6 @@ in {
         src = vimHyprNav;
       })
       pkgs.vimPlugins.neorg-telescope
-      (pkgs.vimPlugins.nvim-treesitter.withPlugins (p:
-        with p; [
-          # Keep calm and don't :TSInstall
-          tree-sitter-lua
-        ]))
     ];
 
     plugins = {
@@ -197,10 +225,50 @@ in {
       # TODO setup FOLKE plugins
       trouble = {
         enable = true;
+        settings = {
+          auto_fold = true;
+          #auto_open = true;
+          group = true;
+          height = 8;
+          #   icons = true;
+          use_diagnostic_signs = true;
+          posistion = "bottom";
+        };
+      };
+      # bufferline.enable = true;
+      nvim-tree = {
+        enable = true;
+        autoReloadOnWrite = true;
+        autoClose = false;
+        disableNetrw = true;
+        hijackCursor = true;
+        hijackUnnamedBufferWhenOpening = true;
+        openOnSetup = true;
+        openOnSetupFile = true;
       };
       edgy = {
         enable = true;
+        settings = {
+          left = [
+            {
+              ft = "NvimTree";
+              title = "Explorer";
+              #       size = 25;
+            }
+            {
+              ft = "Outline";
+              open = "SymbolsOutline";
+            }
+            {
+              ft = "dapui_scopes";
+            }
+            {
+              ft = "dapui_breakpoints";
+            }
+          ];
+        };
       };
+
       noice = {
         enable = true;
         cmdline.view = "cmdline";
@@ -239,7 +307,7 @@ in {
         };
       };
       image = {
-        enable = true;
+        enable = false;
         backend = "ueberzug";
         maxHeight = 480;
         maxHeightWindowPercentage = 50;
@@ -249,10 +317,49 @@ in {
         };
       };
       gitsigns.enable = true;
-      notify.enable = true;
+      notify = {
+        enable = true;
+        fps = 120;
+        level = "info";
+        maxHeight = 42;
+        maxWidth = 35;
+        minimumWidth = 200;
+        render = "default";
+        timeout = 3750;
+        topDown = true;
+      };
       nix.enable = true;
       illuminate.enable = true;
-      treesitter.enable = true;
+      treesitter = {
+        enable = true;
+        folding = true;
+        nixvimInjections = true;
+        nodejsPackage = null;
+        nixGrammars = true;
+        grammarPackages = with pkgs.tree-sitter-grammars; [
+          tree-sitter-norg
+          tree-sitter-norg-meta
+          tree-sitter-zig
+          tree-sitter-rust
+          tree-sitter-toml
+          tree-sitter-lua
+          tree-sitter-css
+          tree-sitter-json
+          tree-sitter-python
+          tree-sitter-ledger
+          tree-sitter-godot-resource
+        ];
+        languageRegister = {
+          norg = "norg";
+          css = "css";
+        };
+        settings = {
+          highlight.enable = true;
+          incremental_selection.enable = true;
+          indent.enable = true;
+        };
+      };
+
       /*
       QOL
       */
@@ -281,18 +388,15 @@ in {
         enable = true;
         theme = "dashboard";
       };
-      neogit.enable = true;
-      nvim-autopairs.enable = true;
-      indent-blankline.enable = true;
+      #neogit.enable = true;
+      surround.enable = true;
+      #indent-blankline.enable = true;
       todo-comments.enable = true;
-      conform-nvim.enable = true;
+      #conform-nvim.enable = true;
       lualine.enable = true;
       auto-save.enable = true;
-      neogen.enable = true;
-
-      /*
-      Color preview
-      */
+      auto-save.settings.debounce_delay = 100000;
+      #neogen.enable = true;
       nvim-colorizer.enable = true;
 
       /*
@@ -317,14 +421,14 @@ in {
       }
       {
         event = "FileType";
-        pattern = ["*.norg"];
+        pattern = ["norg"];
         command = "setlocal conceallevel=1";
         desc = "Conceal Syntax Attribute";
       }
       {
         event = "FileType";
-        pattern = ["*.norg"];
-        command = "setlocal concealcursor='n v'";
+        pattern = ["norg"];
+        command = "setlocal concealcursor=n";
         desc = "Conceal line when not editing";
       }
       {
