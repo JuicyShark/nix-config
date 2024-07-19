@@ -1,9 +1,4 @@
-{
-  lib,
-  config,
-  pkgs,
-  ...
-}: {
+{config, ...}: {
   imports = [
     ../../home-manager/users/juicy/juicy.nix
     ../shared-system-configuration.nix
@@ -12,10 +7,19 @@
 
   #sops.secrets.wireguardKey.neededForUsers = true;
 
+  services = {
+    adguardhome = {
+      enable = true;
+      openFirewall = true;
+      host = "0.0.0.0";
+      mutableSettings = true;
+    };
+  };
+
   networking = {
     useDHCP = false;
     enableIPv6 = true;
-    nameservers = ["192.168.54.99" "8.8.8.8"];
+    nameservers = ["0.0.0.0" "8.8.8.8"];
     wireless.enable = false;
     networkmanager.enable = false;
     wlanInterfaces.wlan.device = "enp1s0";
