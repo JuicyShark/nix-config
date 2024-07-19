@@ -1,9 +1,7 @@
-{ ... }:
-
-{
+{...}: {
   imports = [
     <nixos-wsl/modules>
-    ../shared-configuration.nix
+    ../shared-system-configuration.nix
     ./hardware-configuration.nix
   ];
 
@@ -11,5 +9,4 @@
   wsl.defaultUser = "juicy";
 
   networking.hostName = "nix-wsl";
-
 }

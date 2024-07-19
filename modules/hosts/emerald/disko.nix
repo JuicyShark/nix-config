@@ -1,5 +1,4 @@
-{...}:
-{
+{...}: {
   disko.devices = {
     # Boot Drive
     disk.main = {
@@ -41,7 +40,6 @@
         };
       };
     };
-
 
     lvm_vg = {
       # boot group

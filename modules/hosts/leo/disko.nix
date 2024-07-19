@@ -1,5 +1,4 @@
-{...}:
-{
+{...}: {
   disko.devices = {
     # Boot Drive
     disk.boot = {

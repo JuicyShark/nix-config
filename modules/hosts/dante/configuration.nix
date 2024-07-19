@@ -1,22 +1,19 @@
-{ pkgs, inputs, ... }:
 {
+  pkgs,
+  ...
+}: {
   imports = [
     ../../home-manager/users/juicy/juicy.nix
     #../../home-manager/users/jake/jake.nix
     ../../nixos/optin-persistence.nix
     ../../nixos/nvidia.nix
-	  ../shared-configuration.nix
+    ../shared-system-configuration.nix
     ./hardware-configuration.nix
-
   ];
 
   config = {
-	  nvidiaLegacy.enable = true;
+    nvidiaLegacy.enable = true;
     desktop.enable = false;
-
-    programs = {
-      fuse.userAllowOther = true;
-    };
 
     services = {
       openssh.enable = true;
@@ -30,8 +27,6 @@
           mopidy-mpd
         ];
       };
-
-
     };
 
     security.polkit.enable = true;

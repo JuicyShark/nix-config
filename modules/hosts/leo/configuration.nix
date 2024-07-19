@@ -1,6 +1,8 @@
-{ pkgs, inputs, ... }:
-
 {
+  pkgs,
+  inputs,
+  ...
+}: {
   imports = [
     ../../nixos/nvidia.nix
     ../../nixos/optin-persistence.nix
@@ -11,12 +13,12 @@
 
   environment.systemPackages = [
     pkgs.zig
-    pkgs.wally-cli   # Flash zsa Keyboard
-    pkgs.keymapviz   # Zsa Oryx dep
-    pkgs.rpi-imager  # Raspberry Pi Imaging
+    pkgs.wally-cli
+    pkgs.keymapviz
+    pkgs.rpi-imager
     pkgs.bambu-studio
     pkgs.moonlight-qt
-	  inputs.nix-gaming.packages.${pkgs.system}.osu-stable
+    inputs.nix-gaming.packages.${pkgs.system}.osu-stable
     inputs.nix-gaming.packages.${pkgs.system}.rocket-league
     inputs.nix-gaming.packages.${pkgs.system}.technic-launcher
   ];

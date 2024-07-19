@@ -1,22 +1,28 @@
-{ config, lib, modulesPath, inputs, ... }:
 {
+  config,
+  lib,
+  modulesPath,
+  inputs,
+  ...
+}: {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
     inputs.disko.nixosModules.default
     ./disko.nix
   ];
 
-  boot.kernelModules = [ "kvm-intel" ];
-  boot.extraModulePackages = [ ];
+  boot.kernelModules = ["kvm-intel"];
+  boot.extraModulePackages = [];
   boot.loader = {
     grub.enable = true;
     efi.canTouchEfiVariables = true;
   };
   boot.initrd = {
-    availableKernelModules = [ "xhci_pci" "ehci_pci" "ata_piix" "usb_storage" "usbhid" "sd_mod" ];
-    kernelModules = [ ];
+    availableKernelModules = ["xhci_pci" "ehci_pci" "ata_piix" "usb_storage" "usbhid" "sd_mod"];
+    kernelModules = [];
 
-/*    postDeviceCommands = lib.mkAfter ''
+    /*
+      postDeviceCommands = lib.mkAfter ''
       mkdir /btrfs_tmp
       mount /dev/root_vg/root /btrfs_tmp
       if [[ -e /btrfs_tmp/root ]]; then
@@ -39,24 +45,26 @@
 
       btrfs subvolume create /btrfs_tmp/root
       umount /btrfs_tmp
-    '';*/
+    '';
+    */
   };
-
 
   networking = {
     useDHCP = lib.mkDefault false;
     defaultGateway = "192.168.54.99";
-    nameservers = [ "192.168.54.99" ];
+    nameservers = ["192.168.54.99"];
     hostName = "dante";
     wireguard.interfaces.wg0 = {
-      ips = [ "10.100.0.4/24" ];
+      ips = ["10.100.0.4/24"];
       peers = [
-          /*{ example of forwdinv everbthing to peer endpoint
-            publicKey = "oPUTwZApzM5gFsV4+i2HwP6gESWS+9/9497jo2JjflM=";
-            allowedIPs = [ "0.0.0.0/0" ];
-            endpoint = "192.168.54.99:51820";
-            persistentKeepalive = 25;
-          }*/
+        /*
+          { example of forwdinv everbthing to peer endpoint
+          publicKey = "oPUTwZApzM5gFsV4+i2HwP6gESWS+9/9497jo2JjflM=";
+          allowedIPs = [ "0.0.0.0/0" ];
+          endpoint = "192.168.54.99:51820";
+          persistentKeepalive = 25;
+        }
+        */
       ];
     };
     interfaces = {

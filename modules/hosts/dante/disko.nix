@@ -1,5 +1,4 @@
-{...}:
-{
+{...}: {
   disko.devices = {
     # Boot Drive
     disk.main = {
@@ -108,7 +107,7 @@
           };
         };
       };
-    # Storage group
+      # Storage group
       storage_vg = {
         type = "lvm_vg";
         lvs = {

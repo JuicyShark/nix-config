@@ -1,11 +1,15 @@
-{ config, inputs, pkgs, lib, ... }:
-let
+{
+  config,
+  inputs,
+  pkgs,
+  lib,
+  ...
+}: let
   isEd25519 = k: k.type == "ed25519";
   getKeyPath = k: k.path;
   keys = builtins.filter isEd25519 config.services.openssh.hostKeys;
-in
-{
-options = {
+in {
+  options = {
     cybersecurity.enable = lib.mkEnableOption "Pentesting tools";
     raspberryDev.enable = lib.mkEnableOption "Raspberry Pi Dev Packages";
     desktop.enable = lib.mkEnableOption "Desktop and programs Packages";
@@ -32,24 +36,22 @@ options = {
     ../nixos
   ];
 
-
   config = {
     environment = {
-      defaultPackages = lib.mkForce [ ];
+      defaultPackages = lib.mkForce [];
       variables = {
         EDITOR = "nvim";
         VISUAL = "nvim";
         PAGER = "nvim";
-
       };
     };
     nixpkgs.overlays = [
       inputs.neorg-overlay.overlays.default
     ];
-  environment.systemPackages = with pkgs; [
-    sops
-  ];
-  programs = {
+    environment.systemPackages = with pkgs; [
+      sops
+    ];
+    programs = {
       zsh.enable = true;
       git.enable = true;
       dconf.enable = true;
@@ -66,15 +68,15 @@ options = {
       };
       optimise = {
         automatic = true;
-        dates = [ "daily" ];
+        dates = ["daily"];
       };
       settings = {
-        experimental-features = [ "nix-command" "flakes" ];
+        experimental-features = ["nix-command" "flakes"];
         warn-dirty = false;
         substituters = ["https://nix-gaming.cachix.org"];
-        trusted-users = ["nix-ssh" "juicy" "jake" ];
+        trusted-users = ["nix-ssh" "juicy" "jake"];
         trusted-public-keys = ["nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="];
-        };
+      };
     };
 
     time.timeZone = "Australia/Brisbane";
@@ -85,11 +87,15 @@ options = {
       allowUnfreePredicate = true;
     };
 
-
     security.polkit.enable = true;
     security.pam.loginLimits = [
-        { domain = "@users"; item = "rtprio"; type = "-"; value = 1; }
-      ];
+      {
+        domain = "@users";
+        item = "rtprio";
+        type = "-";
+        value = 1;
+      }
+    ];
     hardware.enableRedistributableFirmware = true;
 
     # Installed Fonts
@@ -144,26 +150,26 @@ options = {
       age.generateKey = true;
     };
 
-	programs.neovim = {
-		enable = true;
-		defaultEditor = true;
-		withRuby = false;
-		withPython3 = true;
-		withNodeJs = false;
-		vimAlias = true;
-		viAlias = true;
-	};
+    programs.neovim = {
+      enable = true;
+      defaultEditor = true;
+      withRuby = false;
+      withPython3 = true;
+      withNodeJs = false;
+      vimAlias = true;
+      viAlias = true;
+    };
 
     # Default network setting
     networking = {
       useDHCP = lib.mkDefault false;
       hostName = lib.mkDefault "anon";
       defaultGateway = lib.mkDefault "192.168.54.99";
-      nameservers = lib.mkDefault ["192.168.54.99" ];
+      nameservers = lib.mkDefault ["192.168.54.99"];
       networkmanager.enable = lib.mkDefault false;
       wireguard.enable = false;
-      firewall.allowedUDPPorts = [ 51820 ];
-      wireguard.interfaces.wg0  = {
+      firewall.allowedUDPPorts = [51820];
+      wireguard.interfaces.wg0 = {
         listenPort = 51820;
         #privateKeyFile = config.sops.secrets.wireguardKey.path;
       };
