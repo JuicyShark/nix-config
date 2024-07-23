@@ -135,10 +135,10 @@ in {
     # Run in host folder:  nix-shell -p sops --run "sops secrets/secrets.yaml"
     sops = {
       secrets = {
-        rootPassword = {
+      /*  rootPassword = {
           sopsFile = ./secrets.yaml;
           neededForUsers = true;
-        };
+        };*/
         #wireguardKey.neededForUsers = true;
         #sshKey.neededForUsers = true;
       };
@@ -176,11 +176,12 @@ in {
     };
 
     users.defaultUserShell = pkgs.zsh;
-    users.mutableUsers = false;
+   # users.mutableUsers = true;
     users.users.root = {
       shell = pkgs.zsh;
       isSystemUser = true;
-      hashedPasswordFile = config.sops.secrets.rootPassword.path;
+	initialPassword = "test";
+ #     hashedPasswordFile = config.sops.secrets.rootPassword.path;
     };
 
     system.stateVersion = "24.05";

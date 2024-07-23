@@ -2,7 +2,7 @@
   disko.devices = {
     # Boot Drive
     disk.main = {
-      device = "/dev/sdb";
+      device = "/dev/sdc";
       type = "disk";
       content = {
         type = "gpt";
@@ -42,7 +42,7 @@
     };
     #Tmp Disk
     disk.tmp = {
-      device = "/dev/sdc";
+      device = "/dev/sda";
       type = "disk";
       content = {
         type = "gpt";
@@ -60,7 +60,7 @@
     };
     #Storage Disk
     disk.storage = {
-      device = "/dev/sda";
+      device = "/dev/sdb";
       type = "disk";
       content = {
         type = "gpt";
