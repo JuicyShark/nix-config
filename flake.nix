@@ -39,6 +39,10 @@
       url = "github:hyprwm/hyprland-plugins";
       inputs.hyprland.follows = "hyprland";
     };
+    hypr-scripts = {
+      url = "github:hyprwm/contrib";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixvim = {
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -56,6 +60,7 @@
     home-manager,
     hyprland,
     hypr-plugins,
+    hypr-scripts,
     ags,
     nix-colors,
     nixvim,

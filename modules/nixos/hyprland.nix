@@ -97,7 +97,8 @@
         XDG_SESSION_TYPE = "wayland";
         XDG_SESSION_DESKTOP = "Hyprland";
         XDG_CURRENT_DESKTOP = "Hyprland";
-        SDL_VIDEODRIVER = "wayland";
+        #TODO can this run wayland and x11?
+        SDL_VIDEODRIVER = "x11";
         CLUTTER_BACKEND = "wayland";
         QT_PLUGIN_PATH = "${pkgs.qt6.qtbase}/lib/qt6/plugins";
       };

@@ -1,11 +1,21 @@
-{ config, pkgs, ... }:
-let
-  colour = config.colorScheme.palette;
-in
 {
+  config,
+  pkgs,
+  ...
+}: let
+  colour = config.colorScheme.palette;
+in {
   home.packages = with pkgs; [
     libsixel # display images inline
   ];
+  xdg.mimeApps = {
+    associations.added = {
+      "x-scheme-handler/terminal" = "foot.desktop";
+    };
+    defaultApplications = {
+      "x-scheme-handler/terminal" = "foot.desktop";
+    };
+  };
   programs.foot = {
     enable = true;
     server.enable = true;
@@ -66,7 +76,7 @@ in
         uri-characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.,~:;/?#@!$&%*+=\"'()[]";
       };
       colors = {
-        alpha =  "0.69"; # Nice
+        alpha = "0.69"; # Nice
         foreground = "${colour.base05}"; # Text
         background = "${colour.base00}"; # Base
         regular0 = "${colour.base03}"; # Surface 1

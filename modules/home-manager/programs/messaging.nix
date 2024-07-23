@@ -1,10 +1,7 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   home.packages = with pkgs; [
-    discord
-    discordo     # Terminal Discord
-
+    discordo # Terminal Discord
+    vencord
     signal-desktop
   ];
 
