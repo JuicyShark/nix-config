@@ -61,7 +61,7 @@
         declarative = false;
         openFirewall = false;
         group = "media";
-        #authFile = config.sops.secrets.deluge.path;
+        authFile = config.sops.secrets.deluge.path;
         config = {
           copy_torrent_file = true;
           move_completed = true;
@@ -119,12 +119,11 @@
         openFirewall = true;
       };
     };
-    /*
+
     sops.secrets.deluge = {
-      owner =  config.users.users.deluge.name;
-      group =  config.users.users.deluge.group;
+      owner = config.users.users.deluge.name;
+      group = config.users.users.deluge.group;
       mode = "0600";
     };
-    */
   };
 }
