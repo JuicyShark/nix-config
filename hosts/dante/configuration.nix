@@ -1,8 +1,8 @@
 {pkgs, ...}: {
   imports = [
-    ../../home-manager/users/juicy/juicy.nix
+    ../../modules/home-manager/users/juicy/juicy.nix
     #../../home-manager/users/jake/jake.nix
-    ../../nixos/nvidia.nix
+    ../../modules/nixos/nvidia.nix
     ../shared-system-configuration.nix
     ./hardware-configuration.nix
   ];
