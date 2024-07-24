@@ -9,7 +9,7 @@
     source = ../backgrounds;
     recursive = true;
   };
-
+  dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
   gtk = {
     enable = true;
     gtk4.extraConfig = {
@@ -43,9 +43,9 @@
     };
 
     cursorTheme = {
-      name = lib.mkDefault "Catppuccin-Mocha-Blue-Cursors";
-      size = 32;
-      package = lib.mkDefault pkgs.catppuccin-cursors.mochaBlue;
+      name = config.home.pointerCursor.name;
+      size = config.home.pointerCursor.size;
+      package = config.home.pointerCursor.package;
     };
 
     iconTheme = {
@@ -62,23 +62,20 @@
   };
 
   home.pointerCursor = {
-    gtk.enable = false;
-    package = config.gtk.cursorTheme.package;
-    name = config.gtk.cursorTheme.name;
-    size = config.gtk.cursorTheme.size;
+    gtk.enable = true;
+    x11.enable = true;
+    x11.defaultCursor = config.home.pointerCursor.name;
+    name = lib.mkDefault "Afterglow-Recolored-Catppuccin-Blue";
+    size = 26;
+    package = lib.mkDefault pkgs.afterglow-cursors-recolored;
   };
 
   qt = {
     enable = true;
-    platformTheme = {
-      name = "gtk";
-      package = pkgs.qt6.qtbase.override {
-        # https://codereview.qt-project.org/c/qt/qtbase/+/547252
-        patches = [./qtbase-gtk3-xdp.patch];
-        qttranslations = null;
-      };
-    };
+    platformTheme.name = "kvantum";
+    style.name = "kvantum";
   };
+
   services.xsettingsd = {
     enable = true;
     settings = {

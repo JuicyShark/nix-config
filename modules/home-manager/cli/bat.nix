@@ -1,9 +1,10 @@
 {pkgs, ...}: {
   programs.bat = {
     enable = true;
-    config.theme = "catppuccin-mocha";
+    /*
+         config.theme = "catppuccin-mocha";
     themes.catppuccin-mocha = {
-      src = pkgs.fetchFromGitHub {
+    src = pkgs.fetchFromGitHub {
         owner = "catppuccin";
         repo = "bat"; # Bat uses sublime syntax for its themes
         rev = "refs/heads/main";
@@ -11,5 +12,6 @@
       };
       file = "Catppuccin-mocha.tmTheme";
     };
+    */
   };
 }

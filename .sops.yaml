@@ -1,6 +1,6 @@
 keys:
-  - &host_leo: age1t2j48qvgu3xp5snjzhrdh6hhp0we0lp6sylc0nk7zel2l938mgeq4xrcqe
-  - &host_dante: age1dcxn5t0974wk0zawnmgc8nk7snee09d796mlg49taawrlxh07qyqvcfer3
+  - &host_leo age1t2j48qvgu3xp5snjzhrdh6hhp0we0lp6sylc0nk7zel2l938mgeq4xrcqe
+  - &host_dante age1dcxn5t0974wk0zawnmgc8nk7snee09d796mlg49taawrlxh07qyqvcfer3
 creation_rules:
   - path_regex: hosts/secrets.yaml
     key_groups:

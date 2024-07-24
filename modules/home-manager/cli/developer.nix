@@ -52,11 +52,4 @@
       #pinentryPackage = pkgs.pinentry-curses;
     };
   };
-
-  home.persistence = {
-    "/persist${config.home.homeDirectory}".files = [
-      ".ssh/known_hosts"
-      ".config/gh/hosts.yml"
-    ];
-  };
 }

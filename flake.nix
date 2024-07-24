@@ -20,6 +20,7 @@
     nixos.url = "nixpkgs/nixos-unstable";
     neorg-overlay.url = "github:nvim-neorg/nixpkgs-neorg-overlay";
     nix-gaming.url = "github:fufexan/nix-gaming";
+    catppuccin.url = "github:catppuccin/nix";
     ags.url = "github:Aylur/ags";
     nix-colors.url = "github:misterio77/nix-colors";
     sops-nix.url = "github:Mic92/sops-nix";
@@ -68,6 +69,7 @@
     raspberry-pi-nix,
     impermanence,
     disko,
+    catppuccin,
     ...
   } @ inputs: let
     inherit (self) outputs;

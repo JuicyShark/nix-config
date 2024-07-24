@@ -20,22 +20,11 @@ in {
   ];
 
   xdg.mimeApps.enable = true;
-
-  home.persistence = {
-    "/persist${config.home.homeDirectory}" = {
-      allowOther = true;
-      directories = [
-        "games"
-        ".factorio"
-        ".config/unity3d/Berserk Games/Tabletop Simulator"
-        ".config/unity3d/IronGate/Valheim"
-        ".local/share/Tabletop Simulator"
-        ".local/share/Paradox Interactive"
-        ".paradoxlauncher"
-        ".local/share/Steam"
-        ".local/share/osu"
-      ];
-    };
+  home.sessionVariables = {
+    HYPRCURSOR_THEME = config.gtk.cursorTheme.name;
+    HYPRCURSOR_SIZE = 26;
+    XCURSOR_THEME = config.gtk.cursorTheme.name;
+    XCURSOR_SIZE = 26;
   };
   home.packages = with pkgs;
     [
@@ -133,10 +122,11 @@ in {
         gaps_out =
           if config.home.username == "juicy"
           then "10, 70, 35, 70"
+          
           else 12;
-        border_size = 3;
+        border_size = 4;
         no_border_on_floating = false;
-        resize_corner = 4;
+        resize_corner = 0;
         resize_on_border = true;
         allow_tearing = false;
         no_focus_fallback = true;
