@@ -6,7 +6,7 @@
 }: {
   home.sessionVariables.GTK_THEME = config.gtk.theme.name;
   home.file."pictures/wallpapers" = {
-    source = ./backgrounds;
+    source = ../backgrounds;
     recursive = true;
   };
 

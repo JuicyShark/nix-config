@@ -78,19 +78,19 @@
       leo = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit self inputs outputs hostPlatform;};
         modules = [
-          ./modules/hosts/leo/configuration.nix
+          ./hosts/leo/configuration.nix
         ];
       };
       emerald = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit self inputs outputs hostPlatform;};
         modules = [
-          ./modules/hosts/emerald/configuration.nix
+          ./hosts/emerald/configuration.nix
         ];
       };
       dante = nixos.lib.nixosSystem {
         specialArgs = {inherit self inputs outputs hostPlatform;};
         modules = [
-          ./modules/hosts/dante/configuration.nix
+          ./hosts/dante/configuration.nix
         ];
       };
       # FIXME get Raspberry 5 setup and acting as thread border router
@@ -99,7 +99,7 @@
         specialArgs = {inherit self inputs outputs;};
         modules = [
           raspberry-pi-nix.nixosModules.raspberry-pi
-          ./modules/hosts/hermes/configuration.nix
+          ./hosts/hermes/configuration.nix
         ];
       };
 
@@ -107,14 +107,14 @@
       anon = nixos.lib.nixosSystem {
         specialArgs = {inherit self inputs outputs hostPlatform;};
         modules = [
-          ./modules/hosts/anon/configuration.nix
+          ./hosts/anon/configuration.nix
         ];
       };
       # TODO Setup to use Nix on Windows for Jake potentially using
       nix-wsl = nixos.lib.nixosSystem {
         specialArgs = {inherit self inputs outputs hostPlatform;};
         modules = [
-          ./modules/hosts/nix-wsl/configuration.nix
+          ./hosts/nix-wsl/configuration.nix
         ];
       };
     };
