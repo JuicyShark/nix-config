@@ -190,7 +190,9 @@ in {
         #privateKeyFile = config.sops.secrets.wireguardKey.path;
       };
     };
-
+    services.bind = {
+      enable = true;
+    };
     users.defaultUserShell = pkgs.zsh;
     users.mutableUsers = false;
     users.users.root = {
