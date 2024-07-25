@@ -1,6 +1,6 @@
 {config, ...}: {
   imports = [
-    ../../home-manager/users/juicy/juicy.nix
+    ../../users/juicy/juicy.nix
     ../shared-system-configuration.nix
     ./hardware-configuration.nix
   ];
@@ -19,7 +19,7 @@
   networking = {
     useDHCP = false;
     enableIPv6 = true;
-    nameservers = ["0.0.0.0" "8.8.8.8"];
+    nameservers = ["192.168.54.99" "8.8.8.8"];
     wireless.enable = false;
     networkmanager.enable = false;
     wlanInterfaces.wlan.device = "enp1s0";
@@ -117,6 +117,12 @@
       dhcp-lease-max=100
       dhcp-option=option:router,192.168.54.99
       dhcp-authoritative
+
+      address=/vaultwarden.homelab/192.168.54.60
+      address=/jellyfin.homelab/192.168.54.60
+      address=/homepage.homelab/192.168.54.60
+      address=/gitea.homelab/192.168.54.60
+
     '';
   };
 }

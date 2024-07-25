@@ -10,17 +10,17 @@ in {
     inputs.home-manager.nixosModules.home-manager
   ];
 
-  /*
+  
     sops.secrets.juicyPassword = {
     sopsFile = ../../hosts/secrets.yaml;
     neededForUsers = true;
   };
-  */
+  
 
   users.users.juicy = {
     isNormalUser = true;
     #	password = "test";
-    # hashedPasswordFile = config.sops.secrets.juicyPassword.path;
+    hashedPasswordFile = config.sops.secrets.juicyPassword.path;
     shell = pkgs.zsh;
     description = config.main-user;
     extraGroups =

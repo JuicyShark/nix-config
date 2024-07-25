@@ -58,8 +58,8 @@
       #TODO non declarative setup due to sops not currently working
       deluge = {
         enable = true;
-        declarative = false;
-        openFirewall = false;
+        declarative = true;
+        openFirewall = true;
         group = "media";
         authFile = config.sops.secrets.deluge.path;
         config = {
@@ -121,9 +121,7 @@
     };
 
     sops.secrets.deluge = {
-      owner = config.users.users.deluge.name;
       group = config.users.users.deluge.group;
-      mode = "0600";
     };
   };
 }
