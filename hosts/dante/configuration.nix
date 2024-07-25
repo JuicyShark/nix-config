@@ -16,6 +16,9 @@
       gitea.enable = true;
       jellyfin.enable = true;
       nfs.server.enable = true;
+      nextcloud.enable = false;
+      homepage-dashboard.enable = true;
+
       mopidy = {
         enable = true;
         extensionPackages = with pkgs; [
@@ -23,9 +26,46 @@
           mopidy-mpd
         ];
       };
+
       # TODO setup nginx
       vaultwarden = {
         enable = true;
+      };
+
+      nginx = {
+        enable = true;
+        virtualHosts = {
+          "vaultwarden.homelab" = {
+            locations."/" = {
+              proxyPass = "http://127.0.0.1:8000";
+            };
+          };
+          "jellyfin.homelab" = {
+            locations."/" = {
+              proxyPass = "http://127.0.0.1:8096";
+            };
+          };
+          "pirateslife.homelab" = {
+            locations."/" = {
+              proxyPass = "http://127.0.0.1:9050";
+            };
+          };
+          "homepage.homelab" = {
+            locations."/" = {
+              proxyPass = "http://127.0.0.1:8562";
+            };
+          };
+          "gitea.homelab" = {
+            locations."/" = {
+              proxyPass = "http://127.0.0.1:8199";
+            };
+          };
+          "nextcloud.homelab" = {
+            locations."/" = {
+              proxyPass = "http://127.0.0.1:9060";
+            };
+          };
+        };
       };
     };
 
