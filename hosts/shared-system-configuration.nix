@@ -9,32 +9,6 @@
   isEd25519 = k: k.type == "ed25519";
   getKeyPath = k: k.path;
   keys = builtins.filter isEd25519 config.services.openssh.hostKeys;
-
-  # Assume `outputs.nixosConfigurations` is available
-  nixosConfigs = outputs.nixosConfigurations;
-
-  # Helper function to get the first IPv4 address from the network interfaces
-  getFirstIPv4 = config: let
-    addresses = lib.flatten (lib.attrValues config.networking.interfaces);
-    ipv4Addresses = lib.filter (addr: lib.isAttrs addr && lib.hasAttr "ipv4" addr) addresses;
-  in
-    if lib.length ipv4Addresses > 0
-    then ipv4Addresses [0].ipv4.address
-    else null;
-
-  # Generate the list of hostnames and their first IPv4 addresses
-  hostMappings =
-    lib.mapAttrsToList (name: config: {
-      host = config.networking.hostName;
-      ip = getFirstIPv4 config;
-    })
-    nixosConfigs;
-
-  # Filter out entries with null IP addresses
-  validHostMappings = lib.filter (entry: entry.ip != null) hostMappings;
-
-  # Generate the networking.hosts list
-  extraHosts = lib.foldl' (acc: entry: acc // {"${entry.host}" = entry.ip;}) {} validHostMappings;
 in {
   options = {
     cybersecurity.enable = lib.mkEnableOption "Pentesting tools";
@@ -180,9 +154,9 @@ in {
       useDHCP = lib.mkDefault false;
       hostName = lib.mkDefault "anon";
       domain = lib.mkDefault "nixlab.au";
-      hosts = lib.mkDefault extraHosts;
-      defaultGateway = lib.mkDefault "192.168.54.99";
-      nameservers = lib.mkDefault ["192.168.54.99"];
+      #hosts = lib.mkDefault extraHosts;
+      defaultGateway = lib.mkDefault "192.168.54.98";
+      nameservers = lib.mkDefault ["192.168.54.98"];
       networkmanager.enable = lib.mkDefault false;
       wireguard.enable = false;
       firewall.allowedUDPPorts = [51820];
@@ -192,7 +166,7 @@ in {
       };
     };
     services.bind = {
-      enable = true;
+      enable = false;
     };
     users.defaultUserShell = pkgs.zsh;
     users.mutableUsers = false;
