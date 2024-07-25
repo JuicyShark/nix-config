@@ -152,6 +152,7 @@ in {
     networking = {
       useDHCP = lib.mkDefault false;
       hostName = lib.mkDefault "anon";
+      domain = lib.mkDefault "nixlab";
       defaultGateway = lib.mkDefault "192.168.54.99";
       nameservers = lib.mkDefault ["192.168.54.99"];
       networkmanager.enable = lib.mkDefault false;
@@ -164,11 +165,11 @@ in {
     };
 
     users.defaultUserShell = pkgs.zsh;
-    users.mutableUsers = true;
+    users.mutableUsers = false;
     users.users.root = {
       shell = pkgs.zsh;
       isSystemUser = true;
-      #   hashedPasswordFile = config.sops.secrets.rootPassword.path;
+      hashedPasswordFile = config.sops.secrets.rootPassword.path;
     };
 
     system.stateVersion = "24.05";

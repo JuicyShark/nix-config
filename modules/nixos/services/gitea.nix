@@ -15,5 +15,10 @@
         HTTP_PORT = 8199;
       };
     };
+    services.nginx.virtualHosts."gitea.homelab" = {
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:8199";
+      };
+    };
   };
 }
