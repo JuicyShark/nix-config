@@ -179,6 +179,7 @@ in {
     networking = {
       useDHCP = lib.mkDefault false;
       hostName = lib.mkDefault "anon";
+      domain = lib.mkDefault "nixlab";
       hosts = lib.mkDefault extraHosts;
       defaultGateway = lib.mkDefault "192.168.54.99";
       nameservers = lib.mkDefault ["192.168.54.99"];

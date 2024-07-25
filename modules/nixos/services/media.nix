@@ -54,7 +54,11 @@
         group = "media";
         openFirewall = true;
       };
-
+      nginx.virtualHosts."jellyfin.homelab" = {
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:8096";
+        };
+      };
       #TODO non declarative setup due to sops not currently working
       deluge = {
         enable = true;
@@ -91,7 +95,11 @@
           openFirewall = true;
         };
       };
-
+      nginx.virtualHosts."pirateslife.homelab" = {
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:9050";
+        };
+      };
       prowlarr = {
         enable = true;
         openFirewall = true;

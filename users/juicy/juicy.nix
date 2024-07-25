@@ -10,12 +10,10 @@ in {
     inputs.home-manager.nixosModules.home-manager
   ];
 
-  
-    sops.secrets.juicyPassword = {
+  sops.secrets.juicyPassword = {
     sopsFile = ../../hosts/secrets.yaml;
     neededForUsers = true;
   };
-  
 
   users.users.juicy = {
     isNormalUser = true;

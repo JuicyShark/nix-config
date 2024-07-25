@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   imports = [
     ../../users/juicy/juicy.nix
     #../../home-manager/users/jake/jake.nix
@@ -30,40 +34,26 @@
       # TODO setup nginx
       vaultwarden = {
         enable = true;
+        config = {
+          DOMAIN = "http://vaultwarden.nixlab";
+          SIGNUPS_ALLOWED = true;
+
+          ROCKET_ADDRESS = "127.0.0.1";
+          ROCKET_PORT = "8521";
+
+          WEB_VAULT_ENABLED = true;
+        };
       };
 
       nginx = {
         enable = true;
-        virtualHosts = {
-          "vaultwarden.homelab" = {
-            locations."/" = {
-              proxyPass = "http://127.0.0.1:8000";
-            };
-          };
-          "jellyfin.homelab" = {
-            locations."/" = {
-              proxyPass = "http://127.0.0.1:8096";
-            };
-          };
-          "pirateslife.homelab" = {
-            locations."/" = {
-              proxyPass = "http://127.0.0.1:9050";
-            };
-          };
-          "homepage.homelab" = {
-            locations."/" = {
-              proxyPass = "http://127.0.0.1:8562";
-            };
-          };
-          "gitea.homelab" = {
-            locations."/" = {
-              proxyPass = "http://127.0.0.1:8199";
-            };
-          };
-          "nextcloud.homelab" = {
-            locations."/" = {
-              proxyPass = "http://127.0.0.1:9060";
-            };
+        recommendedGzipSettings = true;
+        recommendedOptimisation = true;
+        recommendedProxySettings = true;
+        recommendedTlsSettings = true;
+        virtualHosts."vaultwarden.nixlab" = {
+          locations."/" = {
+            proxyPass = "http://127.0.0.1:${toString config.services.vaultwarden.config.ROCKET_PORT}";
           };
         };
       };
@@ -71,5 +61,6 @@
 
     security.polkit.enable = true;
     networking.hostName = "dante";
+    networking.domain = "nixlab";
   };
 }
