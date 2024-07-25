@@ -83,6 +83,12 @@
           ./hosts/leo/configuration.nix
         ];
       };
+      zues = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit self inputs outputs hostPlatform;};
+        modules = [
+          ./hosts/zues/configuration.nix
+        ];
+      };
       emerald = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit self inputs outputs hostPlatform;};
         modules = [

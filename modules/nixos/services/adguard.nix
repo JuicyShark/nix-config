@@ -3,7 +3,7 @@
 	config = lib.mkIf (config.services.adguardhome.enable) {
 		services.adguardhome = {
 			openFirewall = true;
-			settings.bind_port = 8008;
+			port = 8008;
 		};
 	};
 }
