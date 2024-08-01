@@ -2,6 +2,7 @@ keys:
   - &host_leo age1t2j48qvgu3xp5snjzhrdh6hhp0we0lp6sylc0nk7zel2l938mgeq4xrcqe
   - &host_dante age1dcxn5t0974wk0zawnmgc8nk7snee09d796mlg49taawrlxh07qyqvcfer3
   - &host_zues age1wqu4prctlyflc775hd46202dfg70y43q8x9u6md0cyqqem2cpaqq2lhc3v
+  - &host_hermes age1sswxq87ktmmgerfrf3lv4aa4e99h4u0fr7ph6sptmst0d2lk09rsqm67yt
 creation_rules:
   - path_regex: hosts/secrets.yaml
     key_groups:
@@ -9,6 +10,7 @@ creation_rules:
       - *host_leo
       - *host_dante
       - *host_zues
+      - *host_hermes
   - path_regex: hosts/leo/secrets.yaml
     key_groups:
     - age:

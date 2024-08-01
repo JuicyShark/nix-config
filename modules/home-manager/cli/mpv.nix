@@ -1,5 +1,6 @@
 {
   config,
+  osConfig,
   pkgs,
   ...
 }: let
@@ -21,17 +22,15 @@ in {
         pkgs.mpvScripts.thumbfast
         pkgs.mpvScripts.sponsorblock
         pkgs.mpvScripts.mpv-cheatsheet
-        pkgs.mpvScripts.dynamic-crop
       ];
 
       config = {
         # video
         profile = "gpu-hq";
-        #gpu-api = "vulkan";
         gpu-context = "wayland";
         vo = "gpu-next";
         hwdec =
-          if config.hardware.nvidia.open
+          if osConfig.hardware.nvidia.open
           then "vdpau"
           else "vaapi";
         video-sync = "display-resample";
@@ -58,7 +57,7 @@ in {
         sub-auto = "fuzzy";
 
         # shaders
-        glsl-shader = "/home/${config.main-user}/.config/mpv/shaders/NVScaler.glsl";
+        glsl-shader = "/home/${osConfig.main-user}/.config/mpv/shaders/NVScaler.glsl";
         scale = "lanczos";
         cscale = "lanczos";
         dscale = "mitchell";
@@ -66,10 +65,7 @@ in {
         scale-antiring = 1;
       };
     };
-    home.file.".config/yt-dlp/config".text = ''
-      --cookies-from-browser "firefox:$HOME/.mozilla/firefox/default"
-      --mark-watched
-    '';
+
     yt-dlp = {
       enable = true;
       extraConfig = ''

@@ -8,6 +8,7 @@
   config = lib.mkIf (config.gui.gamingPC.enable) {
     environment.systemPackages = with pkgs; [
       heroic
+      ryujinx
       moonlight-qt
       inputs.nix-gaming.packages.${pkgs.system}.osu-stable
       inputs.nix-gaming.packages.${pkgs.system}.rocket-league
