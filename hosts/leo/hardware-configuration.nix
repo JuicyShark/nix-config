@@ -66,27 +66,32 @@
 
   networking = {
     hostName = "leo";
-    wireguard.interfaces.wg0 = {
+    /*
+      wireguard.interfaces.wg0 = {
       ips = ["10.100.0.2/24"];
       peers = [
-        /*
+
           { example of forwdinv everbthing to peer endpoint
           publicKey = "oPUTwZApzM5gFsV4+i2HwP6gESWS+9/9497jo2JjflM=";
           allowedIPs = [ "0.0.0.0/0" ];
           endpoint = "192.168.54.99:51820";
           persistentKeepalive = 25;
         }
-        */
+
       ];
     };
-    interfaces."enp5s0".ipv4 = {
-      addresses = [
-        {
-          address = "192.168.54.54";
-          prefixLength = 24;
-        }
-      ];
+    interfaces."enp5s0" = {
+      #     useDHCP = true;
+      ipv4 = {
+        addresses = [
+          {
+            address = "192.168.54.54";
+            prefixLength = 24;
+          }
+        ];
+      };
     };
+    */
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

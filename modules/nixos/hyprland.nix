@@ -9,7 +9,7 @@
     inputs.hyprland.nixosModules.default
     inputs.nix-gaming.nixosModules.pipewireLowLatency
   ];
-  config = lib.mkIf config.desktop.enable {
+  config = lib.mkIf config.gui.enable {
     programs = {
       hyprland = {
         enable = true;
@@ -49,8 +49,9 @@
         pulse.enable = true;
         lowLatency.enable = true;
       };
-      #blueman.enable = true;
-      #upower.enable = true;
+      dbus.packages = [pkgs.gcr];
+      blueman.enable = true;
+      upower.enable = true;
       #upower.noPollBatteries = true;
       udisks2.enable = true; # Auto Mount USB
       #power-profiles-daemon.enable = true;  # Daemon to manage power
@@ -102,10 +103,7 @@
         CLUTTER_BACKEND = "wayland";
         QT_PLUGIN_PATH = "${pkgs.qt6.qtbase}/lib/qt6/plugins";
       };
-      loginShellInit = ''
-        eval $(ssh-agent)
-        export GPG_TTY=$TTY
-      '';
+
       systemPackages = with pkgs; [
         pwvucontrol
         #libsForQt5.qt5.qtwayland

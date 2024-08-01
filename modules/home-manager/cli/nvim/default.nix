@@ -34,50 +34,12 @@ in {
   programs.nixvim = {
     enable = true;
     defaultEditor = true;
+    vimdiffAlias = true;
     viAlias = true;
     vimAlias = true;
     withNodeJs = false;
     withRuby = false;
 
-    colorschemes.catppuccin = {
-      enable = true;
-      settings = {
-        integrations = {
-          cmp = true;
-          gitsigns = true;
-          notify = true;
-          nvimtree = true;
-          treesitter = true;
-        };
-        styles = {
-          booleans = [
-            "bold"
-            "italic"
-          ];
-          comments = [
-            "italic"
-          ];
-          conditionals = [
-            "bold"
-          ];
-          types = [
-            "bold"
-            "underline"
-          ];
-          variables = [
-            "italic"
-          ];
-          strings = [
-            "italic"
-          ];
-        };
-        flavour = "mocha";
-        background.dark = "mocha";
-        background.light = "mocha";
-        transparent_background = true;
-        term_colors = true;
-      };
-    };
     globals = {
       mapleader = " ";
       maplocalleader = "<C-Space>";
@@ -242,7 +204,10 @@ in {
         openOnSetup = true;
         openOnSetupFile = true;
       };
-      edgy = {
+
+      /*
+      # TODO ensure all windows close when main panels are closed
+         edgy = {
         enable = true;
         settings = {
           left = [
@@ -264,14 +229,13 @@ in {
           ];
         };
       };
+      */
 
       noice = {
         enable = true;
         cmdline.view = "cmdline";
       };
 
-      # Pretty
-      # TODO Breaks Neorg Concealer
       headlines = {
         enable = true;
         settings.norg = {
@@ -309,7 +273,7 @@ in {
       };
       gitsigns.enable = true;
       notify = {
-        enable = true;
+        enable = false;
         fps = 120;
         level = "info";
         maxHeight = 42;
@@ -350,38 +314,13 @@ in {
           indent.enable = true;
         };
       };
-
-      /*
-      QOL
-      */
-      neoscroll = {
-        enable = true;
-        settings = {
-          cursor_scrolls_alone = true;
-          easing_function = "quadratic";
-          hide_cursor = true;
-          mappings = [
-            "<C-u>"
-            "<C-d>"
-            "<C-b>"
-            "<C-f>"
-            "<C-y>"
-            "<C-e>"
-            "zt"
-            "zz"
-            "zb"
-          ];
-          respect_scrolloff = true;
-          stop_eof = true;
-        };
-      };
       startup = {
         enable = true;
         theme = "dashboard";
       };
       surround.enable = true;
       todo-comments.enable = true;
-      lualine.enable = true;
+      lualine.enable = false;
       auto-save.enable = true;
       auto-save.settings.debounce_delay = 100000;
       nvim-colorizer.enable = true;

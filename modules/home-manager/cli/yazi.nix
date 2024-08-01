@@ -69,7 +69,8 @@
       };
     };
 
-    theme = {
+    /*
+      theme = {
       manager = {
         cwd = {fg = "#${config.colorScheme.palette.base0C}";};
         # Hovered
@@ -260,12 +261,9 @@
             name = "*";
             fg = "#${config.colorScheme.palette.base05}";
           }
-          {
-            name = "*/";
-            fg = "#${config.colorScheme.palette.base0D}";
-          }
         ];
       };
     };
+    */
   };
 }

@@ -2,10 +2,11 @@
   lib,
   config,
   osConfig,
+  inputs,
   pkgs,
   ...
 }: let
-  terminal = "${pkgs.foot}/bin/foot";
+  terminal = "${pkgs.kitty}/bin/kitty";
   neorg = "${pkgs.foot}/bin/foot nvim -c 'Neorg index'";
   hyprFocus = import ../../../cli/nvim/plugins/vim-hypr-nav.nix {
     inherit (pkgs) stdenv fetchFromGitHub installShellFiles;
@@ -55,6 +56,7 @@ in {
         k = up;
         j = down;
       };
+      dmenu = "anyrun --plugins ${inputs.anyrun.packages.${pkgs.system}.stdin}/lib/libstdin.so";
     in
       [
         # Change Split Ratio for new splits
@@ -82,13 +84,12 @@ in {
         "SUPER SHIFT, L, lockactivegroup, toggle"
         "SUPER SHIFT, F, togglefloating"
         "SUPER SHIFT, P, pin"
-        "SUPER SHIFT, O, toggleopaque"
+        # "SUPER SHIFT, O, toggleopaque"
 
         # Media
-        "SUPER, XF86AudioRaiseVolume, exec, ${wp} set-volume @DEFAULT_SINK@ 5%+"
-        "SUPER, XF86AudioLowerVolume, exec, ${wp} set-volume @DEFAULT_SINK@ 5%-"
-        "SUPER, XF86AudioMute, exec, ${wp} set-mute @DEFAULT_SINK@ toggle"
-        "SUPER, XF86AudioMicMute, exec, ${wp} set-mute @DEFAULT_SOURCE@ toggle"
+        "SUPER, XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_SINK@ 5%+"
+        "SUPER, XF86AudioLowerVolume, exec,  wpctl set-volume @DEFAULT_SINK@ 5%-"
+        "SUPER, XF86AudioMute, exec,  wpctl  set-mute @DEFAULT_SINK@ toggle"
 
         # Default Apps
         "${appLaunchBind}, Return, exec, ${terminal}"
@@ -98,49 +99,33 @@ in {
         "${appLaunchBind}, Q, exec, ${pkgs.qutebrowser}/bin/qutebrowser"
         "${appLaunchBind}, D, exec, ${pkgs.discord}/bin/discord"
         "${appLaunchBind}, M, exec, ${pkgs.tidal-hifi}/bin/tidal-hifi"
-        # "${appLaunchBind}, Print, exec, ${grimblast} --notify --freeze copy area"
+        "${appLaunchBind}, Print, exec, grimblast --notify --freeze copy area"
       ]
       ++
-      /*
-         # Notification manager
-      (
-        let
-          makoctl = lib.getExe' config.services.mako.package "makoctl";
-        in
-          lib.optionals config.services.mako.enable [
-            "SUPER,w,exec,${makoctl} dismiss"
-            "SUPERSHIFT,w,exec,${makoctl} restore"
-          ]
-      )
-      ++
-      */
       # Launcher
       (
-        let
-          wofi = lib.getExe config.programs.wofi.package;
-        in
-          lib.optionals config.programs.wofi.enable [
-            "${appLaunchBind}, Space, exec, ${wofi} -S drun -x 10 -y 10 -W 25% -H 60%"
-            "${appLaunchBind}, S, exec, specialisation $(specialisation | ${wofi} -S dmenu)"
-            "${appLaunchBind}, R, exec, ${wofi} -S run"
-          ]
-          ++ (
-            let
-              pass-wofi = lib.getExe (pkgs.pass-wofi.override {pass = config.programs.password-store.package;});
-            in
-              lib.optionals config.programs.password-store.enable [
-                "${appLaunchBind}, semicolon, exec, ${pass-wofi}"
-                "${appLaunchBind}, colon, exec, ${pass-wofi} fill"
-              ]
-          )
-          ++ (
-            let
-              cliphist = lib.getExe config.services.cliphist.package;
-            in
-              lib.optionals config.services.cliphist.enable [
-                ''${appLaunchBind}, c, exec, selected=$(${cliphist} list | ${wofi} -S dmenu) && echo "$selected" | ${cliphist} decode | wl-copy''
-              ]
-          )
+        [
+          "${appLaunchBind}, Space, exec, anyrun"
+          "${appLaunchBind}, O, exec, anyrun --plugins ${inputs.anyrun-nixos-options}.packages.${pkgs.system}.default"
+
+          "${appLaunchBind}, Tab, exec, anyrun --plugins ${inputs.anyrun-hyprwin}.packages.${pkgs.system}.default"
+        ]
+        ++ (
+          let
+            cliphist = lib.getExe config.services.cliphist.package;
+          in
+            lib.optionals config.services.cliphist.enable [
+              "${appLaunchBind}, C, exec, ${cliphist} list | ${dmenu} | ${cliphist} decode | wl-copy"
+            ]
+        )
+        ++ (
+          let
+            anyrun-rbw = "anyrun --plugins ${inputs.anyrun-rbw}.packages.${pkgs.system}.default";
+          in
+            lib.optionals config.programs.rbw.enable [
+              "${appLaunchBind}, P, exec, ${anyrun-rbw}"
+            ]
+        )
       )
       ++
       # Change workspace

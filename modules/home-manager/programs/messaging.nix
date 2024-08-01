@@ -1,7 +1,9 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
     discordo # Terminal Discord
-    vencord
+    (pkgs.discord.override {
+      withVencord = true;
+    })
     signal-desktop
   ];
 

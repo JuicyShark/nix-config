@@ -2,13 +2,16 @@
   lib,
   pkgs,
   config,
+  inputs,
   ...
 }: {
-  options.gamingPC.enable = lib.mkEnableOption "Enable Steam";
-
-  config = lib.mkIf (config.gamingPC.enable) {
+  config = lib.mkIf (config.gui.gamingPC.enable) {
     environment.systemPackages = with pkgs; [
       heroic
+      moonlight-qt
+      inputs.nix-gaming.packages.${pkgs.system}.osu-stable
+      inputs.nix-gaming.packages.${pkgs.system}.rocket-league
+      inputs.nix-gaming.packages.${pkgs.system}.technic-launcher
     ];
 
     # Enable Steam, Include latest GE proton

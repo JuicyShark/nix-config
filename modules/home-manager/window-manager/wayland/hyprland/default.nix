@@ -3,65 +3,34 @@
   pkgs,
   config,
   osConfig,
-  lib,
   ...
 }: let
   terminal = "${pkgs.foot}/bin/foot";
   neorg = "${pkgs.foot}/bin/foot nvim -c 'Neorg index'";
+  colour = config.stylix.base16Scheme;
 in {
   imports = [
     inputs.hyprland.homeManagerModules.default
     ./hyprlock.nix
-    ./hyprpaper.nix
     ./binds.nix
     ./rules.nix
-    ../ags-test
-    #../waybar.nix
+    ../anyrun.nix
+    ../waybar.nix
+    ../mako.nix
   ];
 
   xdg.mimeApps.enable = true;
-  home.sessionVariables = {
-    HYPRCURSOR_THEME = config.gtk.cursorTheme.name;
-    HYPRCURSOR_SIZE = 26;
-    XCURSOR_THEME = config.gtk.cursorTheme.name;
-    XCURSOR_SIZE = 26;
-  };
-  home.packages = with pkgs;
-    [
-      xorg.xrandr
-      handlr-regex
-      tofi
-      wl-clipboard
-      wl-mirror
-      wlr-randr
-      wf-recorder
-      ddcutil
-      xsettingsd
-      xorg.xprop
-      networkmanager
-      armcord
-    ]
-    ++ (
-      if osConfig.hardware.keyboard.zsa.enable
-      then [
-      ]
-      else [
-        which
-        bun
-        dart-sass
-        fd
-        fzf
-        brightnessctl
-        swww
-        slurp
-        wayshot
-        swappy
-        hyprpicker
-        pavucontrol
-        gtk3
-      ]
-    );
+
+  home.packages = with pkgs; [
+    xorg.xrandr
+    wl-clipboard
+    wl-mirror
+    wlr-randr
+    wf-recorder
+  ];
+
   services = {
+    hyprpaper.enable = true;
     cliphist.enable = true;
     udiskie = {
       enable = true;
@@ -70,30 +39,16 @@ in {
       tray = "never";
     };
   };
-  programs.wofi = {
-    enable = true;
-    settings = {
-      image_size = 48;
-      columns = 3;
-      allow_images = true;
-      insensitive = true;
-      run-always_parse_args = true;
-      run-cache_file = "/dev/null";
-      run-exec_search = true;
-      matching = "multi-contains";
-    };
-  };
+
   wayland.windowManager.hyprland = {
     enable = true;
 
     plugins = [
-      #inputs.hy3.packages.x86_64-linux.hy3
-      #inputs.hypr-plugins.packages.x86_64-linux.hyprbars
+      inputs.hypr-plugins.packages.x86_64-linux.hyprbars
     ];
 
     settings = {
       "$mainMod" = "SUPER";
-
       "$meh" = "ALT SHIFT CTRL";
       "$hyper" = "ALT SHIFT CTRL SUPER";
       monitor = (
@@ -122,7 +77,6 @@ in {
         gaps_out =
           if config.home.username == "juicy"
           then "10, 70, 35, 70"
-          
           else 12;
         border_size = 4;
         no_border_on_floating = false;
@@ -130,8 +84,6 @@ in {
         resize_on_border = true;
         allow_tearing = false;
         no_focus_fallback = true;
-        "col.inactive_border" = "rgb(${config.colorScheme.palette.base02})";
-        "col.active_border" = "rgb(${config.colorScheme.palette.base0D})";
         layout = "dwindle";
       };
 
@@ -140,8 +92,8 @@ in {
         force_split = 2;
         preserve_split = true;
         no_gaps_when_only = 0;
-        split_width_multiplier = "1.0";
-        default_split_ratio = 1;
+        split_width_multiplier = "1.2";
+        default_split_ratio = "1.25";
       };
 
       decoration = {
@@ -168,23 +120,13 @@ in {
       };
 
       group = {
-        "col.border_inactive" = "rgb(${config.colorScheme.palette.base03})";
-        "col.border_active" = "rgb(${config.colorScheme.palette.base0B})";
-        "col.border_locked_active" = "rgb(${config.colorScheme.palette.base0E})";
-        "col.border_locked_inactive" = "rgb(${config.colorScheme.palette.base00})";
-
         groupbar = {
-          font_size = 15;
+          font_size = config.stylix.fonts.sizes.desktop;
           height = 20;
           stacked = false;
           scrolling = false;
           gradients = true;
           priority = 2;
-          text_color = "rgb(${config.colorscheme.palette.base05})";
-          "col.inactive" = "rgb(${config.colorScheme.palette.base03})";
-          "col.active" = "rgb(${config.colorScheme.palette.base0D})";
-          "col.locked_active" = "rgb(${config.colorScheme.palette.base0E})";
-          "col.locked_inactive" = "rgb(${config.colorScheme.palette.base02})";
         };
       };
 
@@ -205,13 +147,13 @@ in {
         disable_hyprland_logo = true;
         vrr = 0;
         vfr = false;
-        font_family = "${config.font}";
+        font_family = "${config.stylix.fonts.serif.name}";
       };
 
       xwayland = {
         use_nearest_neighbor = false;
-        #force_zero_scaling = true;
       };
+
       layerrule = [
         "animation fade,hyprpicker"
         "animation fade,selection"
@@ -259,21 +201,20 @@ in {
       plugin = {
         hyprbars = {
           bar_height = 25;
-          bar_color = "rgb(${config.colorScheme.palette.base00})";
-          col.text = "rgb(${config.colorScheme.palette.base0B})";
+          bar_color = "rgb(${colour.base01})";
+          col.text = "rgb(${colour.base0B})";
           bar_title_enabled = true;
-          bar_text_size = 13;
-          bar_text_font = "${config.font}";
+          bar_text_size = config.stylix.fonts.sizes.desktop;
+          bar_text_font = "${config.stylix.fonts.monospace.name}";
           bar_text_align = "center";
           bar_buttons_alignment = "right";
           bar_part_of_window = true;
           bar_precedence_over_border = true;
-          bar_padding = 9;
-          bar_button_padding = 9;
-
+          bar_padding = 6;
+          bar_button_padding = 6;
           hyprbars-button = [
-            "rgb(${config.colorScheme.palette.base0E}), 10, 󰖭, hyprctl dispatch killactive"
-            "rgb(${config.colorScheme.palette.base06}), 10, , hyprctl dispatch fullscreen 1"
+            "rgb(${colour.base0E}), 10, 󰖭, hyprctl dispatch killactive"
+            "rgb(${colour.base06}), 10, , hyprctl dispatch fullscreen 1"
           ];
         };
       };
@@ -283,27 +224,25 @@ in {
           "hyprpaper"
           "hypridle"
           "ags"
+          "wl-paste --type text --watch cliphist store"
+          "wl-paste --type image --watch cliphist store"
           "steam"
           "[workspace 7 silent] tidal-hifi"
         ]
         ++ (
           if osConfig.hardware.keyboard.zsa.enable
           then [
-            "gnome-keyring-daemon --start --components=secrets"
-            #"polkit-gnome-authentication-agent-1"
-
+            "[workspace 3 silent] keymapp"
             "[workspace 2 silent] ${neorg}"
             "[workspace 2 silent] ${terminal}"
             "[workspace 3 silent] signal-desktop"
             "[workspace 3 silent] discord"
-            "[workspace 3 silent] firefox --new-window https://www.facebook.com/"
+            "[workspace 3 silent] qutebrowser --target window https://www.facebook.com"
             "[workspace 6 silent] qutebrowser --target window https://youtube.com"
-            "[workspace 1 silent] firefox --new-window https://reddit.com"
           ]
           else [
             "polkit-gnome-authentication-agent-1"
             "[workspace 2 silent] obsidian"
-            "armcord"
             "[workspace 1 silent]firefox --new-window https://www.reddit.com"
             "[workspace 1 silent]firefox --new-window https://www.youtube.com"
           ]

@@ -3,7 +3,7 @@
   osConfig,
   ...
 }: let
-  desktopPackages = lib.optionals osConfig.desktop.enable [
+  desktopPackages = lib.optionals osConfig.gui.enable [
     ./programs
     ./services
     ./window-manager/wayland/hyprland

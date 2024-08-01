@@ -20,12 +20,16 @@
     nixos.url = "nixpkgs/nixos-unstable";
     neorg-overlay.url = "github:nvim-neorg/nixpkgs-neorg-overlay";
     nix-gaming.url = "github:fufexan/nix-gaming";
-    catppuccin.url = "github:catppuccin/nix";
+    #  catppuccin.url = "github:catppuccin/nix";
     ags.url = "github:Aylur/ags";
-    nix-colors.url = "github:misterio77/nix-colors";
+    stylix.url = "github:danth/stylix";
+    # nix-colors.url = "github:misterio77/nix-colors";
     sops-nix.url = "github:Mic92/sops-nix";
     raspberry-pi-nix.url = "github:tstat/raspberry-pi-nix";
     impermanence.url = "github:nix-community/impermanence";
+    anyrun-nixos-options.url = "github:n3oney/anyrun-nixos-options";
+    anyrun-rbw.url = "github:uttarayan21/anyrun-rbw";
+    anyrun-hyprwin.url = "github:uttarayan21/anyrun-hyprwin";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -42,6 +46,10 @@
     };
     hypr-scripts = {
       url = "github:hyprwm/contrib";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    anyrun = {
+      url = "github:anyrun-org/anyrun";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixvim = {
@@ -63,13 +71,16 @@
     hypr-plugins,
     hypr-scripts,
     ags,
-    nix-colors,
+    stylix,
     nixvim,
+    anyrun,
+    anyrun-rbw,
+    anyrun-hyprwin,
+    anyrun-nixos-options,
     sops-nix,
     raspberry-pi-nix,
     impermanence,
     disko,
-    catppuccin,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -95,14 +106,14 @@
           ./hosts/emerald/configuration.nix
         ];
       };
-      dante = nixos.lib.nixosSystem {
+      dante = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit self inputs outputs hostPlatform;};
         modules = [
           ./hosts/dante/configuration.nix
         ];
       };
       # FIXME get Raspberry 5 setup and acting as thread border router
-      hermes = nixos.lib.nixosSystem {
+      hermes = nixpkgs.lib.nixosSystem {
         system = "aarch64-linux";
         specialArgs = {inherit self inputs outputs;};
         modules = [
@@ -112,14 +123,14 @@
       };
 
       # TODO setup a host file that reinstalls each boot.
-      anon = nixos.lib.nixosSystem {
+      anon = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit self inputs outputs hostPlatform;};
         modules = [
           ./hosts/anon/configuration.nix
         ];
       };
       # TODO Setup to use Nix on Windows for Jake potentially using
-      nix-wsl = nixos.lib.nixosSystem {
+      nix-wsl = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit self inputs outputs hostPlatform;};
         modules = [
           ./hosts/nix-wsl/configuration.nix

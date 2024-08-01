@@ -2,6 +2,7 @@
   pkgs,
   config,
   inputs,
+  lib,
   ...
 }: let
   ifTheyExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
@@ -10,14 +11,9 @@ in {
     inputs.home-manager.nixosModules.home-manager
   ];
 
-  sops.secrets.juicyPassword = {
-    sopsFile = ../../hosts/secrets.yaml;
-    neededForUsers = true;
-  };
-
   users.users.juicy = {
     isNormalUser = true;
-    #	password = "test";
+    openssh.authorizedKeys.keys = lib.splitString "\n" (builtins.readFile ../../hosts/leo/ssh_host_ed25519_key.pub);
     hashedPasswordFile = config.sops.secrets.juicyPassword.path;
     shell = pkgs.zsh;
     description = config.main-user;
@@ -49,9 +45,6 @@ in {
       imports = [
         ../shared-home-configuration.nix
       ];
-      programs = {
-        gpg.enable = true;
-      };
     };
   };
 }

@@ -14,6 +14,10 @@
       enable = true;
       userEmail = "maxwellb9879@gmail.com";
       userName = "JuicyShark";
+      extraConfig = {
+        core.pager = "nvim -R";
+        color.pager = "no";
+      };
     };
     gitui.enable = true;
     gh = {
@@ -44,12 +48,12 @@
     };
     # TODO setup gpg keys and gbg agent
     gpg-agent = {
-      enable = false;
+      enable = true;
       enableSshSupport = true;
       enableZshIntegration = true;
       enableExtraSocket = true;
       # enableBrowserSocket = true;
-      #pinentryPackage = pkgs.pinentry-curses;
+      pinentryPackage = pkgs.pinentry-gnome3;
     };
   };
 }

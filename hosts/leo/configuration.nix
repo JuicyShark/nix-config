@@ -10,29 +10,36 @@
     ./hardware-configuration.nix
   ];
 
-  environment.systemPackages = [
-    pkgs.zig
-    pkgs.wally-cli
-    pkgs.keymapviz
-    pkgs.rpi-imager
-    pkgs.bambu-studio
-    pkgs.moonlight-qt
-    inputs.nix-gaming.packages.${pkgs.system}.osu-stable
-    inputs.nix-gaming.packages.${pkgs.system}.rocket-league
-    inputs.nix-gaming.packages.${pkgs.system}.technic-launcher
+  environment.systemPackages = with pkgs; [
+    rpi-imager
+    bambu-studio
+    keymapp
+    bitwarden-desktop
   ];
 
-  cybersecurity.enable = false;
-  desktop.enable = true;
-  gamingPC.enable = true;
-
-  programs = {
-    fuse.userAllowOther = true;
+  gui = {
+    enable = true;
+    cybersecurity.enable = false;
+    gamingPC.enable = true;
   };
 
   hardware = {
     keyboard.zsa.enable = true;
     bluetooth.enable = true;
-    #logitech.wireless.enable = true;
+    logitech.wireless.enable = true;
+  };
+  networking.defaultGateway.interface = "enp5s0";
+
+  networking.useNetworkd = false;
+  systemd.network.networks."10-wan" = {
+    matchConfig.Name = "enp5s0";
+    address = [
+      "192.168.54.54/24"
+    ];
+    routes = [
+      {Gateway = "192.168.54.99";}
+    ];
+    # make the routes on this interface a dependency for network-online.target
+    #  linkConfig.RequiredForOnline = "routable";
   };
 }

@@ -34,28 +34,38 @@
     windowrulev2 =
       [
         #Tagging windows
-        "tag +games, class:^(steam_app.*)$"
-        "tag +games, class:(Waydroid)"
-        "tag +games, class:(osu!)"
-        "tag +music, class:^(tidal-hifi)$"
-        "tag +music, title:^(ncmpcpp.*)$"
-        "tag +media, tag:games"
+        "tag games, class:^(steam_app.*)$"
+        "tag games, class:(Waydroid)"
+        "tag games, class:(osu!)"
+
+        "tag music, class:^(tidal-hifi)$"
+        "tag music, title:^(ncmpcpp.*)$"
+
+        "tag media, tag:games"
         "tag media, title:^(.*WATCH ON BINGE —.*)$"
         "tag media, title:^(.*- YouTube.*)$"
         "tag media, title:^(Netflix -.*)$"
         "tag media, title:^(Prime Video.*)$"
         "tag media, title:^(.*- Twitch.*)$"
-        "tag +media, title:^(Picture-in-Picture)$"
-        "tag +media, class:(mpv)"
-        "tag +pinnedMedia, title:(Picture-in-Picture)$"
-        "tag +pinnedMedia, class:(mpv)"
-        "tag +social, class:^(Signal)$"
-        "tag +social, class:^(discord)$"
-        "tag +social, title:^(https://www.facebook.com.*)$ class:^(org.qutebrowser.qutebrowser)$"
-        "tag +browser, class:(org.qutebrowser.qutebrowser)"
-        "tag +browser, class:(firefox)"
-        "tag +term, class:(terminal)"
-        "tag +launcher, class:(steam)"
+        "tag media, title:^(Picture-in-Picture)$"
+        "tag media, class:(mpv)"
+
+        "tag pinnedMedia, title:(Picture-in-Picture)$"
+        "tag pinnedMedia, class:(mpv)"
+
+        "tag social, class:^(Signal)$"
+        "tag social, class:^(discord)$"
+        "tag social, title:^(https://www.facebook.com.*)$ class:^(org.qutebrowser.qutebrowser)$"
+
+        "tag browser, class:(org.qutebrowser.qutebrowser)"
+        "tag browser, class:(firefox)"
+
+        #Misc tools
+        "tag floatingTools, class:(com.saivert.pwvucontrol)"
+
+        "tag term, class:(footclient)"
+
+        "tag launcher, class:(steam)"
 
         # Do not idle when Gaming / playing media
         "idleinhibit always, tag:games"
@@ -64,9 +74,9 @@
 
         # Transparency
         #"opacity 0.65 override, tag:term"
-        "opacity 0.80, tag:social"
-        "opacity 0.85, tag:music"
-        "opacity 0.85 override 0.85 override 1.0 override, tag:browser"
+        #"opacity 0.80, tag:social"
+        #"opacity 0.85, tag:music"
+        #"opacity 0.85 override 0.85 override 1.0 override, tag:browser"
         "opacity 1.00 override 1.00 override 1.0 override, tag:media"
 
         # Match tags to certain workspaces
@@ -79,6 +89,7 @@
         # Pinned Media (mainly videos doing PnP)
         # Disable decorations and bar
         # ensure pinned between workspaces
+        "float, class:^(keymapp)$"
         "float, tag:pinnedMedia"
         "pin, tag:pinnedMedia"
         "noborder, tag:pinnedMedia"
@@ -91,6 +102,7 @@
 
         "float, title:^(Extension: (Bitwarden - Free Password Manager) - Bitwarden —.*)$"
         "size 550 750, title:^(Extension: (Bitwarden - Free Password Manager) - Bitwarden —.*)$"
+        "float,class:RimPy"
       ]
       ++ (
         if osConfig.hardware.keyboard.zsa.enable

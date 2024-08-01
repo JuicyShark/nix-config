@@ -22,7 +22,7 @@ in {
     settings = {
       main = {
         app-id = "terminal";
-        title = "terminal";
+        #title = "terminal";
         locked-title = "no";
         term = "foot-direct";
         pad = "2x0";
@@ -32,10 +32,6 @@ in {
 
         notify = "notify-send -a \${app-id} -i \${app-id} \${title} \${body}";
         selection-target = "both";
-
-        dpi-aware = false;
-        font = "JetBrainsMono Nerd Font:size=14";
-        font-bold = "JetBrainsMono Nerd Font:size=15";
         bold-text-in-bright = "yes";
 
         box-drawings-uses-font-glyphs = "no";
@@ -60,7 +56,7 @@ in {
       cursor = {
         style = "block";
         unfocused-style = "hollow";
-        color = "${colour.base00} ${colour.base0D}";
+        #   color = "${colour.base00} ${colour.base0D}";
         beam-thickness = 2;
       };
 
@@ -76,7 +72,8 @@ in {
         uri-characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.,~:;/?#@!$&%*+=\"'()[]";
       };
       colors = {
-        alpha = "0.69"; # Nice
+        /*
+          alpha = "0.69"; # Nice
         foreground = "${colour.base05}"; # Text
         background = "${colour.base00}"; # Base
         regular0 = "${colour.base03}"; # Surface 1
@@ -101,6 +98,7 @@ in {
         search-box-no-match = "11111b ${colour.base08}";
         search-box-match = "${colour.base05} ${colour.base02}";
         jump-labels = "11111b ${colour.base09}";
+        */
       };
     };
   };

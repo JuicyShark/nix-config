@@ -1,5 +1,5 @@
 {config, ...}: let
-  colour = config.colorScheme.palette;
+  colour = config.stylix.base16Scheme;
 in {
   programs = {
     man = {

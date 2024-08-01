@@ -17,7 +17,8 @@
           source = "auto";
           channels = "stereo";
         };
-        color = {
+        /*
+          color = {
           background = "default";
           foreground = "default";
           gradient = 1;
@@ -28,7 +29,7 @@
           gradient_color_3 = "'#${config.colorScheme.palette.base0C}'";
           gradient_color_4 = "'#${config.colorScheme.palette.base0B}'";
         };
-
+        */
         smoothing = {
           noise_reduction = 45;
         };

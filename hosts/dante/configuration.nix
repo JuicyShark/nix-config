@@ -82,12 +82,12 @@
         recommendedOptimisation = true;
         recommendedProxySettings = true;
         recommendedTlsSettings = true;
-        virtualHosts."vaultwarden.nixlab" = {
+        virtualHosts."vaultwarden.nixlab.au" = {
           locations."/" = {
             proxyPass = "http://127.0.0.1:${toString config.services.vaultwarden.config.ROCKET_PORT}";
           };
         };
-        virtualHosts."juicedHome.nixlab" = {
+        virtualHosts."juicedHome.nixlab.au" = {
           enableACME = true;
           forceSSL = true;
           locations = {
@@ -123,6 +123,8 @@
     };
     security.polkit.enable = true;
     networking.hostName = "dante";
+    networking.defaultGateway.interface = "enp3s0";
     networking.firewall.allowedTCPPorts = [80 443 8448];
+    hardware.nvidia.open = false;
   };
 }

@@ -5,7 +5,7 @@
   lib,
   ...
 }: let
-  nonTTY = lib.optionals osConfig.desktop.enable [
+  nonTTY = lib.optionals osConfig.gui.enable [
     ./cava.nix
     ./mpv.nix
     ./bat.nix
@@ -30,7 +30,7 @@ in {
         manix
         nix-index
         nix-tree
-        
+
         glfw
         speedtest-cli
         trippy # Network diagnostics
@@ -86,7 +86,8 @@ in {
           "--min-height 17"
           "--preview bat"
         ];
-        colors = {
+        /*
+          colors = {
           fg = "#${config.colorScheme.palette.base0B}";
           bg = "#${config.colorScheme.palette.base00}";
           hl = "#${config.colorScheme.palette.base0E}";
@@ -100,6 +101,7 @@ in {
           spinner = "#${config.colorScheme.palette.base0B}";
           header = "#${config.colorScheme.palette.base0D}";
         };
+        */
       };
       fd = {
         enable = true;
@@ -138,28 +140,6 @@ in {
           ignoreSpace = true;
           expireDuplicatesFirst = true;
           path = "${config.xdg.dataHome}/zsh/zsh_history";
-        };
-        shellAliases = {
-          rebuild = "sudo nixos-rebuild switch --flake ${config.xdg.userDirs.documents}/nixos-config#$(${pkgs.hostname}/bin/hostname -s) --log-format internal-json -v |& sudo ${pkgs.nix-output-monitor}/bin/nom --json";
-          test = "sudo nixos-rebuild test --flake ${config.xdg.userDirs.documents}/nixos-config#$(${pkgs.hostname}/bin/hostname -s ) --log-format internal-json -v |& sudo ${pkgs.nix-output-monitor}/bin/nom --json";
-          ff = "$EDITOR $(${pkgs.fzf}/bin/fzf --preview '${pkgs.bat}/bin/bat {}')";
-          rebuildclean = "sudo nixos-rebuild switch --flake ${config.xdg.userDirs.documents}/nixos-config#$(${pkgs.hostname}/bin/hostname -s) --upgrade --log-format internal-json -v |& sudo ${pkgs.nix-output-monitor}/bin/nom --json && nix-collect-garbage -d && sudo nix-collect-garbage -d && sudo nix-store --optimise";
-          upgrade = "sudo nix flake update ${config.xdg.userDirs.documents}/nixos-config && nixos-rebuild switch --flake ${config.xdg.userDirs.documents}/nixos-config --log-format internal-json -v |& sudo ${pkgs.nix-output-monitor}/bin/nom --json";
-          cd = "z";
-          ls = "${pkgs.eza}/bin/eza";
-          tree = "${pkgs.eza}/bin/eza --tree";
-          cat = "${pkgs.bat}/bin/bat";
-          btop = "${pkgs.bottom}/bin/btm";
-          notes = "nvim -c 'Neorg index'";
-          journal = "nvim -c 'Neorg journal today'";
-          grep = "${pkgs.ripgrep}/bin/rg";
-
-          # SSH Other Nix Machines
-          dante = "ssh ${osConfig.main-user}@192.168.54.60 -p 2033";
-          jake = "ssh ${osConfig.main-user}@192.168.54.59 -p 2033";
-          juicy = "ssh ${osConfig.main-user}@192.168.54.54 -p 2033";
-          hermes = "ssh ${osConfig.main-user}@192.168.54.56 -p 2033";
-          zues = "ssh ${osConfig.main-user}@192.168.54.99 -p 2033";
         };
         plugins = [
           {

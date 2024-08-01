@@ -41,11 +41,15 @@
           '{text:$text,tooltip:$tooltip,alt:$alt,class:$class,percentage:$percentage}'
       '';
     };
+  colors = config.stylix.base16Scheme;
 in {
   # Let it try to start a few more times
   systemd.user.services.waybar = {
     Unit.StartLimitBurst = 30;
   };
+  home.packages = with pkgs; [
+    playerctl
+  ];
   programs.waybar = {
     enable = true;
     package = pkgs.waybar.overrideAttrs (oa: {
@@ -55,61 +59,96 @@ in {
     settings = {
       primary = {
         exclusive = true;
+        output = [
+          "DP-1"
+        ];
         passthrough = false;
-        height = 40;
-        margin = "6";
+        height = 38;
+        margin = null;
         position = "top";
-        modules-left =
-          [
-            #"custom/menu"
-            "hyprland/workspaces"
-            "custom/currentplayer"
-            "custom/player"
-          ];
+        modules-left = [
+          "custom/menu"
+          "hyprland/workspaces"
+        ];
 
         modules-center = [
-          "cpu"
-          #"custom/gpu" TODO see if nvidia can be read from script
-          "memory"
-          "clock"
-          "wireplumber"
+          "hyprland/window"
         ];
 
         modules-right = [
-          "hyprland/submap"
-          "custom/rfkill"
-          "network"
           "tray"
-          "custom/hostname"
+          "idle_inhibitor"
+          "wireplumber"
+          "network"
+          "cpu"
+          "custom/gpu"
+          "memory"
+          "user"
+          "clock"
         ];
+        "custom/menu" = {
+          format = "";
+          on-click = mkScript {script = "anyrun";};
+        };
+        "hyprland/workspaces" = {
+          active-only = false;
+          all-outputs = false;
+          sort-by = "number";
+          format = "<span color='#${colors.base0D}'>{icon}</span> [ {windows} ]";
+          format-window-separator = "  ";
+          window-rewrite-default = "";
+          window-rewrite = {
+            "title<.*youtube.*>" = "";
+            "title<.*github.*>" = "";
+            "title<Facebook -.*>" = "";
+            "class<discord>" = "";
+            "class<signal-desktop>" = "󰭹";
+            "class<steam>" = "󰓓";
+            "class<firefox>" = "";
+            "class<org.qutebrowser.qutebrowser>" = "";
+            "class<terminal>" = "";
+            "class<kitty>" = "";
+            "class<kitty> title<.*nvim>" = "";
+            "title<.*Yazi:.*>" = "";
+            "class<thunar>" = "";
+            "code" = "󰨞";
+          };
+        };
+
+        "hyprland/window" = {
+          icon-size = 35;
+          format = "{}";
+          rewrite = {
+            "Facebook -(.*)" = "<span color='#${colors.base0B}'> </span><i>$1</i>";
+            "(.*) - YouTube" = "<span color='#${colors.base0B}'>󰗃 </span><i>$1</i>";
+            "(.*) - Mozilla Firefox" = "<span color='#${colors.base0B}'> </span><i>$1</i>";
+            "foot(.*)" = "<span color='#${colors.base0B}'> </span><i>$1</i>";
+            "kitty(.*)" = "<span color='#${colors.base0B}'> </span><i>$1</i>";
+            "nvim(.*)" = "<span color='#${colors.base0B}'> </span><i>$1</i>";
+            "Yazi:(.*)" = "<span color='#${colors.base0B}'> </span><i>$1</i>";
+          };
+          separate-outputs = true;
+        };
 
         clock = {
-          interval = 1;
-          format = "{:%d/%m %H:%M:%S}";
-          format-alt = "{:%Y-%m-%d %H:%M:%S}";
+          interval = 60;
+          format = "{:%H:%M  }";
+          format-alt = "{:%m/%d %H:%M - :%Y}";
           on-click-left = "mode";
-          tooltip-format = ''
-            <big>{:%Y %B}</big>
-            <tt><small>{calendar}</small></tt>'';
-        };
-
-        cpu = {
-          format = " {usage}%";
-        };
-        "custom/gpu" = {
-          interval = 5;
-          exec = mkScript {script = "cat /sys/class/drm/card0/device/gpu_busy_percent";};
-          format = "󰒋 {}%";
-        };
-        memory = {
-          format = " {}%";
-          interval = 5;
-        };
-
-        wireplumber = {
-          format = "{icon}  {volume}%";
-          format-muted = "   0%";
-          on-click = lib.getExe pkgs.pwvucontrol;
+          tooltip-format = ''<tt>{calendar}</tt>'';
+          calendar = {
+            mode = "year";
+            mode-mon-col = 3;
+            weeks-pos = "right";
+            on-scroll = 1;
+            format = {
+              months = "<span color='#${colors.base0E}'><b>{}</b></span>";
+              days = "<span color='#${colors.base05}'>{}</span>";
+              weeks = "<span color='#${colors.base0C}'>W{}</span>";
+              weekdays = "<span color='#${colors.base0A}'><b>{}</b></span>";
+              today = "<span color='#${colors.base0B}'><b><u>{}</u></b></span>";
+            };
+          };
         };
         idle_inhibitor = {
           format = "{icon}";
@@ -118,95 +157,61 @@ in {
             deactivated = "󰒲";
           };
         };
+        cpu = {
+          format = "<span color='#${colors.base0B}'> </span>{usage}%";
+          interval = 5;
+          on-click = lib.getExe pkgs.bottom;
+        };
+        "custom/gpu" = {
+          interval = 5;
+          exec = mkScript {script = "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader | cut -b 1-2";};
+          format = "<span color='#${colors.base0B}'>󰒋 </span>{}%";
+          on-click = "hyprctl dispatch exec ${pkgs.bottom}/bin/btm";
+        };
+        memory = {
+          format = "<span color='#${colors.base0B}'> </span>{}%";
+          interval = 5;
+          on-click = lib.getExe pkgs.bottom;
+        };
+
+        wireplumber = {
+          format = "<span color='#${colors.base0B}'>{icon}</span> {volume}%";
+          format-icons = [" " "󰖀 " "󰕾 " " "];
+          format-muted = "   0%";
+          on-click = lib.getExe pkgs.pwvucontrol;
+          max-volume = 125;
+        };
+
         network = {
-          interval = 3;
-          format-wifi = "   {essid}";
-          format-ethernet = "󰈁 Eth";
-          format-disconnected = "Disconnected";
+          interval = 5;
+          format-wifi = "<span color='#${colors.base0B}'> </span> {bandwidthDownBits}";
+          format-ethernet = "<span color='#${colors.base0B}'>󰈁</span> {bandwidthDownBits}";
+          format-disconnected = "<span color='#${colors.base08}'> </span> WLAN 404 <span color='#${colors.base08}'> </span>";
           tooltip-format = ''
             {ifname}
             {ipaddr}/{cidr}
             Up: {bandwidthUpBits}
             Down: {bandwidthDownBits}'';
         };
-        "custom/menu" = {
-          interval = 1;
-          return-type = "json";
-          exec = mkScriptJson {
-            text = "";
-            class = let
-              isFullScreen = "hyprctl activewindow -j | jq -e '.fullscreen' &>/dev/null";
-            in "$(if ${isFullScreen}; then echo fullscreen; fi)";
-          };
+
+        tray = {
+          icon-size = 22;
+          spacing = 8;
         };
-        "custom/hostname" = {
-          exec = mkScript {script = ''echo "$USER@$HOSTNAME"'';};
+        user = {
+          format = "{user} ↑ {work_d} days";
           on-click = mkScript {script = "systemctl --user restart waybar";};
+          interval = 60;
+          height = 30;
+          width = 30;
+          icon = true;
         };
-        "custom/currentplayer" = {
-          interval = 2;
-          return-type = "json";
-          exec = mkScriptJson {
-            deps = [pkgs.playerctl];
-            pre = ''
-              player="$(playerctl status -f "{{playerName}}" 2>/dev/null || echo "No player active" | cut -d '.' -f1)"
-              count="$(playerctl -l 2>/dev/null | wc -l)"
-              if ((count > 1)); then
-                more=" +$((count - 1))"
-              else
-                more=""
-              fi
-            '';
-            alt = "$player";
-            tooltip = "$player ($count available)";
-            text = "$more";
-          };
-          format = "{icon}{}";
-          format-icons = {
-            "No player active" = " ";
-            "Celluloid" = "󰎁 ";
-            "spotify" = "󰓇 ";
-            "ncspot" = "󰓇 ";
-            "qutebrowser" = "󰖟 ";
-            "firefox" = " ";
-            "discord" = " 󰙯 ";
-            "sublimemusic" = " ";
-            "kdeconnect" = "󰄡 ";
-            "chromium" = " ";
-          };
-        };
-        "custom/rfkill" = {
-          interval = 1;
-          exec-if = mkScript {
-            deps = [pkgs.util-linux];
-            script = "rfkill | grep '\<blocked\>'";
-          };
-        };
-        "custom/player" = {
-          exec-if = mkScript {
-            deps = [pkgs.playerctl];
-            script = "playerctl status 2>/dev/null";
-          };
-          exec = let
-            format = ''{"text": "{{title}} - {{artist}}", "alt": "{{status}}", "tooltip": "{{title}} - {{artist}} ({{album}})"}'';
-          in
-            mkScript {
-              deps = [pkgs.playerctl];
-              script = "playerctl metadata --format '${format}' 2>/dev/null";
-            };
-          return-type = "json";
-          interval = 2;
-          max-length = 50;
-          format = "{icon} {}";
-          format-icons = {
-            "Playing" = "󰐊";
-            "Paused" = "󰏤";
-            "Stopped" = "󰓛";
-          };
-          on-click = mkScript {
-            deps = [pkgs.playerctl];
-            script = "playerctl play-pause";
-          };
+
+        systemd-failed-units = {
+          hide-on-ok = true;
+          format = "✗ {nr_failed}";
+          system = true;
+          user = true;
         };
       };
     };
@@ -215,87 +220,89 @@ in {
     # x y -> vertical, horizontal
     # x y z -> top, horizontal, bottom
     # w x y z -> top, right, bottom, left
-   style = let
-      #inherit (inputs.nix-colors.lib.conversions) hexToRGBString;
-      colors = config.colorScheme.palette;
-      #toRGBA = color: opacity: "rgba(${hexToRGBString "," (lib.removePrefix "#" color)},${opacity})";
-    in
-
-      ''
-        * {
-          font-family: ${config.font};
-          font-size: 13pt;
-          padding: 0;
-          margin: 0 0.4em;
-        }
-
-        window#waybar {
-          padding: 0;
-          border-radius: 0.5em;
-          background-color: #${colors.base02};
-          color: #${colors.base0D};
-        }
-        .modules-left {
-          margin-left: -0.65em;
-        }
-        .modules-right {
-          margin-right: -0.65em;
-        }
-
-        #workspaces button {
-          background-color: #${colors.base02};
-          color: #${colors.base0D};
-          padding-left: 0.4em;
-          padding-right: 0.4em;
-          margin-top: 0.15em;
-          margin-bottom: 0.15em;
-        }
-        #workspaces button.hidden {
-          background-color: #${colors.base02};
-          color: #${colors.base0E};
-        }
-        #workspaces button.focused,
-        #workspaces button.active {
-          background-color: #${colors.base0D};
-          color: #${colors.base00};
-        }
-
-        #clock {
-          padding-right: 1em;
-          padding-left: 1em;
-          border-radius: 0.5em;
-        }
-
-        #custom-menu {
-          background-color: #${colors.base0D};
-          color: #${colors.base00};
-          padding-right: 1.5em;
-          padding-left: 1em;
-          margin-right: 0;
-          border-radius: 0.5em;
-        }
-        #custom-menu.fullscreen {
-          background-color: #${colors.base02};
-          color: #${colors.base0E};
-        }
-        #custom-hostname {
-          background-color: #${colors.base0D};
-          color: #${colors.base0B};
-          padding-right: 1em;
-          padding-left: 1em;
-          margin-left: 0;
-          border-radius: 0.5em;
-        }
-        #custom-currentplayer {
-          padding-right: 0;
-        }
-        #tray {
-          color: #${colors.base0D};
-        }
-        #custom-gpu, #cpu, #memory {
-          margin-left: 0.05em;
-          margin-right: 0.55em;
-        }
-      '';
+    style = ''
+      * {
+        font-family: ${config.stylix.fonts.sansSerif.name};
+        font-size: 16pt;
+        padding: 0;
+        margin: 0em;
+      }
+      .modules-left, .modules-right {
+        font-size: 18pt;
+      }
+      window#waybar {
+              padding: 0;
+              background-color: #${colors.base00};
+              color: #${colors.base00};
+      }
+      #custom-menu {
+              font-size: 22pt;
+              padding: 0.1em;
+              margin-right: 0;
+              background-color: #${colors.base00};
+              color: #${colors.base0D};
+      }
+      #workspaces button {
+            font-size: 22pt;
+            border-left: 3px solid #${colors.base01};
+            background-color: #${colors.base00};
+            border-radius: 0;
+            color: #${colors.base05};
+            padding-right: 0.3em;
+            padding-left: 0.3em;
+      }
+      #workspaces button.focused,
+      #workspaces button.active {
+        background-color: #${colors.base01};
+        color: #${colors.base0B};
+        border-left: 3px solid #${colors.base00};
+      }
+      #workspaces button.urgent {
+        background-color: #${colors.base0E};
+        color: #${colors.base05};
+        border-left: 3px solid #${colors.base00};
+      }
+      #workspaces button.inactive {
+        color: #${colors.base04};
+        border-left: 3px solid #${colors.base00};
+      }
+            #mpris.default {
+              font-weight: bold;
+              color: #${colors.base01};
+            }
+            #window {
+              color: #${colors.base0D};
+              border-radius: 20px;
+              padding-left: 10px;
+              padding-right: 10px;
+            }
+            #user {
+              border-left: 2px solid #${colors.base01};
+              background-color: #${colors.base0D};
+              color: #${colors.base00};
+              padding-right: 1.25em;
+              padding-left: 1.25em;
+              margin-left: 0;
+              }
+            #tray {
+              color: #${colors.base01};
+              padding-right: 1.25em;
+              padding-left: 1.25em;
+            }
+            #clock {
+              padding-right: 1.25em;
+              padding-left: 1.25em;
+              background-color: #${colors.base0D};
+              color: #${colors.base00};
+            }
+            #custom-gpu, #cpu, #memory, #wireplumber, #network {
+              border-left: 2px solid #${colors.base01};
+              background-color: #${colors.base00};
+              color: #${colors.base04};
+              font-weight: bold;
+              padding-right: 1.25em;
+              padding-left: 1.25em;
+            }
+    '';
   };
 }

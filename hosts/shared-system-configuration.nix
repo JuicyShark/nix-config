@@ -6,35 +6,40 @@
   lib,
   ...
 }: let
+  theme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
   isEd25519 = k: k.type == "ed25519";
   getKeyPath = k: k.path;
   keys = builtins.filter isEd25519 config.services.openssh.hostKeys;
 in {
   options = {
-    cybersecurity.enable = lib.mkEnableOption "Pentesting tools";
+    # toggle extra configs to be included
     raspberryDev.enable = lib.mkEnableOption "Raspberry Pi Dev Packages";
-    desktop.enable = lib.mkEnableOption "Desktop and programs Packages";
-    homelab.enable = lib.mkEnableOption "Server Packages";
+    homelab.enable = lib.mkEnableOption "Server Packages specifically for homelab configs";
+    # Options to define desktop experiences
+    gui = {
+      enable = lib.mkEnableOption "Enable Gui apps";
+      keybaordFocus.enable = lib.mkEnableOption "Keyboard centric workflow";
+      cybersecurity.enable = lib.mkEnableOption "install a suite of Pentesting tools";
+      gamingPC.enable = lib.mkEnableOption "install Steam";
+
+      # TODO add x11 and nix-wsl support
+      backend = lib.mkOption {
+        type = lib.types.str;
+        default = "wayland";
+        description = "To use wayland(hyprland), x11(Gnome) or nix-wsl as a backend";
+      };
+    };
+    # User we will assume is the main operator of the machine
     main-user = lib.mkOption {
       type = lib.types.str;
       default = "juicy";
       description = "main user on host";
     };
-    font = lib.mkOption {
-      default = "Hack Nerd Font";
-      type = lib.types.str;
-      description = "Font to use.";
-    };
-    scaling = lib.mkOption {
-      default = 1.2;
-      type = lib.types.float;
-      description = "Scaling; Higher on higher res and lower on lower res";
-    };
   };
 
   imports = [
     inputs.sops-nix.nixosModules.sops
-    inputs.catppuccin.nixosModules.catppuccin
+    inputs.stylix.nixosModules.stylix
     ../modules/nixos
   ];
 
@@ -44,18 +49,13 @@ in {
       variables = {
         EDITOR = "nvim";
         VISUAL = "nvim";
-        # PAGER = "nvim";
+        PAGER = "nvim -R";
+        MANPAGER = "nvim -c 'set ft=man' -";
       };
     };
     nixpkgs.overlays = [
       inputs.neorg-overlay.overlays.default
     ];
-
-    catppuccin = {
-      enable = true;
-      flavor = "mocha";
-      accent = "sky";
-    };
     programs = {
       zsh.enable = true;
       git.enable = true;
@@ -100,51 +100,24 @@ in {
     ];
     hardware.enableRedistributableFirmware = true;
 
-    # Installed Fonts
-    fonts = {
-      packages = with pkgs; [
-        material-icons
-        material-design-icons
-        iosevka-bin
-        hack-font
-        jetbrains-mono
-        noto-fonts
-        noto-fonts-cjk
-        noto-fonts-emoji
-        (nerdfonts.override {fonts = ["Iosevka" "Hack" "JetBrainsMono"];})
-      ];
-      enableDefaultPackages = false;
-      # this fixes emoji stuff
-      fontconfig = {
-        enable = true;
-        antialias = true;
-        cache32Bit = true;
-        defaultFonts = {
-          monospace = [
-            "Iosevka Term Nerd Font Complete Mono"
-            "JetBrainsMono Nerd Font"
-            "Noto Color Emoji"
-            "Hack Nerd Font"
-          ];
-          sansSerif = ["Noto Sans" "Noto Color Emoji"];
-          serif = ["Noto Serif" "Noto Color Emoji"];
-          emoji = ["Noto Color Emoji"];
-        };
-      };
-    };
-
     # Setup Systems secrets
     # Run in host folder:  nix-shell -p sops --run "sops secrets/secrets.yaml"
 
     sops = {
-      secrets.rootPassword = {
+      # Grab main user of machines password and root pass from nix and ensure is ready on boot
+      secrets.rootPassword.sopsFile = ./secrets.yaml;
+      secrets.rootPassword.neededForUsers = true;
+      secrets."${config.main-user}Password" = {
         sopsFile = ./secrets.yaml;
         neededForUsers = true;
       };
 
+      # Assume we are not accessing shared sercets
       defaultSopsFile = ./${config.networking.hostName}/secrets.yaml;
       defaultSopsFormat = "yaml";
+      # grab all host public keys under ./$HOST/ssh_host_ed25519_key.pub
       age.sshKeyPaths = map getKeyPath keys;
+      # Why did i ever think its a good idea to stray from every default possible?
       age.keyFile = "/var/lib/sops-nix/key.txt";
       age.generateKey = true;
     };
@@ -154,9 +127,11 @@ in {
       useDHCP = lib.mkDefault false;
       hostName = lib.mkDefault "anon";
       domain = lib.mkDefault "nixlab.au";
+      enableIPv6 = lib.mkDefault false;
+      useNetworkd = lib.mkDefault true;
       #hosts = lib.mkDefault extraHosts;
-      defaultGateway = lib.mkDefault "192.168.54.98";
-      nameservers = lib.mkDefault ["192.168.54.98"];
+      defaultGateway.address = lib.mkDefault "192.168.54.99";
+      nameservers = lib.mkDefault ["192.168.54.99"];
       networkmanager.enable = lib.mkDefault false;
       wireguard.enable = false;
       firewall.allowedUDPPorts = [51820];
@@ -165,17 +140,86 @@ in {
         #privateKeyFile = config.sops.secrets.wireguardKey.path;
       };
     };
-    services.bind = {
-      enable = false;
-    };
+    systemd.network.enable = true;
     users.defaultUserShell = pkgs.zsh;
+    # Users must be setup via the config only
     users.mutableUsers = false;
     users.users.root = {
-      shell = pkgs.zsh;
       isSystemUser = true;
+      shell = config.users.defaultUserShell;
       hashedPasswordFile = config.sops.secrets.rootPassword.path;
     };
 
     system.stateVersion = "24.05";
+
+    stylix = {
+      enable = lib.mkDefault true;
+      image = lib.mkDefault (pkgs.fetchurl {
+        url = "https://www.5120x1440.com/wallpapers/329/highres/aishot-98.jpg";
+        sha256 = "5ba4a998e9df625f27c1ecfe3d92296fdb503c42c027520800fa34480fe692be";
+      });
+      imageScalingMode = lib.mkDefault "fill";
+      base16Scheme = {
+        base00 = "1e1e2e"; # base
+        base01 = "181825"; # mantle
+        base02 = "313244"; # surface0
+        base03 = "45475a"; # surface1
+        base04 = "585b70"; # surface2
+        base05 = "cdd6f4"; # text
+        base06 = "f5e0dc"; # rosewater
+        base07 = "b4befe"; # lavender
+        base08 = "f38ba8"; # red
+        base09 = "fab387"; # peach
+        base0A = "f9e2af"; # yellow
+        base0B = "a6e3a1"; # green
+        base0C = "94e2d5"; # teal
+        base0D = "89b4fa"; # blue
+        base0E = "cba6f7"; # mauve
+        base0F = "f2cdcd"; # flamingo
+      };
+      polarity = lib.mkDefault "dark";
+
+      cursor = {
+        name = lib.mkDefault "Afterglow-Recolored-Catppuccin-Blue";
+        size = 26;
+        package = lib.mkDefault pkgs.afterglow-cursors-recolored;
+      };
+      fonts = {
+        serif = {
+          package = lib.mkDefault (pkgs.nerdfonts.override {fonts = ["ZedMono"];});
+          name = lib.mkDefault "ZedMono Nerd Font";
+        };
+        sansSerif = {
+          package = lib.mkDefault (pkgs.nerdfonts.override {fonts = ["Ubuntu"];});
+          name = lib.mkDefault "Ubuntu Nerd Font";
+        };
+        monospace = {
+          package = lib.mkDefault (pkgs.nerdfonts.override {fonts = ["ZedMono"];});
+          name = lib.mkDefault "ZedMono Nerd Font";
+        };
+        emoji = {
+          package = lib.mkDefault pkgs.noto-fonts-emoji;
+          name = lib.mkDefault "Noto Color Emoji";
+        };
+        sizes = {
+          applications = lib.mkDefault 14;
+          desktop = lib.mkDefault 12;
+          popups = lib.mkDefault 11;
+          terminal = lib.mkDefault 15;
+        };
+      };
+      opacity = {
+        applications = lib.mkDefault 0.88;
+        desktop = lib.mkDefault 0.88;
+        popups = lib.mkDefault 0.95;
+        terminal = lib.mkDefault 0.80;
+      };
+
+      targets = {
+        nixvim.transparent_bg.main = lib.mkDefault true;
+        nixvim.transparent_bg.sign_column = lib.mkDefault true;
+        grub.useImage = lib.mkDefault false;
+      };
+    };
   };
 }
