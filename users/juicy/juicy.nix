@@ -39,12 +39,24 @@ in {
     users.juicy = {
       pkgs,
       inputs,
+      osConfig,
       ...
     }: {
       # Import files specific to Juicy User Config
       imports = [
         ../shared-home-configuration.nix
+        inputs.lan-mouse.homeManagerModules.default
       ];
+      programs.lan-mouse = {
+        enable = osConfig.networking.hostName == "leo";
+        systemd = true;
+        settings = {
+          right = {
+            hostname = "192.168.54.50";
+            ips = ["192.168.54.50"];
+          };
+        };
+      };
     };
   };
 }

@@ -49,8 +49,8 @@ in {
       variables = {
         EDITOR = "nvim";
         VISUAL = "nvim";
-        PAGER = "nvim -R";
-        MANPAGER = "nvim -c 'set ft=man' -";
+        #       PAGER = "nvim -R";
+        #       MANPAGER = "nvim -c 'set ft=man' -";
       };
     };
     nixpkgs.overlays = [
@@ -216,8 +216,8 @@ in {
       };
 
       targets = {
-        nixvim.transparent_bg.main = lib.mkDefault true;
-        nixvim.transparent_bg.sign_column = lib.mkDefault true;
+        #      nixvim.transparent_bg.main = lib.mkDefault true;
+        #      nixvim.transparent_bg.sign_column = lib.mkDefault true;
         grub.useImage = lib.mkDefault false;
       };
     };

@@ -30,6 +30,7 @@
     anyrun-nixos-options.url = "github:n3oney/anyrun-nixos-options";
     anyrun-rbw.url = "github:uttarayan21/anyrun-rbw";
     anyrun-hyprwin.url = "github:uttarayan21/anyrun-hyprwin";
+    lan-mouse.url = "github:feschber/lan-mouse";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -81,6 +82,7 @@
     raspberry-pi-nix,
     impermanence,
     disko,
+    lan-mouse,
     ...
   } @ inputs: let
     inherit (self) outputs;

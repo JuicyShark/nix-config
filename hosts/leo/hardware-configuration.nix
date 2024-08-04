@@ -66,8 +66,9 @@
 
   networking = {
     hostName = "leo";
+
     /*
-      wireguard.interfaces.wg0 = {
+        wireguard.interfaces.wg0 = {
       ips = ["10.100.0.2/24"];
       peers = [
 
@@ -79,17 +80,6 @@
         }
 
       ];
-    };
-    interfaces."enp5s0" = {
-      #     useDHCP = true;
-      ipv4 = {
-        addresses = [
-          {
-            address = "192.168.54.54";
-            prefixLength = 24;
-          }
-        ];
-      };
     };
     */
   };

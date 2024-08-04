@@ -35,7 +35,7 @@
       vaultwarden = {
         enable = true;
         config = {
-          DOMAIN = "http://vaultwarden.nixlab";
+          DOMAIN = "http://vaultwarden.nixlab.au";
           SIGNUPS_ALLOWED = true;
 
           ROCKET_ADDRESS = "127.0.0.1";
@@ -77,7 +77,7 @@
       };
 
       nginx = {
-        enable = false;
+        enable = true;
         recommendedGzipSettings = true;
         recommendedOptimisation = true;
         recommendedProxySettings = true;
@@ -87,7 +87,7 @@
             proxyPass = "http://127.0.0.1:${toString config.services.vaultwarden.config.ROCKET_PORT}";
           };
         };
-        virtualHosts."juicedHome.nixlab.au" = {
+        virtualHosts."juicedhome.nixlab.au" = {
           enableACME = true;
           forceSSL = true;
           locations = {

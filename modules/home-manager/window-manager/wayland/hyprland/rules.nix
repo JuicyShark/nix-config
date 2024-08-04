@@ -67,7 +67,7 @@
 
         "tag launcher, class:(steam)"
 
-        # Do not idle when Gaming / playing media
+        # Do not idle when Gami<D-g>g / playing media
         "idleinhibit always, tag:games"
         "idleinhibit always, tag:pinnedMedia"
         "idleinhibit focus, tag:media"
@@ -111,7 +111,7 @@
           "suppressevent maximize, class:^(.*)$"
           # Flating windows should have a title bar
           "plugin:hyprbars:nobar, floating:0"
-
+          "float, floating:0, onworkspace:2"
           "workspace 3, tag:social"
           "workspace 5, class:^(steam_app.*)$"
           "workspace 5, fullscreen:1"

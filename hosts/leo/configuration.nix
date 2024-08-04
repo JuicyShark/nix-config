@@ -15,6 +15,7 @@
     bambu-studio
     keymapp
     bitwarden-desktop
+    lan-mouse
   ];
 
   gui = {
@@ -29,7 +30,7 @@
     logitech.wireless.enable = true;
   };
   networking.defaultGateway.interface = "enp5s0";
-
+  networking.enableIPv6 = true;
   networking.useNetworkd = false;
   systemd.network.networks."10-wan" = {
     matchConfig.Name = "enp5s0";
