@@ -96,7 +96,7 @@ in {
         "${appLaunchBind}, T, exec, ${terminal}"
         "${appLaunchBind}, E, exec, ${terminal} -c nvim"
         "${appLaunchBind}, W, exec, ${pkgs.firefox}/bin/firefox"
-        "${appLaunchBind}, Q, exec, ${pkgs.qutebrowser}/bin/qutebrowser"
+        #"${appLaunchBind}, Q, exec, ${pkgs.qutebrowser}/bin/qutebrowser"
         "${appLaunchBind}, D, exec, ${pkgs.discord}/bin/discord"
         "${appLaunchBind}, M, exec, ${pkgs.tidal-hifi}/bin/tidal-hifi"
         "${appLaunchBind}, Print, exec, grimblast --notify --freeze copy area"

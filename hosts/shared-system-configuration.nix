@@ -216,8 +216,8 @@ in {
       };
 
       targets = {
-        #      nixvim.transparent_bg.main = lib.mkDefault true;
-        #      nixvim.transparent_bg.sign_column = lib.mkDefault true;
+        nixvim.transparent_bg.main = lib.mkDefault false;
+        nixvim.transparent_bg.sign_column = lib.mkDefault false;
         grub.useImage = lib.mkDefault false;
       };
     };

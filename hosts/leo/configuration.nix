@@ -3,13 +3,6 @@
   inputs,
   ...
 }: {
-  imports = [
-    ../../modules/nixos/nvidia.nix
-    ../../users/juicy/juicy.nix
-    ../shared-system-configuration.nix
-    ./hardware-configuration.nix
-  ];
-
   environment.systemPackages = with pkgs; [
     rpi-imager
     bambu-studio
@@ -17,7 +10,6 @@
     bitwarden-desktop
     lan-mouse
   ];
-
   gui = {
     enable = true;
     cybersecurity.enable = false;
@@ -43,4 +35,10 @@
     # make the routes on this interface a dependency for network-online.target
     #  linkConfig.RequiredForOnline = "routable";
   };
+  imports = [
+    ../../modules/nixos/nvidia.nix
+    ../../users/juicy/juicy.nix
+    ../shared-system-configuration.nix
+    ./hardware-configuration.nix
+  ];
 }

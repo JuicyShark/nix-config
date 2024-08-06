@@ -4,7 +4,7 @@
     ./obs.nix
     #./neo4j.nix
     #./cyberSec-packages.nix
-    ./qutebrowser
+    #./qutebrowser
     ./music.nix
     ./messaging.nix
     ./foot.nix

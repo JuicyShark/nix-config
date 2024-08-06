@@ -1,11 +1,11 @@
-{...}: {
+{
   imports = [
+    ./openssh.nix
+    ./virtualisation.nix
     ./nextcloud.nix
     ./media.nix
     ./gitea.nix
-    ./openssh.nix
     ./nfs.nix
-    ./virtualisation.nix
     ./home-assistant.nix
   ];
 }
